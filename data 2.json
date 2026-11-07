@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "language": "C++",
+    "title": "C++を一歩ずつ",
+    "subtitle": "6レッスンで基礎からRAIIまで",
+    "comments": ["//"],
+    "directive": "#",
+    "keywords": ["int","double","bool","char","void","auto","const","constexpr","if","else","switch","case","default","break","continue","for","while","do","return","class","struct","public","private","explicit","template","typename","static_cast","nullptr","true","false","using","namespace","main"],
+    "types": ["std","string","vector","map","cout","unique_ptr","make_unique","sort","count_if"]
+  },
+  "lessons": [
+    {
+      "title": "はじめてのC++",
+      "goal": "C++プログラムの骨格を理解し、自分でビルドして実行できるようになる。",
+      "slides": [
+        {
+          "title": "C++とは",
+          "lead": "C++は、実行速度とメモリの細かい制御を両立する汎用言語です。ゲームエンジン、ブラウザ、OS、組み込み機器、金融システムなど、性能が求められる場面で使われています。",
+          "points": [
+            "コンパイル型：ソースコードを機械語に変換してから実行する",
+            "静的型付け：変数の型が実行前に決まり、型の誤りをコンパイル時に見つけられる",
+            "ゼロオーバーヘッド原則：使わない機能のコストは払わない",
+            "標準規格は C++11、14、17、20、23と進化。この教材は C++17 を基準にする"
+          ],
+          "note": "コンパイラは g++ か clang++ が手軽です。Windowsなら Visual Studio や WSL、Macなら Xcode Command Line Tools で用意できます。"
+        },
+        {
+          "title": "Hello, C++! を読み解く",
+          "lead": "最小のプログラムを1行ずつ見ていきます。すべてのC++プログラムは main 関数から実行されます。",
+          "code": {
+            "text": "#include <iostream>   // 入出力の部品を取り込む\n\nint main() {          // 実行の入口\n    std::cout << \"Hello, C++!\" << '\\n';  // 画面に出力\n    return 0;         // 0 は正常終了を表す\n}",
+            "caption": "hello.cpp"
+          },
+          "output": "Hello, C++!",
+          "points": [
+            "#include はコンパイル前に別ファイルの内容を取り込む指示",
+            "std:: は標準ライブラリの名前空間。cout は std の中にある",
+            "<< は出力先へデータを流し込む演算子。複数を連続して書ける",
+            "文の終わりには必ず ; を付ける"
+          ]
+        },
+        {
+          "title": "ビルドして実行する",
+          "lead": "ソースコードは、そのままでは動きません。ビルド（前処理、コンパイル、リンク）を経て、実行ファイルになります。",
+          "code": {
+            "text": "g++ -std=c++17 -Wall -Wextra hello.cpp -o hello\n./hello",
+            "caption": "ターミナル"
+          },
+          "output": "Hello, C++!",
+          "points": [
+            "前処理：#include などを展開する",
+            "コンパイル：C++のコードを機械語のオブジェクトに変換する",
+            "リンク：複数のオブジェクトとライブラリを1つの実行ファイルに結合する",
+            "-Wall -Wextra は警告を有効にするオプション。最初から付ける習慣をつける",
+            "よくあるエラー：セミコロンの付け忘れはコンパイルエラー、関数の定義が見つからない場合はリンクエラー（undefined reference）"
+          ],
+          "quiz": {
+            "q": "複数のオブジェクトファイルやライブラリを結合して、1つの実行ファイルにする工程は？",
+            "choices": ["前処理", "コンパイル", "リンク"],
+            "answer": 2,
+            "explain": "リンカが、別々にコンパイルされた部品を結び付けて実行ファイルを作ります。"
+          }
+        }
+      ]
+    },
+    {
+      "title": "変数と型",
+      "goal": "基本の型を使い分け、整数除算やキャストの落とし穴を避けられるようになる。",
+      "slides": [
+        {
+          "title": "変数の宣言と初期化",
+          "lead": "変数は「型 名前 = 値;」の形で宣言します。宣言と同時に必ず初期化しましょう。",
+          "code": {
+            "text": "int age = 20;\ndouble pi = 3.14159;\nchar grade = 'A';\nbool ok = true;\n\nint x{5};        // 波括弧による初期化\n// int y{3.7};   // エラー：情報が欠ける変換は禁止\n\nstd::cout << age << ' ' << pi << ' ' << grade << ' ' << ok << '\\n';",
+            "caption": "基本の型"
+          },
+          "output": "20 3.14159 A 1",
+          "points": [
+            "int は整数、double は小数、char は1文字、bool は真偽値",
+            "初期化していないローカル変数は不定値になり、読むと未定義動作",
+            "波括弧初期化 {} は、意図しない縮小変換をコンパイル時に防いでくれる",
+            "bool を出力すると true は 1、false は 0 と表示される"
+          ]
+        },
+        {
+          "title": "整数除算とキャスト",
+          "lead": "整数同士の割り算は、小数部が切り捨てられます。小数の結果がほしいときは、片方を double に変換します。",
+          "code": {
+            "text": "int a = 7, b = 2;\nstd::cout << a / b << '\\n';                       // 整数同士は切り捨て\nstd::cout << static_cast<double>(a) / b << '\\n'; // 片方を double に\nstd::cout << a % b << '\\n';                       // 余り",
+            "caption": "割り算と剰余"
+          },
+          "output": "3\n3.5\n1",
+          "points": [
+            "static_cast<型>(値) が、安全で目的の分かりやすい型変換",
+            "int は多くの環境で4バイト。範囲はおよそ ±21億",
+            "符号付き整数のオーバーフローは未定義動作。大きな値には long long を使う"
+          ],
+          "quiz": {
+            "q": "int a = 7, b = 2; のとき、a / b の値は？",
+            "choices": ["3", "3.5", "4"],
+            "answer": 0,
+            "explain": "整数同士の除算は小数部が切り捨てられ、3 になります。"
+          }
+        },
+        {
+          "title": "const、auto、文字列",
+          "lead": "変更しない値には const を付けます。型が自明なときは auto に任せ、文字列には std::string を使います。",
+          "code": {
+            "text": "const double TAX = 0.10;\nconstexpr int kMax = 100;        // コンパイル時に決まる定数\n\nauto price = 1200;               // int\nauto total = price * (1 + TAX);  // double\n\nstd::string s = \"C++\";\ns += \" Primer\";\nstd::cout << total << ' ' << s.size() << '\\n';",
+            "caption": "定数と型推論"
+          },
+          "output": "1320 10",
+          "points": [
+            "const は再代入を禁止する。迷ったら const にする",
+            "constexpr は、コンパイル時に値が確定する定数",
+            "auto は、右辺から型を推論する。型名が長いときに特に便利",
+            "std::string の size() は文字数ではなくバイト数。日本語は1文字が複数バイトになる"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "制御構文",
+      "goal": "条件分岐と繰り返しを使って、処理の流れを自在に組み立てられるようになる。",
+      "slides": [
+        {
+          "title": "if と switch",
+          "lead": "条件によって処理を分けます。値が複数の候補に分かれるときは switch が読みやすくなります。",
+          "code": {
+            "text": "int score = 82;\nif (score >= 90) {\n    std::cout << \"A\\n\";\n} else if (score >= 70) {\n    std::cout << \"B\\n\";\n} else {\n    std::cout << \"C\\n\";\n}\n\nswitch (score / 10) {\n    case 10:\n    case 9: std::cout << \"優\\n\"; break;\n    case 8: std::cout << \"良\\n\"; break;\n    default: std::cout << \"可\\n\";\n}",
+            "caption": "成績判定"
+          },
+          "output": "B\n良",
+          "points": [
+            "条件式は上から順に評価され、最初に真になった分岐だけが実行される",
+            "switch の各 case は break で抜けないと、次の case に流れ落ちる（フォールスルー）",
+            "== は比較、= は代入。条件式での書き間違いに注意"
+          ]
+        },
+        {
+          "title": "for と while",
+          "lead": "回数が決まっているときは for、条件が満たされる間続けたいときは while を使います。",
+          "code": {
+            "text": "int sum = 0;\nfor (int i = 1; i <= 10; ++i) {\n    sum += i;\n}\n\nint n = 1;\nwhile (n < 100) {\n    n *= 2;\n}\nstd::cout << sum << ' ' << n << '\\n';",
+            "caption": "合計と倍々"
+          },
+          "output": "55 128",
+          "points": [
+            "for の3つの部分は「初期化；継続条件；更新」",
+            "while は条件を先に判定する。do { } while (条件); は最低1回実行される",
+            "更新を忘れると無限ループになる"
+          ],
+          "quiz": {
+            "q": "n を 1 から始めて、n < 100 の間 n *= 2 を繰り返すと、最終的な n は？",
+            "choices": ["64", "100", "128"],
+            "answer": 2,
+            "explain": "1, 2, 4, ... 64 まで条件を満たし、次に 128 になった時点で終了します。"
+          }
+        },
+        {
+          "title": "範囲for、break、continue",
+          "lead": "コンテナの全要素を順に処理するなら範囲for文が簡潔です。continue は今回の周回を飛ばし、break はループ自体を抜けます。",
+          "code": {
+            "text": "std::vector<int> v = {5, 8, 12, 3, 20};\nfor (int x : v) {\n    if (x % 2 != 0) continue;  // 奇数は飛ばす\n    if (x > 15) break;         // 15 を超えたら終了\n    std::cout << x << ' ';\n}",
+            "caption": "偶数だけ表示"
+          },
+          "output": "8 12",
+          "points": [
+            "5 は奇数なので continue、8 と 12 は出力、3 は奇数、20 で break",
+            "大きな要素（std::string など）は const auto& で受け取り、コピーを避ける",
+            "std::vector を使うには #include <vector> が必要"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "関数と参照",
+      "goal": "関数を設計し、値渡し、参照渡し、ポインタの違いを説明できるようになる。",
+      "slides": [
+        {
+          "title": "関数とオーバーロード",
+          "lead": "関数は、処理に名前を付けて再利用する仕組みです。引数の型が異なれば、同じ名前の関数を複数定義できます。",
+          "code": {
+            "text": "int add(int a, int b) { return a + b; }\ndouble add(double a, double b) { return a + b; }\n\nvoid log(const std::string& msg, int level = 1) {\n    std::cout << \"[\" << level << \"] \" << msg << '\\n';\n}\n\nstd::cout << add(2, 3) << '\\n';\nstd::cout << add(1.5, 2.25) << '\\n';\nlog(\"start\");",
+            "caption": "関数の定義"
+          },
+          "output": "5\n3.75\n[1] start",
+          "points": [
+            "書式は「戻り値の型 関数名(引数) { 本体 }」",
+            "オーバーロードは引数の型や数で区別される。戻り値の型だけが違うものは不可",
+            "デフォルト引数は、末尾の引数にだけ指定できる",
+            "戻り値がないときの型は void"
+          ]
+        },
+        {
+          "title": "値渡しと参照渡し",
+          "lead": "引数はデフォルトでコピーされます（値渡し）。元の変数を書き換えたいときは参照（&）で受け取ります。",
+          "code": {
+            "text": "void byValue(int x) { x = 99; }\nvoid byRef(int& x)  { x = 99; }\n\nint n = 1;\nbyValue(n);\nstd::cout << n << '\\n';\nbyRef(n);\nstd::cout << n << '\\n';",
+            "caption": "コピーか別名か"
+          },
+          "output": "1\n99",
+          "points": [
+            "値渡しは安全だが、大きなオブジェクトではコピーが重い",
+            "読むだけなら const T& で渡す。コピーせず、書き換えも防げる",
+            "参照は宣言時に束縛され、後から別の変数に付け替えられない"
+          ],
+          "quiz": {
+            "q": "std::string を読むだけの引数に、最も適した書き方は？",
+            "choices": ["std::string s", "const std::string& s", "std::string* s"],
+            "answer": 1,
+            "explain": "const 参照ならコピーが発生せず、関数内での変更もコンパイル時に防げます。"
+          }
+        },
+        {
+          "title": "ポインタの基本",
+          "lead": "ポインタは、他の変数のアドレスを保持する変数です。* で指す先の値を読み書きします。",
+          "code": {
+            "text": "int a = 10;\nint* p = &a;     // a のアドレスを保持\n*p += 5;         // 指す先を書き換える\nstd::cout << a << ' ' << *p << '\\n';\n\nint* q = nullptr; // 何も指さない\nif (q) {\n    std::cout << *q;\n}",
+            "caption": "アドレスと間接参照"
+          },
+          "output": "15 15",
+          "points": [
+            "&a は a のアドレスを得る。* は、ポインタが指す先の値を得る",
+            "nullptr のポインタを * で読むと未定義動作。使う前に確認する",
+            "解放済みの領域を指すポインタ（ダングリング）は危険",
+            "所有権を持つポインタは、生ポインタではなくスマートポインタで扱う（レッスン6）"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "コンテナとアルゴリズム",
+      "goal": "vector と map を使いこなし、標準アルゴリズムとラムダ式でデータを処理できるようになる。",
+      "slides": [
+        {
+          "title": "vector",
+          "lead": "最初に使うコンテナは std::vector です。要素数が実行時に変わる配列で、メモリは自動で管理されます。",
+          "code": {
+            "text": "std::vector<std::string> names;\nnames.push_back(\"Ada\");\nnames.push_back(\"Linus\");\nnames.emplace_back(\"Grace\");\n\nfor (const auto& n : names) {\n    std::cout << n << ' ';\n}\nstd::cout << names.size() << '\\n';\nstd::cout << names.front() << ' ' << names.back() << '\\n';",
+            "caption": "vector の基本操作"
+          },
+          "output": "Ada Linus Grace 3\nAda Grace",
+          "points": [
+            "push_back は末尾に追加。emplace_back は、その場で要素を構築する",
+            "v[i] は範囲チェックなし。v.at(i) は範囲外で例外を投げる",
+            "size() は要素数、empty() は空かどうかの判定",
+            "末尾への追加は高速だが、先頭や途中への挿入は遅い"
+          ]
+        },
+        {
+          "title": "map",
+          "lead": "キーと値のペアを管理するのが std::map です。キーの順に並んで保持されます。",
+          "code": {
+            "text": "std::map<std::string, int> stock;\nstock[\"apple\"] = 3;\nstock[\"banana\"] = 5;\nstock[\"apple\"] += 2;\n\nfor (const auto& [name, qty] : stock) {\n    std::cout << name << \": \" << qty << '\\n';\n}\nif (stock.count(\"cherry\") == 0) {\n    std::cout << \"cherryなし\\n\";\n}",
+            "caption": "在庫表"
+          },
+          "output": "apple: 5\nbanana: 5\ncherryなし",
+          "points": [
+            "[name, qty] は構造化束縛（C++17）。ペアを分解して受け取れる",
+            "存在確認は count か find を使う",
+            "順序が不要で速度を優先するなら std::unordered_map",
+            "#include <map> が必要"
+          ],
+          "quiz": {
+            "q": "std::map の m[\"x\"] を、キー \"x\" が存在しない状態で読み取ると？",
+            "choices": ["例外が発生する", "要素が新しく作られる", "nullptr が返る"],
+            "answer": 1,
+            "explain": "operator[] は、存在しないキーの要素を値の初期値で作ります。存在確認には count や find を使います。"
+          }
+        },
+        {
+          "title": "sort とラムダ式",
+          "lead": "並べ替えや数え上げは、標準アルゴリズムに任せます。比較の条件は、ラムダ式でその場に書けます。",
+          "code": {
+            "text": "std::vector<int> v = {5, 2, 9, 1};\nstd::sort(v.begin(), v.end(), [](int a, int b) {\n    return a > b;          // 降順\n});\nfor (int x : v) std::cout << x << ' ';\nstd::cout << '\\n';\n\nint threshold = 2;\nint cnt = std::count_if(v.begin(), v.end(),\n                        [threshold](int x) { return x > threshold; });\nstd::cout << cnt << '\\n';",
+            "caption": "降順ソートと条件カウント"
+          },
+          "output": "9 5 2 1\n2",
+          "points": [
+            "#include <algorithm> が必要。範囲は begin() と end() で指定する",
+            "ラムダ式の書式は [キャプチャ](引数) { 本体 }",
+            "[threshold] は、外側の変数をコピーして使う指定。[&] なら参照で取り込む",
+            "自作のループより、標準アルゴリズムのほうが意図が伝わり、バグも減る"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "クラスとRAII",
+      "goal": "クラスで部品を設計し、RAIIとスマートポインタで安全に資源を管理できるようになる。",
+      "slides": [
+        {
+          "title": "クラスとコンストラクタ",
+          "lead": "データと、それを操作する関数をクラスにまとめます。内部状態は private に隠し、安全な操作だけを public に公開します。",
+          "code": {
+            "text": "class Account {\npublic:\n    explicit Account(int balance) : balance_(balance) {}\n\n    bool withdraw(int amount) {\n        if (amount > balance_) return false;\n        balance_ -= amount;\n        return true;\n    }\n    int balance() const { return balance_; }\n\nprivate:\n    int balance_;\n};\n\nAccount acc(1000);\nacc.withdraw(300);\nstd::cout << acc.balance() << '\\n';\nstd::cout << acc.withdraw(5000) << '\\n';",
+            "caption": "口座クラス"
+          },
+          "output": "700\n0",
+          "points": [
+            "コンストラクタは、オブジェクト生成時に呼ばれる初期化用の関数",
+            ": balance_(balance) はメンバ初期化子リスト。本体より先に初期化する",
+            "末尾の const は、メンバ関数がオブジェクトを変更しない約束",
+            "不正な状態（残高マイナス）を、クラスの内側で防ぐのが設計の要"
+          ]
+        },
+        {
+          "title": "RAIIとスマートポインタ",
+          "lead": "資源の確保をオブジェクトの生成に、解放をオブジェクトの破棄に結び付ける考え方がRAIIです。new と delete を手で書く代わりに、スマートポインタを使います。",
+          "code": {
+            "text": "#include <memory>\n\nstruct Res {\n    Res()  { std::cout << \"確保\\n\"; }\n    ~Res() { std::cout << \"解放\\n\"; }\n};\n\nint main() {\n    {\n        auto r = std::make_unique<Res>();\n        std::cout << \"使用中\\n\";\n    }   // ここで自動的に解放される\n    std::cout << \"スコープ外\\n\";\n}",
+            "caption": "unique_ptr の寿命"
+          },
+          "output": "確保\n使用中\n解放\nスコープ外",
+          "points": [
+            "~Res() はデストラクタ。オブジェクトが破棄される時に自動で呼ばれる",
+            "unique_ptr：所有者は常に1つ。コピーは禁止、ムーブは可能",
+            "shared_ptr：複数で共有し、最後の1つがなくなると解放される",
+            "解放し忘れ、二重解放、例外発生時のリークを、まとめて防げる"
+          ],
+          "quiz": {
+            "q": "上のコードで、デストラクタが呼ばれるタイミングは？",
+            "choices": ["make_unique を呼んだ直後", "内側のブロックを抜けた時", "プログラムの終了時のみ"],
+            "answer": 1,
+            "explain": "unique_ptr 変数 r のスコープ（内側の波括弧）を抜けた時に、自動で破棄されます。"
+          }
+        },
+        {
+          "title": "テンプレート入門",
+          "lead": "型をパラメータにすると、同じコードを複数の型で使い回せます。vector<int> も vector<string> も、テンプレートから作られています。",
+          "code": {
+            "text": "template <typename T>\nT maxOf(T a, T b) {\n    return (a > b) ? a : b;\n}\n\ntemplate <typename T>\nclass Box {\npublic:\n    explicit Box(T v) : v_(v) {}\n    T get() const { return v_; }\nprivate:\n    T v_;\n};\n\nstd::cout << maxOf(3, 9) << ' ' << maxOf(2.5, 1.5) << '\\n';\nBox<int> bi(7);\nBox<std::string> bs(\"hi\");\nstd::cout << bi.get() << ' ' << bs.get() << '\\n';",
+            "caption": "関数テンプレートとクラステンプレート"
+          },
+          "output": "9 2.5\n7 hi",
+          "points": [
+            "T はコンパイル時に具体的な型へ置き換えられるため、実行時のコストはない",
+            "maxOf(3, 2.5) は、T が int と double で食い違うためエラーになる",
+            "エラーメッセージが長くなりやすい。小さく作って、少しずつ試す",
+            "次の学習：std::optional、string_view、ムーブセマンティクス、例外、ファイル入出力"
+          ],
+          "note": "これで全レッスンの内容は以上です。cppreference.com をブックマークして、自分で小さなプログラムを書いてみましょう。"
+        }
+      ]
+    }
+  ]
+}
