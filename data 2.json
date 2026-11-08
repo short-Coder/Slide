@@ -1,0 +1,4753 @@
+{
+ "meta": {
+  "language": "C++",
+  "title": "C++完全入門（ゲーム制作向け）",
+  "subtitle": "何も知らない状態から、オブジェクト指向まで。全200レッスン",
+  "comments": [
+   "//"
+  ],
+  "directive": "#",
+  "keywords": [
+   "int",
+   "double",
+   "float",
+   "bool",
+   "char",
+   "void",
+   "auto",
+   "const",
+   "constexpr",
+   "long",
+   "unsigned",
+   "if",
+   "else",
+   "switch",
+   "case",
+   "default",
+   "break",
+   "continue",
+   "for",
+   "while",
+   "do",
+   "return",
+   "class",
+   "struct",
+   "public",
+   "private",
+   "explicit",
+   "virtual",
+   "override",
+   "template",
+   "typename",
+   "static_cast",
+   "nullptr",
+   "true",
+   "false",
+   "using",
+   "namespace",
+   "main",
+   "inline",
+   "static",
+   "new",
+   "delete",
+   "this",
+   "friend",
+   "operator",
+   "protected",
+   "final",
+   "dynamic_cast",
+   "concept",
+   "noexcept",
+   "throw",
+   "try",
+   "catch",
+   "decltype"
+  ],
+  "types": [
+   "std",
+   "string",
+   "vector",
+   "map",
+   "cout",
+   "cin",
+   "getline",
+   "unique_ptr",
+   "make_unique",
+   "sort",
+   "array",
+   "set",
+   "unordered_map",
+   "pair",
+   "tuple",
+   "size_t",
+   "greater",
+   "make_shared",
+   "shared_ptr",
+   "weak_ptr",
+   "ostream",
+   "deque",
+   "list",
+   "stack",
+   "queue",
+   "priority_queue",
+   "function",
+   "optional",
+   "variant",
+   "string_view",
+   "ifstream",
+   "ofstream",
+   "runtime_error",
+   "exception"
+  ]
+ },
+ "lessons": [
+  {
+   "part": "第1部 入門と変数",
+   "title": "プログラムとは何か",
+   "goal": "プログラムとコンパイルの仕組みを説明できる。",
+   "slides": [
+    {
+     "title": "ソースコードから実行まで",
+     "lead": "プログラムは、コンピュータへの命令を順番に書いたものです。C++では人が読める文字（ソースコード）で書き、コンパイラが機械語に翻訳します。",
+     "points": [
+      "流れ：ソースコード（.cpp）、コンパイラ、実行ファイル、実行",
+      "命令は上から順に1つずつ実行される",
+      "ゲームも同じ原理：入力を受け取り、計算し、結果を表示する",
+      "エラーは2種類：文法の誤り（コンパイルエラー）と、動くが結果が違うバグ"
+     ],
+     "quiz": {
+      "q": "ソースコードを機械語に翻訳するソフトは？",
+      "choices": [
+       "エディタ",
+       "コンパイラ",
+       "ブラウザ"
+      ],
+      "answer": 1,
+      "explain": "コンパイラが、ソースコードを実行ファイルに変換します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "最初のプログラムと main",
+   "goal": "Hello World の各行の役割を説明できる。",
+   "slides": [
+    {
+     "title": "Hello World を1行ずつ読む",
+     "lead": "C++のプログラムは、必ず main 関数から実行されます。",
+     "code": {
+      "text": "#include <iostream>\n\nint main() {\n    std::cout << \"Hello!\" << '\\n';\n    return 0;\n}",
+      "caption": "hello.cpp"
+     },
+     "output": "Hello!",
+     "points": [
+      "#include <iostream> は、画面出力の部品を取り込む指示",
+      "int main() { ... } が実行の入口。波括弧の中が本体",
+      "std::cout は出力先、<< で値を流し込む。'\\n' は改行",
+      "return 0; は正常終了を表す（main では省略もできる）"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "文・コメント・空白",
+   "goal": "文の終わりとコメントの書き方を使い分けられる。",
+   "slides": [
+    {
+     "title": "セミコロンとコメント",
+     "lead": "命令1つ分を「文」と呼び、末尾に ; を付けます。コメントは、人間のためのメモで、実行されません。",
+     "code": {
+      "text": "int hp = 100;   // 1行コメント\n/* 複数行の\n   コメント */\nstd::cout << hp\n          << '\\n';   // 1つの文を、複数行に分けてもよい",
+      "caption": "文とコメント"
+     },
+     "output": "100",
+     "points": [
+      "; を付け忘れると、コンパイルエラーになる",
+      "// は行末まで、/* */ は囲んだ範囲がコメントになる",
+      "空白や改行は自由だが、読みやすい字下げ（インデント）を揃える",
+      "C++は大文字と小文字を区別する（hp と HP は別の名前）"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "変数と代入",
+   "goal": "変数の宣言、初期化、代入の違いを説明できる。",
+   "slides": [
+    {
+     "title": "変数は名前の付いた箱",
+     "lead": "変数は、値を入れておく名前付きの箱です。「型 名前 = 初期値;」で宣言します。",
+     "code": {
+      "text": "int hp = 100;\nstd::cout << hp << '\\n';\nhp = 80;          // 代入：値を入れ替える\nstd::cout << hp << '\\n';",
+      "caption": "宣言と代入"
+     },
+     "output": "100\n80",
+     "points": [
+      "= は「等しい」ではなく「右の値を左の変数に入れる」という意味",
+      "最初に値を入れることを初期化という。必ず初期化する",
+      "名前に使えるのは英数字と _。数字で始められず、int などの予約語も使えない",
+      "同じ名前の変数を、同じ範囲で2回宣言することはできない"
+     ],
+     "quiz": {
+      "q": "hp = 80; の意味は？",
+      "choices": [
+       "hp と 80 が等しいか調べる",
+       "hp に 80 を入れる",
+       "hp から 80 を引く"
+      ],
+      "answer": 1,
+      "explain": "= は代入で、右の値を左の変数に入れます。等しいかの比較は == です。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "整数型",
+   "goal": "整数の型を使い分け、範囲を意識できる。",
+   "slides": [
+    {
+     "title": "int、long long、unsigned",
+     "lead": "整数には大きさの違う型があります。普通は int、大きな値には long long を使います。",
+     "code": {
+      "text": "int level = 42;\nlong long big = 3000000000LL;\nunsigned int count = 10;\nstd::cout << level << ' ' << big << ' ' << count << '\\n';\nstd::cout << sizeof(int) << '\\n';   // 多くの環境で 4",
+      "caption": "整数型"
+     },
+     "output": "42 3000000000 10\n4",
+     "points": [
+      "int は、約 -21億 から +21億 まで",
+      "long long は約 ±922京。LL を付けると、long long のリテラルになる",
+      "unsigned は 0 以上だけを表す。0 から1を引くと巨大な値になる",
+      "範囲を超える（オーバーフロー）と、バグや未定義動作になる"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "小数型",
+   "goal": "float と double、誤差の性質を理解できる。",
+   "slides": [
+    {
+     "title": "float、double と誤差",
+     "lead": "小数には float と double があります。どちらも内部は2進数で、誤差が出ることがあります。",
+     "code": {
+      "text": "float speed = 2.5f;\ndouble pi = 3.141592653589793;\nstd::cout << speed << '\\n';\nstd::cout << pi << '\\n';                 // 既定では約6桁\nstd::cout << (0.1 + 0.2 == 0.3) << '\\n';  // 0（偽）",
+      "caption": "小数型"
+     },
+     "output": "2.5\n3.14159\n0",
+     "points": [
+      "float は約7桁、double は約15桁の精度。ゲームの座標は float が多い",
+      "float のリテラルは、末尾に f を付ける（2.5f）",
+      "0.1 + 0.2 は 0.3 と完全には一致しない。小数の == 比較は避ける",
+      "差が十分小さいかで判定する（fabs(a - b) < 0.0001 など）"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "char、bool、文字列",
+   "goal": "文字、真偽値、文字列の違いを説明できる。",
+   "slides": [
+    {
+     "title": "1文字と文字列",
+     "lead": "1文字は char（シングルクォート）、文字の並びは std::string（ダブルクォート）、真偽は bool です。",
+     "code": {
+      "text": "char c = 'A';\nbool clear = true;\nstd::string name = \"Hero\";\nname += \"!\";\nstd::cout << c << ' ' << clear << ' ' << name << ' ' << name.size() << '\\n';\nstd::cout << static_cast<int>(c) << '\\n';",
+      "caption": "文字と文字列"
+     },
+     "output": "A 1 Hero! 5\n65",
+     "points": [
+      "'A' は1文字、\"A\" は文字列。クォートの種類で別物になる",
+      "char の中身は文字コードの数値。'A' は 65",
+      "string は + や += で連結でき、size() で長さ（バイト数）が分かる",
+      "bool は true か false のみ。出力すると 1 か 0"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "算術演算子",
+   "goal": "四則演算と剰余、優先順位を使いこなせる。",
+   "slides": [
+    {
+     "title": "+ - * / %",
+     "lead": "計算には算術演算子を使います。整数同士の割り算は、小数部が切り捨てられます。",
+     "code": {
+      "text": "int a = 17, b = 5;\nstd::cout << a + b << ' ' << a - b << ' ' << a * b << '\\n';\nstd::cout << a / b << ' ' << a % b << '\\n';\nstd::cout << 2 + 3 * 4 << ' ' << (2 + 3) * 4 << '\\n';",
+      "caption": "算術演算"
+     },
+     "output": "22 12 85\n3 2\n14 20",
+     "points": [
+      "% は余りを求める演算子。整数にだけ使える",
+      "掛け算と割り算は、足し算と引き算より先に計算される。() で順序を変える",
+      "0 で割ると未定義動作。割る前に、0 でないか確認する",
+      "余りは、「3周ごとに」「偶数か奇数か」の判定でよく使う"
+     ],
+     "quiz": {
+      "q": "17 % 5 の値は？",
+      "choices": [
+       "3",
+       "2",
+       "12"
+      ],
+      "answer": 1,
+      "explain": "17 を 5 で割ると商3、余り2です。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "複合代入と増減",
+   "goal": "+= や ++ を正しく使える。",
+   "slides": [
+    {
+     "title": "+=、++、--",
+     "lead": "変数を更新する書き方に、短い形があります。++ は1増やす、-- は1減らす演算子です。",
+     "code": {
+      "text": "int score = 0;\nscore += 10;        // score = score + 10\nscore *= 2;         // score = score * 2\nint i = 5;\nstd::cout << i++ << ' ';   // 5 を出して、あとで 6 に\nstd::cout << i << ' ';\nstd::cout << ++i << '\\n';  // 先に 7 にして、出す\nstd::cout << score << '\\n';",
+      "caption": "更新の短縮形"
+     },
+     "output": "5 6 7\n20",
+     "points": [
+      "+= -= *= /= %= がある。左辺を1回だけ書けば済む",
+      "i++（後置）は、今の値を使ってから増やす",
+      "++i（前置）は、増やしてから値を使う",
+      "単独の文では、どちらも同じ。ループでは ++i を使うのが慣例"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "キー入力 cin",
+   "goal": "キーボードから値を読み取れる。",
+   "slides": [
+    {
+     "title": "std::cin で入力する",
+     "lead": "プレイヤーの名前や数値は、std::cin で受け取ります。>> で、変数に読み込みます。",
+     "code": {
+      "text": "std::string name;\nint age;\nstd::cout << \"名前と年齢: \";\nstd::cin >> name >> age;\nstd::cout << name << \"さんは\" << age << \"歳\\n\";",
+      "caption": "入力と出力（入力例：Ada 20）"
+     },
+     "output": "Adaさんは20歳",
+     "points": [
+      "cin >> は、空白か改行までを1つの値として読む",
+      "型が合わない入力（数値のところに文字）をすると、読み込みが失敗する",
+      "空白を含む1行を読むには std::getline(std::cin, s) を使う",
+      "#include <string> と #include <iostream> が必要"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "型変換",
+   "goal": "暗黙の型変換と static_cast を使い分けられる。",
+   "slides": [
+    {
+     "title": "型を変える",
+     "lead": "型の違う値を代入や計算に使うと、変換が起きます。意図した変換は static_cast で明示しましょう。",
+     "code": {
+      "text": "int a = 7;\ndouble d = a;                    // int から double（安全）\nint n = 3.9;                     // 小数部が切り捨て（警告対象）\nint m = static_cast<int>(3.9);   // 意図を明示\ndouble r = static_cast<double>(7) / 2;\nstd::cout << d << ' ' << n << ' ' << m << ' ' << r << '\\n';",
+      "caption": "暗黙と明示"
+     },
+     "output": "7 3 3 3.5",
+     "points": [
+      "小さい型から大きい型への変換は、情報が失われず安全",
+      "小数から整数への変換は、切り捨てて情報が失われる",
+      "割り算の前に片方を double にすると、小数の結果になる",
+      "警告を有効にして（-Wall -Wextra）、意図しない変換に気付く"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第1部 入門と変数",
+   "title": "const で定数にする",
+   "goal": "変更しない値を const、constexpr で表せる。",
+   "slides": [
+    {
+     "title": "const と constexpr",
+     "lead": "変更しない値には const を付けます。後から書き換えようとすると、コンパイルエラーになり、間違いを防げます。",
+     "code": {
+      "text": "const int kMaxHp = 100;\n// kMaxHp = 200;     // エラー：const は変更できない\nconstexpr double kPi = 3.14159;   // コンパイル時に確定\nint hp = kMaxHp;\nhp -= 30;\nstd::cout << hp << ' ' << kMaxHp << '\\n';",
+      "caption": "定数"
+     },
+     "output": "70 100",
+     "points": [
+      "const の変数は、宣言時に初期化が必要で、あとから変更できない",
+      "constexpr は、コンパイル時に値が確定することを要求する",
+      "数字を直接書く（マジックナンバー）より、名前の付いた定数にする",
+      "定数名は、k から始める、全部大文字にするなど、チーム内で書き方を揃える"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "比較演算子",
+   "goal": "比較演算子を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "== != < > <= >=",
+     "lead": "2つの値を比べて、結果を bool（真か偽）で得るのが比較演算子です。",
+     "code": {
+      "text": "int hp = 30;\nstd::cout << (hp == 30) << ' ' << (hp != 30) << '\\n';\nstd::cout << (hp < 50) << ' ' << (hp >= 31) << '\\n';",
+      "caption": "比較の結果"
+     },
+     "output": "1 0\n1 0",
+     "points": [
+      "== 等しい、!= 等しくない、< > <= >= は大小の比較",
+      "結果は true（1）か false（0）",
+      "= は代入、== は比較。条件式での書き間違いに注意",
+      "小数の == 比較は、誤差のため避ける"
+     ],
+     "quiz": {
+      "q": "hp == 30 の意味は？",
+      "choices": [
+       "hp に 30 を入れる",
+       "hp が 30 に等しいか調べる",
+       "hp を 30 減らす"
+      ],
+      "answer": 1,
+      "explain": "== は比較で、結果は真か偽です。代入は = です。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "論理演算子",
+   "goal": "論理演算子を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "&& || !",
+     "lead": "複数の条件を組み合わせるのが論理演算子です。「かつ」「または」「ではない」を表します。",
+     "code": {
+      "text": "int hp = 30;\nbool hasKey = true;\nstd::cout << (hp > 0 && hasKey) << ' ';   // かつ\nstd::cout << (hp > 50 || hasKey) << ' ';  // または\nstd::cout << !hasKey << '\\n';             // ではない",
+      "caption": "条件の組み合わせ"
+     },
+     "output": "1 1 0",
+     "points": [
+      "&& は両方が真のとき真、|| はどちらかが真なら真、! は真偽を反転",
+      "短絡評価：&& は左が偽なら右を評価せず、|| は左が真なら右を評価しない",
+      "優先順位は ! が最も高く、次に &&、最後に ||",
+      "迷ったら () で明示する"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "if文",
+   "goal": "if文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "if で条件を判定する",
+     "lead": "if 文は、条件が真のときだけ、波括弧の中を実行します。",
+     "code": {
+      "text": "int hp = 0;\nif (hp <= 0) {\n    std::cout << \"ゲームオーバー\\n\";\n}\nstd::cout << \"処理終了\\n\";",
+      "caption": "if 文"
+     },
+     "output": "ゲームオーバー\n処理終了",
+     "points": [
+      "条件式は ( ) で囲み、真のときだけ { } の中が実行される",
+      "文が1つなら { } を省略できるが、付ける習慣をつける",
+      "if (hp = 0) は代入になり、常に偽になる。== と間違えない",
+      "if の後ろに ; を付けると、何もしない文になり、バグの元になる"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "if-else文",
+   "goal": "if-else文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "if と else で二択にする",
+     "lead": "条件が真のときと偽のときで、別の処理をするには else を使います。",
+     "code": {
+      "text": "int hp = 80;\nif (hp > 0) {\n    std::cout << \"生存\\n\";\n} else {\n    std::cout << \"倒れた\\n\";\n}",
+      "caption": "if-else"
+     },
+     "output": "生存",
+     "points": [
+      "どちらか一方だけが、必ず実行される",
+      "else は、直前の if に対応する",
+      "else の中に、さらに if を入れて入れ子にもできる"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "else if",
+   "goal": "else ifを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "else if で多分岐にする",
+     "lead": "3つ以上の場合分けは、else if をつなげます。上から順に判定され、最初に真になった分岐だけが実行されます。",
+     "code": {
+      "text": "int hp = 25;\nif (hp <= 0) {\n    std::cout << \"全滅\\n\";\n} else if (hp < 30) {\n    std::cout << \"ピンチ\\n\";\n} else if (hp < 70) {\n    std::cout << \"注意\\n\";\n} else {\n    std::cout << \"元気\\n\";\n}",
+      "caption": "HPの段階判定"
+     },
+     "output": "ピンチ",
+     "points": [
+      "hp = 25 は hp < 30 で真になり、以降は判定されない",
+      "条件の順序が重要。狭い条件を先に、広い条件を後に置く",
+      "最後の else は、どれにも当てはまらない場合の受け皿"
+     ],
+     "quiz": {
+      "q": "hp = 25 のとき、上のコードで最初に真になる条件は？",
+      "choices": [
+       "hp <= 0",
+       "hp < 30",
+       "hp < 70"
+      ],
+      "answer": 1,
+      "explain": "上から順に判定され、hp < 30 が最初に真になります。hp < 70 も真ですが、実行されません。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "条件式と真偽",
+   "goal": "条件式と真偽を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "0は偽、それ以外は真",
+     "lead": "条件式には、数値やポインタも置けます。0 は偽、0 以外は真として扱われます。",
+     "code": {
+      "text": "int n = 5;\nif (n) std::cout << \"n は真\\n\";\nint zero = 0;\nif (!zero) std::cout << \"zero は偽\\n\";\nbool ok = (n > 3);\nstd::cout << ok << '\\n';",
+      "caption": "真偽の扱い"
+     },
+     "output": "n は真\nzero は偽\n1",
+     "points": [
+      "0 と nullptr は偽、それ以外は真",
+      "if (n) は、n != 0 と同じ意味",
+      "bool 変数には isAlive、hasKey のように、真偽が分かる名前を付ける"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "三項演算子",
+   "goal": "三項演算子を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "条件 ? A : B",
+     "lead": "条件によって値を選ぶだけなら、三項演算子で1行に書けます。",
+     "code": {
+      "text": "int hp = 40;\nstd::string s = (hp >= 50) ? \"元気\" : \"疲れ気味\";\nint dmg = (hp > 0) ? 10 : 0;\nstd::cout << s << ' ' << dmg << '\\n';",
+      "caption": "値の切り替え"
+     },
+     "points": [
+      "書式は「条件 ? 真のときの値 : 偽のときの値」",
+      "if-else と違い、値を返す式。代入や出力の中にも書ける",
+      "入れ子にすると読みにくい。単純な二択だけに使う",
+      "2つの値の型は、そろえる（または変換できる型にする）"
+     ],
+     "output": "疲れ気味 10"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "switch文",
+   "goal": "switch文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "switch で値ごとに分ける",
+     "lead": "1つの値によって処理を分けるときは、switch が見やすくなります。",
+     "code": {
+      "text": "int cmd = 2;\nswitch (cmd) {\n    case 1: std::cout << \"攻撃\\n\"; break;\n    case 2: std::cout << \"防御\\n\"; break;\n    default: std::cout << \"不明\\n\";\n}",
+      "caption": "コマンド選択"
+     },
+     "points": [
+      "switch に使えるのは、整数、char、enum（文字列や小数は不可）",
+      "case には、定数だけを書ける（変数は不可）",
+      "一致する case がないとき、default が実行される",
+      "各 case の末尾の break を忘れないこと"
+     ],
+     "output": "防御"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "switchのフォールスルー",
+   "goal": "switchのフォールスルーを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "break を書かないとどうなるか",
+     "lead": "break がないと、次の case の処理へ流れ落ちます。これをフォールスルーと呼びます。",
+     "code": {
+      "text": "int rank = 2;\nswitch (rank) {\n    case 1:\n        std::cout << \"金\\n\";\n    case 2:\n        std::cout << \"銀\\n\";\n    case 3:\n        std::cout << \"銅\\n\";\n        break;\n    default:\n        std::cout << \"なし\\n\";\n}",
+      "caption": "break なしの case"
+     },
+     "points": [
+      "rank = 2 は、case 2 から始まり、break のある場所まで続けて実行される",
+      "意図して流す場合は、[[fallthrough]]; と書くと、意図が伝わる（C++17）",
+      "case 1: case 2: のように、処理を共有するのは安全な使い方",
+      "うっかりの書き忘れは、-Wall -Wextra で警告される"
+     ],
+     "output": "銀\n銅",
+     "quiz": {
+      "q": "上のコードで rank = 1 のとき、表示されるのは？",
+      "choices": [
+       "金だけ",
+       "金、銀、銅",
+       "金、銀"
+      ],
+      "answer": 1,
+      "explain": "case 1 から始まり、break のある case 3 の末尾まで流れ落ちます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "enum class",
+   "goal": "enum classを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "名前付きの選択肢 enum class",
+     "lead": "状態や種類のように、決まった選択肢は enum class で表します。数字を直接使うより、安全で分かりやすくなります。",
+     "code": {
+      "text": "enum class State { Idle, Run, Jump };\nState s = State::Run;\nswitch (s) {\n    case State::Idle: std::cout << \"待機\\n\"; break;\n    case State::Run:  std::cout << \"走る\\n\"; break;\n    case State::Jump: std::cout << \"跳ぶ\\n\"; break;\n}\nstd::cout << static_cast<int>(s) << '\\n';",
+      "caption": "状態の表現"
+     },
+     "points": [
+      "値は State::Run のように、型名を付けて書く",
+      "別の enum や int と、勝手に混ざらない",
+      "内部の数値は 0 から順に振られる。必要なら static_cast<int> で取り出す",
+      "switch と組み合わせると、case の漏れを警告してくれる"
+     ],
+     "output": "走る\n1"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "while文",
+   "goal": "while文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "while で条件が続く間くり返す",
+     "lead": "回数が決まっていない繰り返しには while を使います。条件を先に判定します。",
+     "code": {
+      "text": "int hp = 100;\nint turn = 0;\nwhile (hp > 0) {\n    hp -= 30;\n    ++turn;\n}\nstd::cout << turn << ' ' << hp << '\\n';",
+      "caption": "ダメージを受け続ける"
+     },
+     "points": [
+      "条件が真の間、波括弧の中を繰り返す",
+      "最初から条件が偽なら、1回も実行されない",
+      "条件に関わる変数を更新しないと、無限ループになる",
+      "hp が 100、70、40、10 の4回目で、-20 になって終了する"
+     ],
+     "output": "4 -20",
+     "quiz": {
+      "q": "hp が 10 から始まるとき、while (hp > 0) { hp -= 30; } は何回実行される？",
+      "choices": [
+       "0回",
+       "1回",
+       "2回"
+      ],
+      "answer": 1,
+      "explain": "10 > 0 で1回実行され、hp が -20 になって条件が偽になります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "do-while文",
+   "goal": "do-while文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "do-while は必ず1回実行する",
+     "lead": "条件の判定を後ろに置くのが do-while です。最低1回は実行したいときに使います。",
+     "code": {
+      "text": "int n = 0;\ndo {\n    ++n;\n    std::cout << \"n=\" << n << '\\n';\n} while (n < 3);\n\nint m = 10;\ndo {\n    std::cout << \"m=\" << m << '\\n';\n} while (m < 3);",
+      "caption": "判定が後ろ"
+     },
+     "points": [
+      "本体を実行してから、条件を判定する",
+      "最初から条件が偽でも、1回は実行される（m=10）",
+      "末尾の while (条件); のセミコロンを忘れない",
+      "メニューを表示して、入力を受ける処理に向いている"
+     ],
+     "output": "n=1\nn=2\nn=3\nm=10"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "for文",
+   "goal": "for文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "for で回数を決めてくり返す",
+     "lead": "回数が決まっているときは for が最適です。初期化、条件、更新を1行にまとめて書けます。",
+     "code": {
+      "text": "for (int i = 0; i < 5; ++i) {\n    std::cout << i << ' ';\n}\nstd::cout << '\\n';\nfor (int i = 10; i > 0; i -= 3) {\n    std::cout << i << ' ';\n}",
+      "caption": "for のかたち"
+     },
+     "points": [
+      "書式は for (初期化; 継続条件; 更新)",
+      "i は for の中だけで使える変数",
+      "プログラミングでは、0 から数え始めるのが基本",
+      "< と <= の違いで1回ずれる（境界の誤り）に注意"
+     ],
+     "output": "0 1 2 3 4\n10 7 4 1"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "範囲for文",
+   "goal": "範囲for文を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "範囲for で全要素を処理する",
+     "lead": "配列やコンテナの全要素を、順に処理します。添字を書かずに済み、間違いが減ります。",
+     "code": {
+      "text": "int dmg[] = {5, 12, 8};\nint total = 0;\nfor (int d : dmg) total += d;\n\nstd::vector<std::string> names = {\"Ada\", \"Linus\"};\nfor (const auto& n : names) std::cout << n << ' ';\n\nfor (int& d : dmg) d *= 2;   // 参照なら書き換えられる\nstd::cout << '\\n' << total << ' ' << dmg[1] << '\\n';",
+      "caption": "全要素の処理"
+     },
+     "points": [
+      "for (型 変数 : 範囲) の形で書く",
+      "int d はコピー、int& d は参照で、書き換えができる",
+      "大きな要素は const auto& で受けて、コピーを避ける",
+      "途中で追加や削除を行うと壊れやすい"
+     ],
+     "output": "Ada Linus\n25 24"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "breakとcontinue",
+   "goal": "breakとcontinueを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "break と continue",
+     "lead": "continue は今回の周回だけを飛ばし、break はループ全体を抜けます。",
+     "code": {
+      "text": "for (int i = 1; i <= 10; ++i) {\n    if (i % 2 == 0) continue;   // 偶数は飛ばす\n    if (i > 7) break;           // 7 を超えたら終了\n    std::cout << i << ' ';\n}",
+      "caption": "飛ばす、抜ける"
+     },
+     "points": [
+      "continue は、更新式（++i）へ進んで、次の周回を始める",
+      "break は、一番内側のループだけを抜ける",
+      "条件が複雑になるなら、フラグ変数や関数への切り出しを検討する"
+     ],
+     "output": "1 3 5 7"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "ネストしたループ",
+   "goal": "ネストしたループを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ループの中にループ",
+     "lead": "2次元のマップなど、縦と横の繰り返しは、ループを入れ子にして書きます。",
+     "code": {
+      "text": "for (int y = 0; y < 3; ++y) {\n    for (int x = 0; x < 4; ++x) {\n        std::cout << (x == y ? '@' : '.');\n    }\n    std::cout << '\\n';\n}",
+      "caption": "3行4列のマップ"
+     },
+     "points": [
+      "外側が行（y）、内側が列（x）。内側が1周するたびに、外側が1進む",
+      "実行回数は掛け算（3 × 4 = 12回）",
+      "内側の break は、内側のループだけを抜ける",
+      "ネストが深いと、処理が重く、読みにくくなる"
+     ],
+     "output": "@...\n.@..\n..@."
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "無限ループと終了条件",
+   "goal": "無限ループと終了条件を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "while (true) と break",
+     "lead": "終わりの条件を、中で判定したいときは、while (true) と break を組み合わせます。ゲームループの基本形です。",
+     "code": {
+      "text": "int hp = 50;\nint turn = 0;\nwhile (true) {\n    ++turn;\n    hp -= 20;\n    if (hp <= 0) break;\n}\nstd::cout << turn << '\\n';",
+      "caption": "ループ中の判定"
+     },
+     "points": [
+      "50、30、10、-10 と減り、3ターン目で終了する",
+      "終了条件を書き忘れると、止まらなくなる。止めるときは Ctrl+C",
+      "更新の書き忘れによる無限ループが、最もよくある原因",
+      "安全のため、最大回数も付けておくと安心"
+     ],
+     "output": "3"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "乱数とゲームの運",
+   "goal": "乱数とゲームの運を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "乱数でゲームに運を入れる",
+     "lead": "サイコロやクリティカル判定には、乱数を使います。<random> の仕組みが標準です。",
+     "code": {
+      "text": "#include <random>\n\nstd::mt19937 rng(12345);   // 固定シード：毎回同じ並び\n// std::random_device rd;  std::mt19937 rng(rd());  // 毎回変わる\nstd::uniform_int_distribution<int> dice(1, 6);\n\nint r = dice(rng);\nstd::cout << (1 <= r && r <= 6) << '\\n';",
+      "caption": "サイコロ"
+     },
+     "points": [
+      "mt19937 が乱数の生成器、uniform_int_distribution が範囲の指定",
+      "同じシードなら同じ乱数列になる。テストやデバッグに便利",
+      "本番では、random_device でシードを決める",
+      "クリティカルは「dice(rng) <= 1」のように確率を条件にする"
+     ],
+     "output": "1"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "数当てゲームを作る",
+   "goal": "数当てゲームを作るを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ここまでの総まとめ：数当てゲーム",
+     "lead": "while、if、cin を組み合わせて、最初のゲームを作ります。",
+     "code": {
+      "text": "int answer = 42, guess = 0, tries = 0;\nwhile (guess != answer) {\n    std::cin >> guess;\n    ++tries;\n    if (guess < answer) std::cout << \"もっと大きい\\n\";\n    else if (guess > answer) std::cout << \"もっと小さい\\n\";\n}\nstd::cout << tries << \" 回で正解！\\n\";",
+      "caption": "入力例：50、30、42"
+     },
+     "points": [
+      "答えは、前のレッスンの乱数で決めると、毎回変わる",
+      "数値以外を入力すると、cin が失敗して、無限ループになる",
+      "発展：回数制限を付ける、ヒントの出し方を工夫する、スコアを付ける"
+     ],
+     "output": "もっと小さい\nもっと大きい\n3 回で正解！"
+    }
+   ]
+  },
+  {
+   "part": "第2部 演算子と制御構文",
+   "title": "第2部の復習",
+   "goal": "第2部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第2部の復習",
+     "lead": "比較、論理、条件分岐、くり返しを組み合わせて、ターン制の戦闘を作ります。",
+     "code": {
+      "text": "int hp = 100;\nfor (int turn = 1; turn <= 5; ++turn) {\n    hp -= 30;\n    if (hp <= 0) {\n        std::cout << \"ターン\" << turn << \"で全滅\\n\";\n        break;\n    }\n    std::cout << \"ターン\" << turn << \" 残りHP \" << hp << '\\n';\n}",
+      "caption": "ターン制のダメージ処理"
+     },
+     "points": [
+      "条件分岐：if、else if、switch、三項演算子",
+      "くり返し：for、while、do-while、範囲for",
+      "制御：break で抜ける、continue で飛ばす",
+      "条件の書き間違い（= と ==）と、境界の誤り（< と <=）に注意"
+     ],
+     "output": "ターン1 残りHP 70\nターン2 残りHP 40\nターン3 残りHP 10\nターン4で全滅",
+     "quiz": {
+      "q": "回数が決まっている繰り返しに、最も向いているのは？",
+      "choices": [
+       "for",
+       "do-while",
+       "switch"
+      ],
+      "answer": 0,
+      "explain": "回数が決まっていれば for、条件次第なら while、最低1回なら do-while を使います。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "関数とは",
+   "goal": "関数とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "処理に名前を付ける",
+     "lead": "関数は、処理のまとまりに名前を付けたものです。同じ処理を何度も書かずに、呼び出すだけで済みます。",
+     "code": {
+      "text": "int square(int x) { return x * x; }\n\nstd::cout << square(4) << ' ' << square(5) << '\\n';",
+      "caption": "2乗を求める関数"
+     },
+     "points": [
+      "同じ処理を1か所にまとめると、修正も1か所で済む",
+      "名前を付けることで、何をする処理かが読み取れる",
+      "ゲームでは、ダメージ計算や当たり判定などを関数にする"
+     ],
+     "output": "16 25"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "関数の定義と呼び出し",
+   "goal": "関数の定義と呼び出しを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "定義して、呼び出す",
+     "lead": "関数は「戻り値の型 関数名(引数) { 本体 }」で定義し、関数名と () で呼び出します。",
+     "code": {
+      "text": "void greet() {\n    std::cout << \"Hello\\n\";\n}\n\nint main() {\n    greet();\n    greet();\n}",
+      "caption": "greet を2回呼ぶ"
+     },
+     "points": [
+      "main も関数の1つ。実行時に自動で呼ばれる",
+      "呼び出すたびに、本体が最初から実行される",
+      "定義は、呼び出しより前に書く（次の次のレッスンで例外を学ぶ）"
+     ],
+     "output": "Hello\nHello"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "引数",
+   "goal": "引数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "引数で値を渡す",
+     "lead": "関数に渡す値が引数です。定義側の変数を仮引数、呼び出し側の値を実引数と呼びます。",
+     "code": {
+      "text": "int add(int a, int b) { return a + b; }\n\nstd::cout << add(2, 3) << '\\n';\nint x = 10;\nstd::cout << add(x, 5) << '\\n';",
+      "caption": "2つの引数"
+     },
+     "points": [
+      "引数は、定義した順番どおりに渡される",
+      "数や型が合わない呼び出しは、コンパイルエラー",
+      "実引数には、変数も式も書ける"
+     ],
+     "output": "5\n15"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "戻り値",
+   "goal": "戻り値を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "return で結果を返す",
+     "lead": "関数は return で値を返し、同時に実行を終了します。戻り値の型を、関数名の前に書きます。",
+     "code": {
+      "text": "int maxOf(int a, int b) {\n    if (a > b) return a;\n    return b;\n}\nbool isAlive(int hp) { return hp > 0; }\n\nstd::cout << maxOf(3, 8) << ' ' << isAlive(0) << '\\n';",
+      "caption": "最大値と生死判定"
+     },
+     "points": [
+      "どの経路でも、必ず return が実行されるように書く",
+      "返せる値は1つだけ。複数返すなら、構造体にまとめる",
+      "bool を返す関数は、isAlive のように、is や has で始める"
+     ],
+     "output": "8 0",
+     "quiz": {
+      "q": "return 文を実行すると、何が起きる？",
+      "choices": [
+       "次の行へ進むだけ",
+       "関数を終了して、値を返す",
+       "プログラムが終了する"
+      ],
+      "answer": 1,
+      "explain": "return を実行すると、その場で関数を抜けて、呼び出し元へ値を返します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "void関数",
+   "goal": "void関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "値を返さない関数",
+     "lead": "結果を返さず、処理だけを行う関数の戻り値の型は void です。",
+     "code": {
+      "text": "void showHp(int hp) {\n    if (hp < 0) {\n        std::cout << \"HP不正\\n\";\n        return;          // 途中で終了\n    }\n    std::cout << \"HP: \" << hp << '\\n';\n}\n\nshowHp(50);\nshowHp(-5);",
+      "caption": "画面表示の関数"
+     },
+     "points": [
+      "void 関数では、値を付けない return; で途中終了できる",
+      "出力や状態の変更のように、「やること」を表す関数に向く",
+      "戻り値を変数に入れようとすると、エラーになる"
+     ],
+     "output": "HP: 50\nHP不正"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "関数の宣言（プロトタイプ）",
+   "goal": "関数の宣言（プロトタイプ）を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "宣言と定義を分ける",
+     "lead": "関数は、呼び出す前にコンパイラへ知らせる必要があります。宣言（プロトタイプ）を先に書けば、定義は後ろに置けます。",
+     "code": {
+      "text": "int square(int x);   // 宣言\n\nint main() {\n    std::cout << square(6) << '\\n';\n}\n\nint square(int x) {  // 定義\n    return x * x;\n}",
+      "caption": "宣言を先に書く"
+     },
+     "points": [
+      "宣言は、戻り値の型、名前、引数の型を書き、; で終わる",
+      "宣言では、引数名を省略できる（int square(int);）",
+      "宣言と定義で、型が一致していないとエラー"
+     ],
+     "output": "36"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "ヘッダファイル",
+   "goal": "ヘッダファイルを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ヘッダで宣言を共有する",
+     "lead": "複数のファイルで関数を使うときは、宣言をヘッダファイル（.h）に、定義を .cpp に書きます。",
+     "code": {
+      "text": "// player.h\n#pragma once\nint damage(int attack, int defense);\n\n// player.cpp\n#include \"player.h\"\nint damage(int attack, int defense) {\n    return attack - defense;\n}\n\n// main.cpp\n#include \"player.h\"",
+      "caption": "3つのファイル"
+     },
+     "points": [
+      "#include \"...\" は自作のヘッダ、#include <...> は標準のヘッダ",
+      "#pragma once は、同じヘッダを二重に取り込むのを防ぐ",
+      "ヘッダには宣言を、.cpp には定義を書くのが基本"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "分割コンパイル",
+   "goal": "分割コンパイルを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ファイルごとにビルドする",
+     "lead": "大きなプログラムは、.cpp ごとにコンパイルしてから、最後にリンクします。変更したファイルだけを再コンパイルすれば、速く済みます。",
+     "code": {
+      "text": "g++ -c player.cpp\ng++ -c main.cpp\ng++ player.o main.o -o game",
+      "caption": "ターミナル"
+     },
+     "points": [
+      "-c は、リンクせずに、オブジェクトファイル（.o）までを作る",
+      "最後に、すべての .o をリンクして、実行ファイルにする",
+      "関数の定義がないと、undefined reference（リンクエラー）",
+      "同じ関数を、複数の .cpp に定義すると、multiple definition エラー"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "値渡し",
+   "goal": "値渡しを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "値渡しはコピーが渡される",
+     "lead": "引数を普通に書くと、値のコピーが渡されます。関数の中で変更しても、呼び出し元の変数は変わりません。",
+     "code": {
+      "text": "void powerUp(int atk) {\n    atk += 10;       // コピーを変更しただけ\n}\n\nint atk = 50;\npowerUp(atk);\nstd::cout << atk << '\\n';",
+      "caption": "値渡し"
+     },
+     "points": [
+      "コピーなので、元の変数は安全",
+      "int や float など、小さな型は値渡しで十分",
+      "大きな構造体やクラスのコピーは、重くなる"
+     ],
+     "output": "50"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "参照渡し",
+   "goal": "参照渡しを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "参照渡しで元を書き換える",
+     "lead": "引数の型に & を付けると、コピーではなく、元の変数の別名を受け取ります。",
+     "code": {
+      "text": "void powerUp(int& atk) { atk += 10; }\nvoid swapInt(int& a, int& b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n\nint atk = 50;\npowerUp(atk);\nint p = 1, q = 2;\nswapInt(p, q);\nstd::cout << atk << ' ' << p << ' ' << q << '\\n';",
+      "caption": "参照で受け取る"
+     },
+     "points": [
+      "呼び出し側は、普通の変数をそのまま渡す",
+      "書き換える意図があるときだけ、非 const の参照を使う",
+      "複数の結果を返したいときにも使える"
+     ],
+     "output": "60 2 1",
+     "quiz": {
+      "q": "関数の中で、呼び出し元の変数を書き換えたい。引数の型はどれ？",
+      "choices": [
+       "int x",
+       "int& x",
+       "const int& x"
+      ],
+      "answer": 1,
+      "explain": "int& なら、元の変数の別名を受け取るので、書き換えが呼び出し元に反映されます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "const参照",
+   "goal": "const参照を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "読むだけなら const参照",
+     "lead": "大きなオブジェクトを読むだけなら、const 参照で受けます。コピーが不要で、書き換えもコンパイラが防いでくれます。",
+     "code": {
+      "text": "struct Player {\n    std::string name;\n    int hp;\n};\n\nvoid show(const Player& p) {\n    std::cout << p.name << ':' << p.hp << '\\n';\n    // p.hp = 0;   // エラー：const なので変更できない\n}\n\nPlayer hero{\"Ada\", 80};\nshow(hero);",
+      "caption": "読み取り専用"
+     },
+     "points": [
+      "const T& は、高速で安全な、読み取り用の引数の定番",
+      "一時的な値（\"abc\" など）も、const 参照なら受け取れる",
+      "小さな型（int、float）は、値渡しのほうがよい"
+     ],
+     "output": "Ada:80"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "デフォルト引数",
+   "goal": "デフォルト引数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "引数を省略できるようにする",
+     "lead": "よく使う値は、引数の既定値として書いておくと、呼び出しを省略できます。",
+     "code": {
+      "text": "void attack(int power, int times = 1) {\n    std::cout << power * times << '\\n';\n}\n\nattack(10);\nattack(10, 3);",
+      "caption": "既定値"
+     },
+     "points": [
+      "既定値は、右側の引数から順に付ける",
+      "宣言とヘッダに書き、定義側では繰り返さない",
+      "多用すると、呼び出しの意味が分かりにくくなる"
+     ],
+     "output": "10\n30"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "オーバーロード",
+   "goal": "オーバーロードを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ名前で型違いの関数",
+     "lead": "引数の型や数が違えば、同じ名前の関数を複数定義できます。コンパイラが、呼び出しの引数から選びます。",
+     "code": {
+      "text": "void print(int x)    { std::cout << \"int:\" << x << '\\n'; }\nvoid print(double x) { std::cout << \"double:\" << x << '\\n'; }\nvoid print(const std::string& s) { std::cout << \"str:\" << s << '\\n'; }\n\nprint(3);\nprint(2.5);\nprint(\"hi\");",
+      "caption": "3つの print"
+     },
+     "points": [
+      "区別できるのは、引数の型や数。戻り値の型だけでは区別できない",
+      "どれにも決められない呼び出しは、あいまいでエラーになる",
+      "似た動作に、同じ名前を付けると、覚えることが減る"
+     ],
+     "output": "int:3\ndouble:2.5\nstr:hi"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "スコープ",
+   "goal": "スコープを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "変数が見える範囲",
+     "lead": "変数は、宣言した波括弧 { } の中だけで使えます。この範囲をスコープと呼びます。",
+     "code": {
+      "text": "int x = 1;\n{\n    int y = 2;\n    std::cout << x << ' ' << y << '\\n';\n}\n// std::cout << y;   // エラー：y はここでは見えない",
+      "caption": "ブロックの範囲"
+     },
+     "points": [
+      "内側から外側の変数は見えるが、外側から内側は見えない",
+      "外側と同じ名前を内側で宣言すると、外側が隠れる（混乱のもと）",
+      "for の中の i は、for の中だけで使える",
+      "変数は、使う直前に、狭い範囲で宣言する"
+     ],
+     "output": "1 2"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "ローカル変数とグローバル変数",
+   "goal": "ローカル変数とグローバル変数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ローカルとグローバル",
+     "lead": "関数の中の変数をローカル変数、関数の外の変数をグローバル変数と呼びます。",
+     "code": {
+      "text": "int g_score = 0;           // グローバル\n\nvoid addScore(int p) {\n    int bonus = 5;         // ローカル\n    g_score += p + bonus;\n}\n\naddScore(10);\naddScore(10);\nstd::cout << g_score << '\\n';",
+      "caption": "スコアの加算"
+     },
+     "points": [
+      "ローカルは、関数が終わると消える",
+      "グローバルは、プログラム全体から変更できるため、バグの原因を追いにくい",
+      "なるべく、引数と戻り値でやり取りする",
+      "グローバル変数は、0 に自動で初期化される。ローカルは不定値"
+     ],
+     "output": "30"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "static変数",
+   "goal": "static変数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "関数の中で値を覚える static",
+     "lead": "関数内の変数に static を付けると、関数が終わっても消えず、値が保持されます。",
+     "code": {
+      "text": "int nextId() {\n    static int id = 0;   // 初期化は最初の1回だけ\n    return ++id;\n}\n\nstd::cout << nextId() << ' ';\nstd::cout << nextId() << ' ';\nstd::cout << nextId() << '\\n';",
+      "caption": "連番の発行"
+     },
+     "points": [
+      "static ローカル変数は、プログラム終了まで残る",
+      "初期化は、最初に通ったときの1回だけ",
+      "ID の連番や、呼び出し回数の記録に使える",
+      "多用すると、関数の動作が分かりにくくなる"
+     ],
+     "output": "1 2 3"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "再帰関数",
+   "goal": "再帰関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "自分自身を呼ぶ関数",
+     "lead": "関数が、自分自身を呼び出すことを再帰と呼びます。必ず、終わる条件（基底ケース）が必要です。",
+     "code": {
+      "text": "int factorial(int n) {\n    if (n <= 1) return 1;          // 基底ケース\n    return n * factorial(n - 1);\n}\n\nstd::cout << factorial(5) << '\\n';",
+      "caption": "階乗"
+     },
+     "points": [
+      "factorial(5) は 5 × 4 × 3 × 2 × 1",
+      "基底ケースがないと、止まらずスタックオーバーフローになる",
+      "迷路探索や、ツリー構造の処理に向いている",
+      "ループで書けるなら、ループのほうが安全"
+     ],
+     "output": "120",
+     "quiz": {
+      "q": "再帰関数に、必ず必要なものは？",
+      "choices": [
+       "グローバル変数",
+       "終わる条件（基底ケース）",
+       "static 変数"
+      ],
+      "answer": 1,
+      "explain": "基底ケースがないと、自分を呼び続けて、スタックを使い果たします。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "inline関数",
+   "goal": "inline関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "inline で定義を共有する",
+     "lead": "inline を付けた関数は、ヘッダに定義を書いて、複数の .cpp から取り込んでも、重複定義のエラーになりません。",
+     "code": {
+      "text": "inline int clampHp(int hp, int maxHp) {\n    return hp < 0 ? 0 : (hp > maxHp ? maxHp : hp);\n}\n\nstd::cout << clampHp(-5, 100) << ' ' << clampHp(150, 100) << '\\n';",
+      "caption": "HPを範囲内に収める"
+     },
+     "points": [
+      "小さな関数を、ヘッダに定義するときに使う",
+      "展開して速くするかどうかは、コンパイラが判断する",
+      "大きな関数に付けても、速くはならない"
+     ],
+     "output": "0 100"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "constexpr関数",
+   "goal": "constexpr関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "コンパイル時に計算する関数",
+     "lead": "constexpr の関数は、定数の引数で呼ぶと、コンパイル時に計算されます。配列の大きさなどにも使えます。",
+     "code": {
+      "text": "constexpr int square(int x) { return x * x; }\n\nconstexpr int kArea = square(8);\nint arr[square(3)];          // 要素数 9 の配列\n\nstd::cout << kArea << ' ' << sizeof(arr) / sizeof(arr[0]) << '\\n';",
+      "caption": "コンパイル時の計算"
+     },
+     "points": [
+      "実行時の引数でも呼べる。その場合は、通常の関数として動く",
+      "テーブルや、調整値の計算を、実行前に済ませられる",
+      "中でできる処理には、制限がある"
+     ],
+     "output": "64 9"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "名前空間",
+   "goal": "名前空間を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "名前の衝突を防ぐ namespace",
+     "lead": "名前空間は、名前をグループにまとめて、同じ名前の衝突を防ぎます。標準ライブラリの std も、名前空間です。",
+     "code": {
+      "text": "namespace game {\n    int score = 0;\n    void addScore(int p) { score += p; }\n}\nnamespace ui {\n    void addScore() { std::cout << \"UI\\n\"; }\n}\n\ngame::addScore(10);\nui::addScore();\nstd::cout << game::score << '\\n';",
+      "caption": "2つの addScore"
+     },
+     "points": [
+      "名前空間名と :: で、どちらの関数かを指定する",
+      "using std::cout; で、特定の名前だけを短く書ける",
+      "ヘッダの中で using namespace を書くのは避ける"
+     ],
+     "output": "UI\n10"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "関数ポインタ入門",
+   "goal": "関数ポインタ入門を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "関数を変数のように扱う",
+     "lead": "関数のアドレスを、ポインタに入れられます。呼び出す処理を、あとから切り替えられます。",
+     "code": {
+      "text": "int add(int a, int b) { return a + b; }\nint mul(int a, int b) { return a * b; }\n\nint (*op)(int, int) = add;\nstd::cout << op(3, 4) << ' ';\nop = mul;\nstd::cout << op(3, 4) << '\\n';",
+      "caption": "処理の切り替え"
+     },
+     "points": [
+      "int (*op)(int, int) は、「int を2つ受け取って int を返す関数」へのポインタ",
+      "using Op = int(*)(int, int); と書くと、読みやすい",
+      "ボタンを押したときの処理などの、コールバックに使われる",
+      "のちに、std::function とラムダ式で、より柔軟に書ける"
+     ],
+     "output": "7 12"
+    }
+   ]
+  },
+  {
+   "part": "第3部 関数",
+   "title": "第3部の復習",
+   "goal": "第3部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第3部の復習",
+     "lead": "関数を組み合わせて、攻撃の処理を作ります。値の計算は関数に、状態の更新は参照に任せます。",
+     "code": {
+      "text": "int damage(int atk, int def) {\n    int d = atk - def;\n    return d > 0 ? d : 0;\n}\nvoid attack(const std::string& who, int& hp, int atk, int def) {\n    hp -= damage(atk, def);\n    std::cout << who << \" 残りHP \" << hp << '\\n';\n}\n\nint enemyHp = 50;\nattack(\"Slime\", enemyHp, 30, 5);\nattack(\"Slime\", enemyHp, 20, 40);",
+      "caption": "ダメージ計算"
+     },
+     "points": [
+      "定義と宣言、引数と戻り値、void",
+      "値渡し、参照渡し、const 参照の使い分け",
+      "オーバーロード、デフォルト引数、名前空間",
+      "スコープ、static、再帰、constexpr"
+     ],
+     "output": "Slime 残りHP 25\nSlime 残りHP 25",
+     "quiz": {
+      "q": "関数が呼び出し元の hp を書き換えるには、引数をどう書く？",
+      "choices": [
+       "int hp",
+       "int& hp",
+       "const int& hp"
+      ],
+      "answer": 1,
+      "explain": "非 const の参照（int&）で受けると、元の変数を直接変更できます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "配列とは",
+   "goal": "配列とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ型の値を並べて持つ",
+     "lead": "配列は、同じ型の値を、連続して並べたものです。番号（添字）で、何番目かを指定します。",
+     "code": {
+      "text": "int hp[3] = {100, 80, 60};\nstd::cout << hp[0] << ' ' << hp[2] << '\\n';\nhp[1] = 75;\nstd::cout << hp[1] << '\\n';",
+      "caption": "パーティ3人のHP"
+     },
+     "points": [
+      "添字は 0 から始まる。要素が3つなら、0、1、2",
+      "hp[1] のように書いて、読み書きできる",
+      "同じ種類のデータを、まとめて扱うときに使う"
+     ],
+     "output": "100 60\n75"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "配列の宣言と初期化",
+   "goal": "配列の宣言と初期化を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "宣言と初期化の書き方",
+     "lead": "配列は「型 名前[要素数]」で宣言します。{ } で初期化でき、足りない分は 0 になります。",
+     "code": {
+      "text": "int a[5] = {1, 2};     // 残りは 0\nint b[] = {7, 8, 9};   // 要素数は 3 になる\nint c[4] = {};         // すべて 0\n\nstd::cout << a[1] << ' ' << a[4] << '\\n';\nstd::cout << sizeof(b) / sizeof(b[0]) << '\\n';\nstd::cout << c[3] << '\\n';",
+      "caption": "初期化の3パターン"
+     },
+     "points": [
+      "初期化しない配列の中身は、不定値",
+      "要素数は、定数で指定する（実行時に決まる値は不可）",
+      "sizeof(配列) / sizeof(配列[0]) で、要素数が求まる"
+     ],
+     "output": "2 0\n3\n0"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "配列の走査",
+   "goal": "配列の走査を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "for で全要素を処理する",
+     "lead": "配列の全要素は、for 文か範囲 for 文で処理します。",
+     "code": {
+      "text": "int dmg[4] = {5, 12, 8, 20};\nint total = 0;\nfor (int i = 0; i < 4; ++i) {\n    total += dmg[i];\n}\nfor (int d : dmg) std::cout << d << ' ';\nstd::cout << '\\n' << total << '\\n';",
+      "caption": "合計と一覧"
+     },
+     "points": [
+      "添字の for は、i < 要素数 の形で書く",
+      "範囲 for は、添字の書き間違いがなく、安全",
+      "値を書き換えるなら、int& d で受ける"
+     ],
+     "output": "5 12 8 20\n45"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "範囲外アクセスの危険",
+   "goal": "範囲外アクセスの危険を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "配列の外を読み書きしない",
+     "lead": "要素数を超えた添字でアクセスすると、未定義動作になります。エラーにならず、他の変数を壊すこともあります。",
+     "code": {
+      "text": "int a[3] = {1, 2, 3};\nint i = 3;\n// a[3] = 99;   // 範囲外：未定義動作\n\nif (i >= 0 && i < 3) {\n    std::cout << a[i] << '\\n';\n} else {\n    std::cout << \"範囲外\\n\";\n}",
+      "caption": "添字の確認"
+     },
+     "points": [
+      "要素数3の配列で、有効な添字は 0 から 2 まで",
+      "C++の配列は、範囲外のチェックをしてくれない",
+      "使う前に、範囲を確認する習慣をつける",
+      "vector の at() なら、範囲外で例外が投げられる"
+     ],
+     "output": "範囲外",
+     "quiz": {
+      "q": "要素数5の配列で、有効な添字は？",
+      "choices": [
+       "1 から 5",
+       "0 から 4",
+       "0 から 5"
+      ],
+      "answer": 1,
+      "explain": "添字は0から始まるので、0〜4 が有効です。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "多次元配列",
+   "goal": "多次元配列を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "マップのような2次元配列",
+     "lead": "行と列を持つ2次元配列は、添字を2つ書きます。ゲームのマップやタイル表現の基本です。",
+     "code": {
+      "text": "int grid[2][3] = {{1, 2, 3}, {4, 5, 6}};\nint sum = 0;\nfor (int y = 0; y < 2; ++y) {\n    for (int x = 0; x < 3; ++x) {\n        sum += grid[y][x];\n    }\n}\nstd::cout << grid[1][2] << ' ' << sum << '\\n';",
+      "caption": "2行3列"
+     },
+     "points": [
+      "grid[行][列] の順で指定する",
+      "走査は、外側が行、内側が列のループ",
+      "サイズが大きいと、固定長の配列は扱いにくい（後の vector を参照）"
+     ],
+     "output": "6 21"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "std::array",
+   "goal": "std::arrayを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "安全な固定長配列",
+     "lead": "std::array は、固定長の配列を、安全で便利にしたものです。大きさを知っていて、コピーもできます。",
+     "code": {
+      "text": "#include <array>\n\nstd::array<int, 3> hp = {100, 80, 60};\nstd::cout << hp.size() << ' ' << hp.at(1) << '\\n';\nfor (int h : hp) std::cout << h << ' ';",
+      "caption": "std::array の基本"
+     },
+     "points": [
+      "size() で要素数が分かり、at() で範囲チェックができる",
+      "関数の引数として、渡しやすい",
+      "大きさがコンパイル時に決まっているときに使う"
+     ],
+     "output": "3 80\n100 80 60"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "vector入門",
+   "goal": "vector入門を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "サイズが変わる配列",
+     "lead": "要素数が実行時に変わるときは、std::vector を使います。メモリも自動で管理されます。",
+     "code": {
+      "text": "std::vector<int> v = {3, 1, 4};\nv.push_back(1);\nstd::cout << v.size() << ' ' << v[2] << '\\n';",
+      "caption": "vector の基本"
+     },
+     "points": [
+      "push_back で、末尾に追加できる",
+      "v[i] での読み書きは、配列と同じ",
+      "#include <vector> が必要",
+      "まず使うコンテナは、vector と覚える"
+     ],
+     "output": "4 4"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "vectorの追加と削除",
+   "goal": "vectorの追加と削除を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "途中の追加と削除",
+     "lead": "push_back と pop_back は末尾、insert と erase は途中の操作です。位置はイテレータで指定します。",
+     "code": {
+      "text": "std::vector<int> v = {10, 20, 30};\nv.push_back(40);              // 10 20 30 40\nv.pop_back();                 // 10 20 30\nv.insert(v.begin() + 1, 15);  // 10 15 20 30\nv.erase(v.begin());           // 15 20 30\nfor (int x : v) std::cout << x << ' ';",
+      "caption": "追加と削除"
+     },
+     "points": [
+      "末尾の追加と削除は速い。先頭や途中は、要素の移動が必要で遅い",
+      "v.begin() + n で、n 番目の位置を表す",
+      "全要素を消すには、clear() を使う"
+     ],
+     "output": "15 20 30",
+     "quiz": {
+      "q": "vector の末尾の要素を取り除く関数は？",
+      "choices": [
+       "pop_back",
+       "remove",
+       "erase_last"
+      ],
+      "answer": 0,
+      "explain": "pop_back() が、末尾の要素を1つ取り除きます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "vectorのサイズと容量",
+   "goal": "vectorのサイズと容量を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "size と capacity",
+     "lead": "size は今の要素数、capacity は、再確保せずに入れられる数です。事前に reserve すると、追加が速くなります。",
+     "code": {
+      "text": "std::vector<int> v;\nv.reserve(100);\nfor (int i = 0; i < 5; ++i) v.push_back(i);\nstd::cout << v.size() << ' ' << (v.capacity() >= 100) << ' ' << v.empty() << '\\n';\nv.clear();\nstd::cout << v.size() << '\\n';",
+      "caption": "容量の確保"
+     },
+     "points": [
+      "capacity を超えると、メモリの再確保とコピーが起きる",
+      "reserve は、容量だけを確保し、要素は増えない",
+      "empty() で、空かどうかを調べられる"
+     ],
+     "output": "5 1 0\n0"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "イテレータ",
+   "goal": "イテレータを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "要素を指す目印",
+     "lead": "イテレータは、コンテナの要素を指す目印です。ポインタのように、* で値を取り出します。",
+     "code": {
+      "text": "std::vector<int> v = {5, 8, 2};\nfor (auto it = v.begin(); it != v.end(); ++it) {\n    std::cout << *it << ' ';\n}\nauto it = std::find(v.begin(), v.end(), 8);\nstd::cout << '\\n' << (it - v.begin()) << '\\n';",
+      "caption": "begin から end まで"
+     },
+     "points": [
+      "begin() は先頭、end() は末尾の1つ先を指す",
+      "++it で次へ進み、*it で値を得る",
+      "find などのアルゴリズムは、イテレータで範囲を受け取る",
+      "vector では、it - v.begin() で、添字が求まる"
+     ],
+     "output": "5 8 2\n1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "2次元vector",
+   "goal": "2次元vectorを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "サイズが変わるマップ",
+     "lead": "vector の vector で、大きさを実行時に決められる2次元データを作れます。",
+     "code": {
+      "text": "std::vector<std::vector<int>> map(3, std::vector<int>(4, 0));\nmap[1][2] = 7;\nint cnt = 0;\nfor (const auto& row : map) {\n    for (int c : row) {\n        if (c != 0) ++cnt;\n    }\n}\nstd::cout << map.size() << ' ' << map[0].size() << ' ' << cnt << '\\n';",
+      "caption": "3行4列のマップ"
+     },
+     "points": [
+      "vector<int>(4, 0) は、0 を4個持つ vector",
+      "map[y][x] で、配列と同じように使える",
+      "外側の size は行数、内側の size は列数"
+     ],
+     "output": "3 4 1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "std::string",
+   "goal": "std::stringを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "文字列を扱う",
+     "lead": "std::string は、文字列を安全に扱うクラスです。長さの管理は、自動で行われます。",
+     "code": {
+      "text": "std::string s = \"Hero\";\nstd::cout << s.size() << ' ' << s[0] << ' ' << s.empty() << '\\n';\ns[0] = 'Z';\nstd::cout << s << '\\n';",
+      "caption": "string の基本"
+     },
+     "points": [
+      "#include <string> が必要",
+      "size() は文字数ではなく、バイト数（日本語は1文字が複数バイト）",
+      "s[i] で、1文字を読み書きできる"
+     ],
+     "output": "4 H 0\nZero"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "文字列の連結と比較",
+   "goal": "文字列の連結と比較を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "つなぐ、比べる",
+     "lead": "+ や += で文字列をつなげます。== や < で、内容を比較できます。",
+     "code": {
+      "text": "std::string a = \"Ada\", b = \"Linus\";\nstd::string c = a + \" & \" + b;\nc += \"!\";\nstd::cout << c << '\\n';\nstd::cout << (a == \"Ada\") << ' ' << (a < b) << '\\n';",
+      "caption": "連結と比較"
+     },
+     "points": [
+      "\"abc\" + \"def\" のように、文字列リテラル同士は + で連結できない",
+      "string 同士の比較は、内容で行われる（アドレスではない）",
+      "< は、辞書順での比較"
+     ],
+     "output": "Ada & Linus!\n1 1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "文字列の検索と切り出し",
+   "goal": "文字列の検索と切り出しを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "find と substr",
+     "lead": "find で位置を探し、substr で一部を切り出します。見つからないときは、std::string::npos が返ります。",
+     "code": {
+      "text": "std::string s = \"hero_sword_01\";\nsize_t p = s.find(\"sword\");\nstd::cout << p << '\\n';\nstd::cout << s.substr(0, 4) << ' ' << s.substr(5, 5) << '\\n';\nif (s.find(\"axe\") == std::string::npos) {\n    std::cout << \"なし\\n\";\n}",
+      "caption": "検索と切り出し"
+     },
+     "points": [
+      "substr(開始位置, 長さ) の形",
+      "npos は、「見つからなかった」ことを表す特別な値",
+      "アイテム名やファイル名の解析によく使う"
+     ],
+     "output": "5\nhero sword\nなし"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "文字列と数値の変換",
+   "goal": "文字列と数値の変換を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "文字列と数値を変換する",
+     "lead": "stoi や stod で、文字列を数値に、to_string で数値を文字列に変換します。",
+     "code": {
+      "text": "int n = std::stoi(\"42\");\ndouble d = std::stod(\"3.5\");\nstd::string s = std::to_string(n + 8);\nstd::cout << n + 1 << ' ' << d * 2 << ' ' << s << '\\n';",
+      "caption": "相互変換"
+     },
+     "points": [
+      "変換できない文字列を渡すと、例外（invalid_argument）が起きる",
+      "設定ファイルやセーブデータの読み込みで使う",
+      "\"42\" + 1 のような計算はできない。いったん数値にする"
+     ],
+     "output": "43 7 50"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "std::map",
+   "goal": "std::mapを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "キーから値を引く map",
+     "lead": "map は、キーと値の組を、キーの順に保持します。名前からデータを引くときに便利です。",
+     "code": {
+      "text": "std::map<std::string, int> stock;\nstock[\"potion\"] = 3;\nstock[\"key\"] = 1;\nstock[\"potion\"] += 2;\nfor (const auto& kv : stock) {\n    std::cout << kv.first << '=' << kv.second << ' ';\n}\nstd::cout << stock.size() << '\\n';",
+      "caption": "アイテムの所持数"
+     },
+     "points": [
+      "kv.first がキー、kv.second が値",
+      "走査すると、キーの順（辞書順）に取り出される",
+      "存在しないキーを [] で読むと、要素が作られてしまう"
+     ],
+     "output": "key=1 potion=5 2",
+     "quiz": {
+      "q": "map を for で走査すると、どの順で取り出される？",
+      "choices": [
+       "追加した順",
+       "キーの順",
+       "ランダム"
+      ],
+      "answer": 1,
+      "explain": "std::map は、キーの順に並べて保持します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "std::unordered_map",
+   "goal": "std::unordered_mapを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "速さ重視の unordered_map",
+     "lead": "unordered_map は、順序を持たず、検索が速い map です。順序が不要なら、こちらを使います。",
+     "code": {
+      "text": "std::unordered_map<std::string, int> hp;\nhp[\"Slime\"] = 20;\nhp[\"Bat\"] = 5;\nauto it = hp.find(\"Bat\");\nif (it != hp.end()) std::cout << it->second << '\\n';\nstd::cout << hp.count(\"Orc\") << '\\n';\nhp.erase(\"Slime\");\nstd::cout << hp.size() << '\\n';",
+      "caption": "find で探す"
+     },
+     "points": [
+      "find は、見つからないと end() を返す",
+      "count は、キーが存在するかを 0 か 1 で返す",
+      "走査したときの順序は、決まっていない",
+      "#include <unordered_map> が必要"
+     ],
+     "output": "5\n0\n1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "std::set",
+   "goal": "std::setを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "重複しない集合 set",
+     "lead": "set は、重複を許さず、値の順に保持する集合です。「持っているか」の管理に向いています。",
+     "code": {
+      "text": "std::set<int> s = {5, 1, 3, 3, 1};\ns.insert(4);\nfor (int x : s) std::cout << x << ' ';\nstd::cout << '\\n' << s.size() << ' ' << s.count(3) << '\\n';",
+      "caption": "重複が消える"
+     },
+     "points": [
+      "同じ値を追加しても、増えない",
+      "走査すると、値の順に取り出される",
+      "取得済みのアイテム、クリアしたステージの記録などに使える"
+     ],
+     "output": "1 3 4 5\n4 1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "pairとtuple",
+   "goal": "pairとtupleを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "複数の値を1つにまとめる",
+     "lead": "pair は2つ、tuple は3つ以上の値を、1つにまとめます。簡易的なデータの受け渡しに便利です。",
+     "code": {
+      "text": "std::pair<std::string, int> p = {\"Ada\", 80};\nstd::cout << p.first << ' ' << p.second << '\\n';\n\nauto t = std::make_tuple(\"Slime\", 20, 1.5);\nstd::cout << std::get<0>(t) << ' ' << std::get<1>(t) << '\\n';",
+      "caption": "pair と tuple"
+     },
+     "points": [
+      "pair は first と second、tuple は std::get<番号> で取り出す",
+      "意味のあるデータは、名前の付いた struct のほうが読みやすい",
+      "map の要素の実体は、pair"
+     ],
+     "output": "Ada 80\nSlime 20"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "構造化束縛",
+   "goal": "構造化束縛を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "まとめて名前を付けて受け取る",
+     "lead": "構造化束縛を使うと、pair や構造体の中身を、名前を付けて一度に取り出せます。C++17 の機能です。",
+     "code": {
+      "text": "std::pair<std::string, int> p = {\"Ada\", 80};\nauto [name, score] = p;\n\nstd::map<std::string, int> m = {{\"a\", 1}, {\"b\", 2}};\nfor (const auto& [k, v] : m) {\n    std::cout << k << v << ' ';\n}\nstd::cout << name << score << '\\n';",
+      "caption": "分解して受け取る"
+     },
+     "points": [
+      "auto [x, y] = ... で、2つの変数が作られる",
+      "map の走査で、kv.first より読みやすくなる",
+      "構造体のメンバにも使える"
+     ],
+     "output": "a1 b2 Ada80"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "sortで並べ替える",
+   "goal": "sortで並べ替えるを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "sort で並べ替える",
+     "lead": "std::sort は、範囲を並べ替えます。比較の方法を渡すと、降順などにも変えられます。",
+     "code": {
+      "text": "std::vector<int> v = {5, 2, 9, 1};\nstd::sort(v.begin(), v.end());\nfor (int x : v) std::cout << x << ' ';\nstd::cout << '\\n';\nstd::sort(v.begin(), v.end(), std::greater<int>());\nfor (int x : v) std::cout << x << ' ';",
+      "caption": "昇順と降順"
+     },
+     "points": [
+      "#include <algorithm> が必要（greater は <functional>）",
+      "標準は昇順。比較を渡すと、並び方を変えられる",
+      "自作の構造体は、ラムダ式で比較を書く（次のレッスン）"
+     ],
+     "output": "1 2 5 9\n9 5 2 1"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "findとcount",
+   "goal": "findとcountを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "探す、数える",
+     "lead": "find は最初の1つを探し、count は一致する数を数えます。どちらも <algorithm> の関数です。",
+     "code": {
+      "text": "std::vector<int> v = {4, 7, 4, 9, 4};\nauto it = std::find(v.begin(), v.end(), 9);\nstd::cout << (it != v.end()) << ' ' << (it - v.begin()) << '\\n';\nstd::cout << std::count(v.begin(), v.end(), 4) << '\\n';",
+      "caption": "検索と個数"
+     },
+     "points": [
+      "見つからないと、find は end() を返す",
+      "条件を満たすものを探すときは、find_if を使う",
+      "自分でループを書く前に、標準の関数がないか探す"
+     ],
+     "output": "1 3\n3"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "ラムダ式入門",
+   "goal": "ラムダ式入門を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "その場で書く小さな関数",
+     "lead": "ラムダ式は、名前を付けずに、その場で書ける小さな関数です。アルゴリズムに条件を渡すときによく使います。",
+     "code": {
+      "text": "auto square = [](int x) { return x * x; };\nstd::cout << square(5) << '\\n';\n\nstd::vector<int> hp = {30, 0, 55, 10};\nint alive = std::count_if(hp.begin(), hp.end(), [](int h) { return h > 0; });\nstd::cout << alive << '\\n';\n\nint bonus = 5;\nauto addBonus = [bonus](int x) { return x + bonus; };\nstd::cout << addBonus(10) << '\\n';",
+      "caption": "ラムダの3パターン"
+     },
+     "points": [
+      "書式は [キャプチャ](引数) { 本体 }",
+      "[bonus] は、外側の変数をコピーして使う指定。[&] なら参照",
+      "count_if や sort の条件として、その場に書ける"
+     ],
+     "output": "25\n3\n15"
+    }
+   ]
+  },
+  {
+   "part": "第4部 配列・文字列・コンテナ",
+   "title": "第4部の復習",
+   "goal": "第4部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第4部の復習",
+     "lead": "vector、map、sort、ラムダ式を組み合わせます。敵のHPの高い順に、一覧を表示します。",
+     "code": {
+      "text": "std::vector<std::string> names = {\"Slime\", \"Bat\", \"Orc\"};\nstd::map<std::string, int> hp = {{\"Slime\", 20}, {\"Bat\", 5}, {\"Orc\", 60}};\n\nstd::sort(names.begin(), names.end(),\n          [&](const std::string& a, const std::string& b) {\n              return hp[a] > hp[b];\n          });\nfor (const auto& n : names) std::cout << n << ':' << hp[n] << ' ';",
+      "caption": "HP順に表示"
+     },
+     "points": [
+      "配列、std::array、vector の使い分け",
+      "string、map、unordered_map、set",
+      "sort、find、count とラムダ式",
+      "範囲外アクセスと、イテレータの無効化に注意"
+     ],
+     "output": "Orc:60 Slime:20 Bat:5",
+     "quiz": {
+      "q": "要素数が実行時に変わる列には、何を使う？",
+      "choices": [
+       "int a[10]",
+       "std::vector",
+       "std::array"
+      ],
+      "answer": 1,
+      "explain": "実行時にサイズが変わるなら、std::vector を使います。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "メモリとアドレス",
+   "goal": "メモリとアドレスを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "変数はメモリのどこかにある",
+     "lead": "メモリは、番地の付いた巨大な棚のようなものです。変数は、その棚のどこかに置かれ、その場所の番号をアドレスと呼びます。",
+     "code": {
+      "text": "int a = 10;\nint b = 20;\nstd::cout << (&a != &b) << '\\n';   // 別々の場所にある\nstd::cout << sizeof(int) << ' ' << sizeof(double) << '\\n';",
+      "caption": "アドレスとサイズ"
+     },
+     "points": [
+      "&変数名 で、その変数のアドレスを得る",
+      "実際の番地は、実行のたびに変わるので、値そのものに意味はない",
+      "sizeof は、型や変数が使うバイト数を返す（環境によって異なる）"
+     ],
+     "output": "1\n4 8"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "ポインタの宣言",
+   "goal": "ポインタの宣言を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "アドレスを入れる変数",
+     "lead": "ポインタは、アドレスを入れる変数です。「型* 名前」で宣言し、指す先の型を必ず指定します。",
+     "code": {
+      "text": "int a = 10;\nint* p = &a;              // p は a の場所を覚える\nstd::cout << (p == &a) << '\\n';\nint* q = p;               // 同じ場所を指す\nstd::cout << (q == p) << '\\n';",
+      "caption": "ポインタの宣言"
+     },
+     "points": [
+      "int* は「int を指すポインタ」という型",
+      "int* a, b; と書くと、b は int になる（ポインタは a だけ）",
+      "ポインタ自身も変数なので、別の場所を指すように変更できる",
+      "型の違うポインタ同士は、代入できない"
+     ],
+     "output": "1\n1"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "間接参照",
+   "goal": "間接参照を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "* で指す先の値を使う",
+     "lead": "ポインタの前に * を付けると、指している先の変数そのものを、読み書きできます。これを間接参照と呼びます。",
+     "code": {
+      "text": "int hp = 100;\nint* p = &hp;\nstd::cout << *p << '\\n';   // 読む\n*p -= 30;                  // 書き換える\nstd::cout << hp << '\\n';",
+      "caption": "ポインタ経由の書き換え"
+     },
+     "points": [
+      "*p は、hp と同じものを表す",
+      "構造体を指すポインタは、p->member でメンバにアクセスする（(*p).member と同じ）",
+      "宣言の * と、使うときの * は、別の意味"
+     ],
+     "output": "100\n70",
+     "quiz": {
+      "q": "int* p = &hp; のとき、*p -= 30; は何を変える？",
+      "choices": [
+       "p 自身",
+       "hp",
+       "何も変えない"
+      ],
+      "answer": 1,
+      "explain": "*p は、p が指す先の hp そのものです。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "nullptr",
+   "goal": "nullptrを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "何も指さないポインタ",
+     "lead": "ポインタが何も指していないことを、nullptr で表します。使う前に、nullptr でないか確認します。",
+     "code": {
+      "text": "int* p = nullptr;\nif (p == nullptr) std::cout << \"未設定\\n\";\n\nint x = 5;\np = &x;\nif (p) std::cout << *p << '\\n';",
+      "caption": "nullptr の確認"
+     },
+     "points": [
+      "nullptr のポインタに * を使うと、未定義動作（多くはクラッシュ）",
+      "古い NULL や 0 ではなく、nullptr を使う",
+      "初期化しないポインタは、でたらめな場所を指す。必ず初期化する",
+      "if (p) は、p != nullptr と同じ意味"
+     ],
+     "output": "未設定\n5"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "ポインタと配列",
+   "goal": "ポインタと配列を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "配列名は先頭を指す",
+     "lead": "配列の名前は、先頭要素へのポインタとして扱えます。ポインタに添字を付けて、配列のように使えます。",
+     "code": {
+      "text": "int a[3] = {10, 20, 30};\nint* p = a;\nstd::cout << *p << ' ' << p[1] << ' ' << *(p + 2) << '\\n';",
+      "caption": "配列とポインタ"
+     },
+     "points": [
+      "p[i] は、*(p + i) と同じ意味",
+      "関数に配列を渡すと、ポインタに変わり、要素数の情報が失われる",
+      "そのため、配列と一緒に、要素数も渡すか、vector を使う"
+     ],
+     "output": "10 20 30"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "ポインタ演算",
+   "goal": "ポインタ演算を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ポインタを進める",
+     "lead": "ポインタに足し算や引き算をすると、型の大きさの単位で、隣の要素へ進みます。",
+     "code": {
+      "text": "int a[4] = {1, 2, 3, 4};\nint* p = a;\n++p;                         // 次の要素へ\nstd::cout << *p << '\\n';\nint* e = a + 4;              // 末尾の1つ先\nstd::cout << (e - p) << '\\n';\nint sum = 0;\nfor (int* it = a; it != a + 4; ++it) sum += *it;\nstd::cout << sum << '\\n';",
+      "caption": "ポインタで走査"
+     },
+     "points": [
+      "p + 1 は、アドレスが sizeof(int) だけ進む",
+      "同じ配列の中のポインタ同士なら、引き算で、要素数の差が求まる",
+      "配列の範囲の外へ進めると、未定義動作",
+      "イテレータの考え方の元になっている"
+     ],
+     "output": "2\n3\n10"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "constとポインタ",
+   "goal": "constとポインタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "const をどこに付けるか",
+     "lead": "const の位置で、「指す先を変えられない」か、「ポインタを付け替えられない」かが変わります。",
+     "code": {
+      "text": "int a = 1, b = 2;\nconst int* p1 = &a;     // 指す先は変更不可\n// *p1 = 5;            // エラー\np1 = &b;               // 付け替えは可能\n\nint* const p2 = &a;     // ポインタ自体は付け替え不可\n*p2 = 5;                // 指す先は変更可能\nstd::cout << *p1 << ' ' << a << '\\n';",
+      "caption": "2種類の const"
+     },
+     "points": [
+      "const int* は、「const な int を指すポインタ」",
+      "int* const は、「int を指す const なポインタ」",
+      "右から左へ読むと、意味が分かる",
+      "読むだけの引数には、const T* を使う"
+     ],
+     "output": "2 5"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "参照とポインタの違い",
+   "goal": "参照とポインタの違いを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "参照とポインタの使い分け",
+     "lead": "参照もポインタも、元の変数を間接的に使う仕組みです。違いを理解して、使い分けます。",
+     "code": {
+      "text": "int a = 1, b = 2;\nint& r = a;\nr = 10;              // a が 10 になる\n\nint* p = &a;\np = &b;              // 付け替えできる\n*p = 20;             // b が 20 になる\nstd::cout << a << ' ' << b << ' ' << r << '\\n';",
+      "caption": "付け替えの違い"
+     },
+     "points": [
+      "参照は、必ず初期化が必要で、nullptr にはならず、付け替えもできない",
+      "ポインタは、nullptr にでき、付け替えもできる",
+      "通常は、参照のほうが安全。「無い」を表したいときだけ、ポインタを使う"
+     ],
+     "output": "10 20 10"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "ポインタを関数に渡す",
+   "goal": "ポインタを関数に渡すを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "アドレスを渡して書き換える",
+     "lead": "ポインタを引数にすると、関数の中から、元の変数を書き換えられます。nullptr の確認が必要です。",
+     "code": {
+      "text": "void heal(int* hp, int v) {\n    if (hp == nullptr) return;\n    *hp += v;\n}\n\nint hp = 50;\nheal(&hp, 20);\nheal(nullptr, 20);   // 何もしない\nstd::cout << hp << '\\n';",
+      "caption": "ポインタ引数"
+     },
+     "points": [
+      "呼び出し側で、& を付けてアドレスを渡す",
+      "「渡さない」ことを表せるのが、参照にはない利点",
+      "必ず渡すなら、参照のほうが書きやすく、安全"
+     ],
+     "output": "70"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "スタックとヒープ",
+   "goal": "スタックとヒープを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "2種類のメモリ領域",
+     "lead": "関数の中のローカル変数は、スタックに置かれ、関数が終わると自動で消えます。new で確保した領域は、ヒープに置かれ、自分で解放するまで残ります。",
+     "code": {
+      "text": "void f() {\n    int local = 1;          // スタック\n    int* p = new int(2);    // ヒープ\n    std::cout << local + *p << '\\n';\n    delete p;               // 解放\n}\n\nf();",
+      "caption": "2つの領域"
+     },
+     "points": [
+      "スタックは速く、自動管理されるが、小さい",
+      "ヒープは大きく、寿命を自由にできるが、管理は自分の責任",
+      "ゲームのオブジェクトなど、サイズや寿命が実行時に決まるものに使う"
+     ],
+     "output": "3"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "newとdelete",
+   "goal": "newとdeleteを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "new で確保し delete で解放",
+     "lead": "new でヒープに領域を確保し、不要になったら、必ず delete で解放します。",
+     "code": {
+      "text": "int* p = new int(5);\nstd::cout << *p << '\\n';\n*p += 1;\nstd::cout << *p << '\\n';\ndelete p;\np = nullptr;   // 解放後は nullptr にしておく",
+      "caption": "確保と解放"
+     },
+     "points": [
+      "new した数だけ、delete が必要",
+      "delete のあとは、そのポインタを使わない",
+      "現代のC++では、生の new / delete は避けて、スマートポインタを使う"
+     ],
+     "output": "5\n6",
+     "quiz": {
+      "q": "new で確保した領域を、解放する書き方は？",
+      "choices": [
+       "free(p)",
+       "delete p",
+       "p = nullptr"
+      ],
+      "answer": 1,
+      "explain": "new には delete が対応します。nullptr を代入するだけでは、解放されません。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "メモリリーク",
+   "goal": "メモリリークを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "解放し忘れるとどうなるか",
+     "lead": "delete を忘れると、使わなくなった領域がメモリに残り続けます。これがメモリリークです。",
+     "code": {
+      "text": "void leak() {\n    int* p = new int(100);\n    std::cout << *p << '\\n';\n    // delete p; を忘れた → 解放されない\n}\n\nleak();\nleak();",
+      "caption": "リークの例"
+     },
+     "points": [
+      "呼ぶたびにメモリが消費され、長時間動くゲームが重くなる",
+      "途中の return や例外でも、解放が飛ばされて起きやすい",
+      "-fsanitize=address を付けてビルドすると、リークを検出できる",
+      "根本の解決策は、スマートポインタ（後のレッスン）"
+     ],
+     "output": "100\n100"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "ダングリングポインタ",
+   "goal": "ダングリングポインタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "解放済みを指すポインタ",
+     "lead": "解放した領域や、消えた変数を指しているポインタを、ダングリングポインタと呼びます。使うと未定義動作です。",
+     "code": {
+      "text": "int* p = new int(7);\nint* q = p;        // 同じ場所を指す\ndelete p;\np = nullptr;\n// std::cout << *q;   // 危険：q は、解放済みの場所を指している\nq = nullptr;\nstd::cout << (q == nullptr) << '\\n';",
+      "caption": "コピーしたポインタの罠"
+     },
+     "points": [
+      "delete したポインタ以外にも、同じ場所を指すコピーが残る",
+      "ローカル変数のアドレスを、関数の外へ返してはいけない",
+      "解放したら nullptr を代入する習慣が、被害を減らす",
+      "所有者を1つに決めれば、根本的に防げる"
+     ],
+     "output": "1"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "二重解放",
+   "goal": "二重解放を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ領域を2回 delete しない",
+     "lead": "すでに解放した領域を、もう一度 delete すると、未定義動作になります。",
+     "code": {
+      "text": "int* p = new int(1);\ndelete p;\np = nullptr;\ndelete p;     // nullptr への delete は安全：何もしない\nstd::cout << \"OK\\n\";",
+      "caption": "nullptr で安全に"
+     },
+     "points": [
+      "同じアドレスを持つポインタが複数あると、うっかり2回 delete しがち",
+      "nullptr への delete は、何も起きないので、安全",
+      "所有権が曖昧だと起きる。unique_ptr なら、構造的に起きない"
+     ],
+     "output": "OK"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "動的配列",
+   "goal": "動的配列を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "new[] で配列を確保する",
+     "lead": "要素数が実行時に決まる配列は、new[] で確保し、delete[] で解放します。",
+     "code": {
+      "text": "int n = 4;\nint* arr = new int[n];\nfor (int i = 0; i < n; ++i) {\n    arr[i] = i * i;\n}\nstd::cout << arr[3] << '\\n';\ndelete[] arr;",
+      "caption": "動的な配列"
+     },
+     "points": [
+      "new[] には、必ず delete[] を使う（delete では未定義動作）",
+      "要素数は、自分で覚えておく必要がある",
+      "通常は、同じ用途で、std::vector のほうが安全で便利"
+     ],
+     "output": "9"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "unique_ptr",
+   "goal": "unique_ptrを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "唯一の所有者を表す unique_ptr",
+     "lead": "unique_ptr は、確保した領域の所有者を1人に限定し、スコープを抜けると自動で解放します。",
+     "code": {
+      "text": "#include <memory>\n\nauto p = std::make_unique<int>(10);\n*p += 5;\nstd::cout << *p << '\\n';\n\nauto q = std::move(p);     // 所有権を移す\nstd::cout << (p == nullptr) << ' ' << *q << '\\n';",
+      "caption": "所有権の移動"
+     },
+     "points": [
+      "コピーはできない。std::move で所有権を移す",
+      "delete を書く必要がなく、解放し忘れも二重解放も起きない",
+      "new の代わりに、make_unique を使う",
+      "普通のポインタと同じく、* と -> で使える"
+     ],
+     "output": "15\n1 15",
+     "quiz": {
+      "q": "unique_ptr をコピーできる？",
+      "choices": [
+       "できる",
+       "できない（ムーブはできる）",
+       "const のときだけできる"
+      ],
+      "answer": 1,
+      "explain": "所有者が1人でなくなるため、コピーは禁止されています。所有権はムーブで移します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "shared_ptr",
+   "goal": "shared_ptrを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "共有する shared_ptr",
+     "lead": "shared_ptr は、複数の持ち主で、1つのオブジェクトを共有します。最後の持ち主が手放すと、自動で解放されます。",
+     "code": {
+      "text": "auto a = std::make_shared<int>(42);\nstd::cout << a.use_count() << '\\n';\n{\n    auto b = a;                        // 共有する\n    std::cout << a.use_count() << '\\n';\n}\nstd::cout << a.use_count() << '\\n';",
+      "caption": "参照カウント"
+     },
+     "points": [
+      "use_count は、持ち主の数（参照カウント）",
+      "複数の場所で使う、テクスチャなどのアセットに向く",
+      "カウントの管理にコストがかかるので、必要なときだけ使う",
+      "互いに持ち合うと、解放されなくなる（循環参照）"
+     ],
+     "output": "1\n2\n1"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "weak_ptr",
+   "goal": "weak_ptrを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "所有しない観察者 weak_ptr",
+     "lead": "weak_ptr は、shared_ptr の対象を、所有せずに見るだけのポインタです。循環参照を防ぎ、「まだ生きているか」を確認できます。",
+     "code": {
+      "text": "std::weak_ptr<int> w;\n{\n    auto s = std::make_shared<int>(9);\n    w = s;\n    std::cout << w.expired() << '\\n';\n    if (auto locked = w.lock()) std::cout << *locked << '\\n';\n}\nstd::cout << w.expired() << '\\n';",
+      "caption": "生存確認"
+     },
+     "points": [
+      "expired() は、対象がすでに解放されたかを返す",
+      "lock() で、使う間だけ shared_ptr を借りる",
+      "ターゲットの敵を追う、といった、「持たずに参照する」関係に向く"
+     ],
+     "output": "0\n9\n1"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "所有権の考え方",
+   "goal": "所有権の考え方を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "誰が解放の責任を持つか",
+     "lead": "オブジェクトを解放する責任を持つのが所有者です。所有者を決めて、型で表すことが、安全な設計の基本です。",
+     "code": {
+      "text": "struct Texture {};\n\nstd::unique_ptr<Texture> load() { return std::make_unique<Texture>(); }\nvoid draw(const Texture& t) {}                      // 借りるだけ\nvoid takeOwnership(std::unique_ptr<Texture> t) {}   // 所有権を受け取る\n\nauto tex = load();\ndraw(*tex);\ntakeOwnership(std::move(tex));\nstd::cout << (tex == nullptr) << '\\n';",
+      "caption": "所有と借用"
+     },
+     "points": [
+      "読むだけの関数には、参照（または生ポインタ）で、借りる",
+      "所有権を渡す関数は、unique_ptr を値で受け取る",
+      "生のポインタは、「借りるだけ」と決めると、解放の責任が混乱しない",
+      "共有が必要なときだけ、shared_ptr を使う"
+     ],
+     "output": "1"
+    }
+   ]
+  },
+  {
+   "part": "第5部 ポインタ・参照・メモリ",
+   "title": "第5部の復習",
+   "goal": "第5部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第5部の復習",
+     "lead": "ポインタとスマートポインタを組み合わせて、敵のオブジェクトを管理します。",
+     "code": {
+      "text": "struct Enemy {\n    std::string name;\n    int hp;\n};\n\nvoid damage(Enemy* e, int d) {\n    if (!e) return;\n    e->hp -= d;\n}\n\nstd::vector<std::unique_ptr<Enemy>> enemies;\nenemies.push_back(std::make_unique<Enemy>(Enemy{\"Slime\", 30}));\nenemies.push_back(std::make_unique<Enemy>(Enemy{\"Orc\", 60}));\n\ndamage(enemies[0].get(), 10);   // 借りて使う\ndamage(nullptr, 10);            // 何もしない\nfor (const auto& e : enemies) std::cout << e->name << ':' << e->hp << ' ';",
+      "caption": "所有は unique_ptr、借用は生ポインタ"
+     },
+     "points": [
+      "アドレス、ポインタ、間接参照、nullptr",
+      "new と delete、メモリリーク、ダングリング、二重解放",
+      "unique_ptr、shared_ptr、weak_ptr の使い分け",
+      "所有は、スマートポインタ。借りるだけなら、参照か生ポインタ"
+     ],
+     "output": "Slime:20 Orc:60",
+     "quiz": {
+      "q": "複数の場所で共有し、最後に使い終わった時に解放したい。使うのは？",
+      "choices": [
+       "unique_ptr",
+       "shared_ptr",
+       "生ポインタ"
+      ],
+      "answer": 1,
+      "explain": "shared_ptr は、参照カウントで、最後の持ち主が手放した時に解放します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "構造体とは",
+   "goal": "構造体とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "関連するデータをまとめる",
+     "lead": "名前、HP、攻撃力のように、1つのキャラクターに関するデータは、構造体にまとめられます。",
+     "code": {
+      "text": "// バラバラの変数\nstd::string name = \"Ada\";\nint hp = 80;\n\n// 構造体にまとめる\nstruct Player {\n    std::string name;\n    int hp;\n    int atk;\n};\nPlayer p{\"Ada\", 80, 12};\nstd::cout << p.name << ' ' << p.hp << '\\n';",
+      "caption": "構造体の基本"
+     },
+     "points": [
+      "struct は、複数の値を、1つの型にまとめる仕組み",
+      "まとめた型は、関数に1つの値として渡せる",
+      "クラスの前段階として、まず構造体に慣れる"
+     ],
+     "output": "Ada 80"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "構造体の宣言",
+   "goal": "構造体の宣言を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "宣言と初期化",
+     "lead": "struct 名前 { メンバ }; の形で宣言します。メンバには、既定値を付けられます。",
+     "code": {
+      "text": "struct Item {\n    std::string name;\n    int price = 0;\n    bool stackable = true;\n};\n\nItem a{\"Potion\", 50, true};\nItem b{\"Key\"};      // 残りは既定値\nstd::cout << a.price << ' ' << b.price << ' ' << b.stackable << '\\n';",
+      "caption": "メンバの既定値"
+     },
+     "points": [
+      "閉じ括弧のあとの ; を忘れない",
+      "{ } の初期化は、メンバの宣言順に値が入る",
+      "指定しなかったメンバには、既定値が使われる"
+     ],
+     "output": "50 0 1"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "メンバへのアクセス",
+   "goal": "メンバへのアクセスを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ドットとアロー",
+     "lead": "メンバへは、ドット（.）でアクセスします。ポインタ経由のときは、アロー（->）を使います。",
+     "code": {
+      "text": "struct Vec2 { float x, y; };\n\nVec2 pos{1.0f, 2.0f};\npos.x += 0.5f;\nVec2* p = &pos;\np->y = 5.0f;          // (*p).y と同じ\nstd::cout << pos.x << ' ' << pos.y << '\\n';",
+      "caption": ". と ->"
+     },
+     "points": [
+      "変数には . 、ポインタには -> を使う",
+      "p->y は、(*p).y を短く書いたもの",
+      "参照のときは、変数と同じく . を使う"
+     ],
+     "output": "1.5 5"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "構造体と関数",
+   "goal": "構造体と関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "構造体を関数に渡す",
+     "lead": "構造体は、関数の引数にも戻り値にもできます。書き換えるなら参照で渡します。",
+     "code": {
+      "text": "struct Player {\n    std::string name;\n    int hp;\n};\n\nPlayer makePlayer(const std::string& n) { return {n, 100}; }\nvoid damage(Player& p, int d) { p.hp -= d; }\n\nPlayer p = makePlayer(\"Ada\");\ndamage(p, 30);\nstd::cout << p.name << ':' << p.hp << '\\n';",
+      "caption": "作る関数と更新する関数"
+     },
+     "points": [
+      "戻り値で、複数の値をまとめて返せる",
+      "読むだけなら const 参照、書き換えるなら参照",
+      "関数が増えてきたら、クラスへまとめる合図"
+     ],
+     "output": "Ada:70"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "構造体の配列",
+   "goal": "構造体の配列を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "構造体を並べる",
+     "lead": "構造体の配列や vector で、敵の一覧のような、同じ形のデータをまとめて扱えます。",
+     "code": {
+      "text": "struct Enemy {\n    std::string name;\n    int hp;\n};\n\nEnemy list[3] = {{\"Slime\", 20}, {\"Bat\", 5}, {\"Orc\", 60}};\nint total = 0;\nfor (const Enemy& e : list) total += e.hp;\nstd::cout << list[2].name << ' ' << total << '\\n';",
+      "caption": "敵の一覧"
+     },
+     "points": [
+      "list[i].hp のように、添字とドットを組み合わせる",
+      "範囲 for は、const 参照で受けると、コピーを避けられる",
+      "要素数が変わるなら、vector<Enemy> を使う"
+     ],
+     "output": "Orc 85"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "オブジェクト指向とは",
+   "goal": "オブジェクト指向とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "データと操作をひとまとめにする",
+     "lead": "オブジェクト指向は、データとそれを扱う関数を、オブジェクトとして、ひとまとめにする考え方です。ゲームのキャラクターや、アイテムを自然に表せます。",
+     "code": {
+      "text": "// 手続き型：データと関数がバラバラ\nvoid damage(Player& p, int d);\n\n// オブジェクト指向：データと操作が一体\nplayer.takeDamage(30);",
+      "caption": "2つの書き方"
+     },
+     "points": [
+      "クラスは、オブジェクトの設計図で、オブジェクトは、設計図から作った実体",
+      "3つの柱：カプセル化、継承、多態性",
+      "現実の「もの」を、プログラムの部品として表すと、変更に強くなる",
+      "この第6部でカプセル化を、次の第7部で継承と多態性を学ぶ"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "クラスとオブジェクト",
+   "goal": "クラスとオブジェクトを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "設計図と実体",
+     "lead": "class で設計図を書き、そこから実体（オブジェクト、インスタンス）を作ります。実体ごとに、別々のデータを持ちます。",
+     "code": {
+      "text": "class Slime {\npublic:\n    int hp = 20;\n    void hit(int d) { hp -= d; }\n};\n\nSlime a, b;\na.hit(5);\nstd::cout << a.hp << ' ' << b.hp << '\\n';",
+      "caption": "2体のスライム"
+     },
+     "points": [
+      "a と b は、同じクラスから作った、別のオブジェクト",
+      "a.hit(5) は、a の hp だけを変える",
+      "メンバ関数は、ドットを付けて呼び出す"
+     ],
+     "output": "15 20",
+     "quiz": {
+      "q": "クラスから実際に作られたものは何と呼ぶ？",
+      "choices": [
+       "オブジェクト（インスタンス）",
+       "テンプレート",
+       "ヘッダ"
+      ],
+      "answer": 0,
+      "explain": "クラスは設計図で、そこから作った実体がオブジェクトです。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "メンバ変数とメンバ関数",
+   "goal": "メンバ変数とメンバ関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "クラスの中身",
+     "lead": "クラスの中の変数をメンバ変数、関数をメンバ関数と呼びます。メンバ関数からは、メンバ変数に直接アクセスできます。",
+     "code": {
+      "text": "class Counter {\npublic:\n    int value = 0;\n    void add(int n) { value += n; }\n    int doubled() { return value * 2; }\n};\n\nCounter c;\nc.add(3);\nc.add(4);\nstd::cout << c.value << ' ' << c.doubled() << '\\n';",
+      "caption": "カウンタ"
+     },
+     "points": [
+      "メンバ関数の中では、value だけで、自分の値を使える",
+      "定義は、クラスの外にも書ける（void Counter::add(int n) { ... }）",
+      "メンバ変数が持つ値の集まりを、オブジェクトの状態と呼ぶ"
+     ],
+     "output": "7 14"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "アクセス指定子",
+   "goal": "アクセス指定子を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "public と private",
+     "lead": "public は外部から使える部分、private はクラスの中だけで使える部分です。",
+     "code": {
+      "text": "class Player {\npublic:\n    int hp() const { return hp_; }   // const は後のレッスンで\n    void hit(int d) { hp_ -= d; }\nprivate:\n    int hp_ = 100;\n};\n\nPlayer p;\np.hit(30);\n// p.hp_ = 999;   // エラー：private\nstd::cout << p.hp() << '\\n';",
+      "caption": "外から触れない"
+     },
+     "points": [
+      "class のメンバは、既定で private、struct は既定で public",
+      "protected は、派生クラスからは使える（第7部）",
+      "外に見せるものは、必要最小限にする"
+     ],
+     "output": "70"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "カプセル化",
+   "goal": "カプセル化を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "データを守る",
+     "lead": "メンバ変数を private にして、決まった関数だけで変更させる設計を、カプセル化と呼びます。不正な値を、中で防げます。",
+     "code": {
+      "text": "class Player {\npublic:\n    void takeDamage(int d) {\n        hp_ -= d;\n        if (hp_ < 0) hp_ = 0;\n    }\n    void heal(int v) {\n        hp_ += v;\n        if (hp_ > maxHp_) hp_ = maxHp_;\n    }\n    int hp() const { return hp_; }\nprivate:\n    int hp_ = 100;\n    int maxHp_ = 100;\n};\n\nPlayer p;\np.takeDamage(150);\np.heal(30);\nstd::cout << p.hp() << '\\n';",
+      "caption": "HPの範囲を守る"
+     },
+     "points": [
+      "HPが 0 未満や、最大値超えにならないことを、クラスが保証する",
+      "外部が内部の作りを知らなくても使える",
+      "内部の実装を変えても、使う側のコードに影響しない"
+     ],
+     "output": "30",
+     "quiz": {
+      "q": "カプセル化の主な目的は？",
+      "choices": [
+       "実行を速くする",
+       "データを守り、不正な状態を防ぐ",
+       "コードを短くする"
+      ],
+      "answer": 1,
+      "explain": "private にして、変更を決まった関数に限定し、クラスの中で整合性を守ります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "コンストラクタ",
+   "goal": "コンストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "生成時の初期化",
+     "lead": "コンストラクタは、オブジェクトが作られたときに、自動で呼ばれる関数です。クラス名と同じ名前で、戻り値の型はありません。",
+     "code": {
+      "text": "class Player {\npublic:\n    Player(const std::string& name, int hp) {\n        name_ = name;\n        hp_ = hp;\n        std::cout << name_ << \" 誕生\\n\";\n    }\n    int hp() const { return hp_; }\nprivate:\n    std::string name_;\n    int hp_;\n};\n\nPlayer p(\"Ada\", 80);\nstd::cout << p.hp() << '\\n';",
+      "caption": "引数付きの生成"
+     },
+     "points": [
+      "作る時に、必要な値を渡させることで、初期化し忘れを防ぐ",
+      "戻り値の型は書かない（void も書かない）",
+      "引数が1つのコンストラクタには、explicit を付けるのが安全"
+     ],
+     "output": "Ada 誕生\n80"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "デフォルトコンストラクタ",
+   "goal": "デフォルトコンストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "引数なしで作る",
+     "lead": "引数なしで呼べるコンストラクタが、デフォルトコンストラクタです。他のコンストラクタを書くと、自動では作られません。",
+     "code": {
+      "text": "class Enemy {\npublic:\n    Enemy() { hp_ = 10; }\n    Enemy(int hp) { hp_ = hp; }\n    int hp() const { return hp_; }\nprivate:\n    int hp_;\n};\n\nEnemy a;\nEnemy b(50);\nstd::cout << a.hp() << ' ' << b.hp() << '\\n';",
+      "caption": "2つのコンストラクタ"
+     },
+     "points": [
+      "Enemy a(); は、オブジェクトではなく、関数の宣言になる。引数なしは Enemy a; と書く",
+      "Enemy() = default; で、既定の動作を、明示的に頼める",
+      "複数のコンストラクタは、引数の違いで、オーバーロードされる"
+     ],
+     "output": "10 50"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "メンバ初期化子リスト",
+   "goal": "メンバ初期化子リストを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "コロンで初期化する",
+     "lead": "コンストラクタの引数のあとに、コロンで、メンバを初期化できます。本体より前に実行されます。",
+     "code": {
+      "text": "class Player {\npublic:\n    Player(const std::string& name, int maxHp)\n        : name_(name), maxHp_(maxHp), hp_(maxHp) {}\n    void info() const {\n        std::cout << name_ << ' ' << hp_ << '/' << maxHp_ << '\\n';\n    }\nprivate:\n    const std::string name_;\n    const int maxHp_;\n    int hp_;\n};\n\nPlayer p(\"Ada\", 100);\np.info();",
+      "caption": "const メンバの初期化"
+     },
+     "points": [
+      "const メンバや、参照メンバは、この方法でしか初期化できない",
+      "初期化の順番は、リストの順ではなく、メンバの宣言順",
+      "本体での代入より、無駄が少ない"
+     ],
+     "output": "Ada 100/100"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "デストラクタ",
+   "goal": "デストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "破棄時の後始末",
+     "lead": "デストラクタは、オブジェクトが破棄されるときに、自動で呼ばれる関数です。名前は、クラス名の前に ~ を付けます。",
+     "code": {
+      "text": "class Resource {\npublic:\n    Resource()  { std::cout << \"確保\\n\"; }\n    ~Resource() { std::cout << \"解放\\n\"; }\n};\n\n{\n    Resource r;\n    std::cout << \"使用中\\n\";\n}\nstd::cout << \"終了\\n\";",
+      "caption": "寿命の流れ"
+     },
+     "points": [
+      "スコープを抜ける時に、自動で呼ばれる",
+      "ファイルやメモリなど、資源の解放を、ここに書く（RAII）",
+      "引数と戻り値は、持てない"
+     ],
+     "output": "確保\n使用中\n解放\n終了"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "thisポインタ",
+   "goal": "thisポインタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "自分自身を指す this",
+     "lead": "メンバ関数の中では、this が、呼び出されたオブジェクト自身を指します。自分を返せば、続けて呼べます。",
+     "code": {
+      "text": "class Counter {\npublic:\n    Counter& add(int n) {\n        value_ += n;\n        return *this;\n    }\n    int value() const { return value_; }\nprivate:\n    int value_ = 0;\n};\n\nCounter c;\nc.add(1).add(2).add(3);\nstd::cout << c.value() << '\\n';",
+      "caption": "メソッドチェーン"
+     },
+     "points": [
+      "*this は、自分自身のオブジェクトそのもの",
+      "this->hp_ = hp; のように、引数と同名のメンバを区別するのにも使える",
+      "自分への参照を返す設計で、メソッドを連続して呼べる"
+     ],
+     "output": "6"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "constメンバ関数",
+   "goal": "constメンバ関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "変更しない約束",
+     "lead": "メンバ関数の末尾に const を付けると、メンバ変数を変更しないことを、約束できます。const のオブジェクトからも呼べます。",
+     "code": {
+      "text": "class Player {\npublic:\n    int hp() const { return hp_; }\n    void hit(int d) { hp_ -= d; }\nprivate:\n    int hp_ = 100;\n};\n\nvoid show(const Player& p) {\n    std::cout << p.hp() << '\\n';\n    // p.hit(1);   // エラー：const な参照からは、変更する関数を呼べない\n}\n\nPlayer p;\np.hit(40);\nshow(p);",
+      "caption": "const な参照"
+     },
+     "points": [
+      "読むだけの関数（getter）には、必ず const を付ける",
+      "const 関数の中で、メンバ変数を変更するとエラー",
+      "const の付け忘れがあると、const 参照から呼べなくなる"
+     ],
+     "output": "60",
+     "quiz": {
+      "q": "const メンバ関数の中で、してはいけないことは？",
+      "choices": [
+       "メンバ変数の読み取り",
+       "メンバ変数の書き換え",
+       "値を返すこと"
+      ],
+      "answer": 1,
+      "explain": "const メンバ関数は、オブジェクトを変更しない約束なので、メンバの書き換えはエラーになります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "staticメンバ",
+   "goal": "staticメンバを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "全員で共有する static",
+     "lead": "static メンバは、オブジェクトごとではなく、クラスに1つだけ存在します。生成数の記録などに使えます。",
+     "code": {
+      "text": "class Enemy {\npublic:\n    Enemy()  { ++count_; }\n    ~Enemy() { --count_; }\n    static int count() { return count_; }\nprivate:\n    static int count_;\n};\nint Enemy::count_ = 0;     // 実体の定義\n\nEnemy a, b;\nstd::cout << Enemy::count() << '\\n';\n{\n    Enemy c;\n    std::cout << Enemy::count() << '\\n';\n}\nstd::cout << Enemy::count() << '\\n';",
+      "caption": "敵の数を数える"
+     },
+     "points": [
+      "クラス名::名前 で、オブジェクトなしに使える",
+      "static メンバ関数は、this を持たず、通常のメンバは使えない",
+      "C++17 では、inline static int count_ = 0; のように、クラスの中で定義できる"
+     ],
+     "output": "2\n3\n2"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "コピーコンストラクタ",
+   "goal": "コピーコンストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "コピーされるとき",
+     "lead": "同じクラスのオブジェクトから、新しいオブジェクトを作るときに、コピーコンストラクタが呼ばれます。書かなければ、メンバごとにコピーされます。",
+     "code": {
+      "text": "class Buffer {\npublic:\n    Buffer(int n) : size_(n) {}\n    Buffer(const Buffer& other) : size_(other.size_) {\n        std::cout << \"コピー\\n\";\n    }\n    int size() const { return size_; }\nprivate:\n    int size_;\n};\n\nBuffer a(10);\nBuffer b = a;\nBuffer c(a);\nstd::cout << b.size() << ' ' << c.size() << '\\n';",
+      "caption": "コピーの2つの書き方"
+     },
+     "points": [
+      "引数は、const 参照で受ける",
+      "値渡しで関数に渡す時にも呼ばれる",
+      "ポインタを持つクラスでは、自動コピーが、浅いコピーになり危険"
+     ],
+     "output": "コピー\nコピー\n10 10"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "代入演算子",
+   "goal": "代入演算子を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "代入のとき",
+     "lead": "既存のオブジェクトに代入するときは、コピーではなく、代入演算子が呼ばれます。自分自身への代入に、注意が必要です。",
+     "code": {
+      "text": "class Buffer {\npublic:\n    Buffer(int n) : size_(n) {}\n    Buffer& operator=(const Buffer& other) {\n        if (this != &other) {\n            size_ = other.size_;\n            std::cout << \"代入\\n\";\n        }\n        return *this;\n    }\n    int size() const { return size_; }\nprivate:\n    int size_;\n};\n\nBuffer a(10), b(20);\nb = a;\nb = b;        // 自己代入：何もしない\nstd::cout << b.size() << '\\n';",
+      "caption": "operator="
+     },
+     "points": [
+      "コピーは「新しく作る」、代入は「既存に入れる」",
+      "自己代入のチェック（this != &other）で、解放済みの値の利用を防ぐ",
+      "*this を返すと、a = b = c のように連鎖できる"
+     ],
+     "output": "代入\n10"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "三の法則と五の法則",
+   "goal": "三の法則と五の法則を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "資源を持つクラスの鉄則",
+     "lead": "デストラクタ、コピーコンストラクタ、代入演算子のうち、1つを自作するなら、3つとも自作します（三の法則）。ムーブの2つを加えて五の法則です。",
+     "code": {
+      "text": "class Array {\npublic:\n    Array(int n) : n_(n), p_(new int[n]()) {}\n    ~Array() { delete[] p_; }\n    Array(const Array& o) : n_(o.n_), p_(new int[o.n_]) {\n        for (int i = 0; i < n_; ++i) p_[i] = o.p_[i];\n    }\n    Array& operator=(const Array& o) {\n        if (this != &o) {\n            delete[] p_;\n            n_ = o.n_;\n            p_ = new int[n_];\n            for (int i = 0; i < n_; ++i) p_[i] = o.p_[i];\n        }\n        return *this;\n    }\n    int& at(int i) { return p_[i]; }\nprivate:\n    int n_;\n    int* p_;\n};\n\nArray a(3);\na.at(0) = 7;\nArray b = a;\nb.at(0) = 9;\nstd::cout << a.at(0) << ' ' << b.at(0) << '\\n';",
+      "caption": "深いコピー"
+     },
+     "points": [
+      "自作しないと、2つのオブジェクトが同じ領域を指し、二重解放になる",
+      "ムーブコンストラクタとムーブ代入が、五の法則の残り2つ（第9部）",
+      "vector や unique_ptr を使えば、3つとも書かなくて済む（ゼロの法則）"
+     ],
+     "output": "7 9",
+     "quiz": {
+      "q": "new で確保した領域を持つクラスで、コピーを自作しないと、何が起きる？",
+      "choices": [
+       "コンパイルエラー",
+       "2つのオブジェクトが同じ領域を指し、二重解放になる",
+       "自動で深いコピーになる"
+      ],
+      "answer": 1,
+      "explain": "自動のコピーは、ポインタの値だけをコピーする浅いコピーなので、同じ領域を共有してしまいます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "演算子オーバーロード",
+   "goal": "演算子オーバーロードを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "クラスで + や == を使う",
+     "lead": "クラスに対して、+ や == などの演算子の動作を定義できます。ベクトル演算のような、自然な書き方が可能になります。",
+     "code": {
+      "text": "struct Vec2 {\n    float x, y;\n    Vec2 operator+(const Vec2& o) const { return {x + o.x, y + o.y}; }\n    bool operator==(const Vec2& o) const { return x == o.x && y == o.y; }\n};\n\nVec2 a{1, 2}, b{3, 4};\nVec2 c = a + b;\nstd::cout << c.x << ' ' << c.y << ' ' << (c == Vec2{4, 6}) << '\\n';",
+      "caption": "Vec2 の演算"
+     },
+     "points": [
+      "operator+ のような名前の関数として書く",
+      "意味が自然な演算子だけを定義する",
+      "float の == 比較は、誤差に注意（ここでは整数値のため成立）"
+     ],
+     "output": "4 6 1"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "friend",
+   "goal": "friendを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "特別に許可する friend",
+     "lead": "friend を宣言した関数やクラスは、private メンバにアクセスできます。出力用の << を作るときによく使います。",
+     "code": {
+      "text": "class Player {\npublic:\n    Player(int hp) : hp_(hp) {}\n    friend std::ostream& operator<<(std::ostream& os, const Player& p);\nprivate:\n    int hp_;\n};\n\nstd::ostream& operator<<(std::ostream& os, const Player& p) {\n    return os << \"Player(hp=\" << p.hp_ << \")\";\n}\n\nPlayer p(80);\nstd::cout << p << '\\n';",
+      "caption": "<< で出力"
+     },
+     "points": [
+      "friend は、カプセル化を、部分的に緩める仕組み",
+      "多用せず、本当に必要な関数だけに限る",
+      "cout << オブジェクト と書けるようになる"
+     ],
+     "output": "Player(hp=80)"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "クラスの分割（ヘッダとcpp）",
+   "goal": "クラスの分割（ヘッダとcpp）を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "宣言と実装を分ける",
+     "lead": "クラスの宣言を .h に、メンバ関数の実装を .cpp に書きます。使う側は、ヘッダを読み込むだけで済みます。",
+     "code": {
+      "text": "// player.h\n#pragma once\nclass Player {\npublic:\n    explicit Player(int hp);\n    void takeDamage(int d);\n    int hp() const;\nprivate:\n    int hp_;\n};\n\n// player.cpp\n#include \"player.h\"\nPlayer::Player(int hp) : hp_(hp) {}\nvoid Player::takeDamage(int d) {\n    hp_ -= d;\n    if (hp_ < 0) hp_ = 0;\n}\nint Player::hp() const { return hp_; }",
+      "caption": "2つのファイル"
+     },
+     "points": [
+      "実装は Player:: を付けて定義する",
+      "実装だけを変えたときは、その .cpp だけを再コンパイルすれば済む",
+      "1クラスにつき、1組の .h と .cpp にするのが一般的"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "責務の分離",
+   "goal": "責務の分離を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "1つのクラスに1つの役割",
+     "lead": "クラスは、1つの役割だけを持たせると、変更や再利用が楽になります。これを、単一責任の原則と呼びます。",
+     "code": {
+      "text": "class Player {            // 状態と、状態を変える操作だけ\npublic:\n    void takeDamage(int d);\n    int hp() const;\n};\n\nclass HpBar {             // 表示だけ\npublic:\n    void draw(const Player& p) const;\n};",
+      "caption": "ロジックと表示の分離"
+     },
+     "points": [
+      "Player が描画まで担当すると、画面の変更が、ロジックに影響する",
+      "「変更する理由」が、1つになるように分ける",
+      "ゲームでは、ロジック、描画、入力を、別のクラスにするのが定石",
+      "分けすぎも読みにくくなる。意味のある単位で分ける"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "Playerクラスを作る",
+   "goal": "Playerクラスを作るを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "Player を完成させる",
+     "lead": "ここまでの知識で、プレイヤーのクラスを作ります。内部を隠し、安全な操作だけを公開します。",
+     "code": {
+      "text": "class Player {\npublic:\n    Player(const std::string& name, int maxHp, int atk)\n        : name_(name), hp_(maxHp), maxHp_(maxHp), atk_(atk) {}\n    void takeDamage(int d) { hp_ -= d; if (hp_ < 0) hp_ = 0; }\n    void heal(int v) { hp_ += v; if (hp_ > maxHp_) hp_ = maxHp_; }\n    bool isAlive() const { return hp_ > 0; }\n    int attack() const { return atk_; }\n    int hp() const { return hp_; }\n    const std::string& name() const { return name_; }\nprivate:\n    std::string name_;\n    int hp_;\n    int maxHp_;\n    int atk_;\n};\n\nPlayer hero(\"Ada\", 100, 12);\nhero.takeDamage(120);\nstd::cout << hero.name() << ' ' << hero.hp() << ' ' << hero.isAlive() << '\\n';",
+      "caption": "Player クラス"
+     },
+     "points": [
+      "コンストラクタで、名前と最大HPと攻撃力を、必ず受け取る",
+      "HPは、takeDamage と heal の中で、範囲を守る",
+      "getter には、const を付ける",
+      "name() は、const 参照で返し、コピーを避ける"
+     ],
+     "output": "Ada 0 0"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "Enemyクラスを作る",
+   "goal": "Enemyクラスを作るを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "Enemy を作って戦わせる",
+     "lead": "敵のクラスも、同じ設計で作れます。倒されるまでの流れを、クラスの関数で表します。",
+     "code": {
+      "text": "class Enemy {\npublic:\n    Enemy(const std::string& name, int hp, int atk)\n        : name_(name), hp_(hp), atk_(atk) {}\n    void takeDamage(int d) { hp_ -= d; }\n    bool isDead() const { return hp_ <= 0; }\n    int attack() const { return atk_; }\n    const std::string& name() const { return name_; }\nprivate:\n    std::string name_;\n    int hp_;\n    int atk_;\n};\n\nEnemy slime(\"Slime\", 20, 4);\nint turn = 0;\nwhile (!slime.isDead()) {\n    slime.takeDamage(8);\n    ++turn;\n}\nstd::cout << slime.name() << \" を \" << turn << \" ターンで撃破\\n\";",
+      "caption": "Enemy クラス"
+     },
+     "points": [
+      "20、12、4、-4 と減り、3ターン目に倒れる",
+      "isDead() のように、状態を問う関数で、読みやすくなる",
+      "Player と Enemy に、共通する部分が多い。第7部の継承でまとめる"
+     ],
+     "output": "Slime を 3 ターンで撃破"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "Itemクラスを作る",
+   "goal": "Itemクラスを作るを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "Item と持ち物リスト",
+     "lead": "アイテムも、クラスにして、vector で管理します。売値の計算を、クラスの中に持たせます。",
+     "code": {
+      "text": "class Item {\npublic:\n    Item(const std::string& name, int price)\n        : name_(name), price_(price) {}\n    const std::string& name() const { return name_; }\n    int price() const { return price_; }\n    int sellPrice() const { return price_ / 2; }\nprivate:\n    std::string name_;\n    int price_;\n};\n\nstd::vector<Item> bag;\nbag.emplace_back(\"Potion\", 50);\nbag.emplace_back(\"Sword\", 300);\nint total = 0;\nfor (const Item& it : bag) total += it.sellPrice();\nstd::cout << bag.size() << ' ' << total << '\\n';",
+      "caption": "Item と vector"
+     },
+     "points": [
+      "emplace_back は、引数でその場に、オブジェクトを作る",
+      "売値の計算のように、データに関する計算は、クラスに持たせる",
+      "範囲 for は、const 参照で受けてコピーを避ける"
+     ],
+     "output": "2 175"
+    }
+   ]
+  },
+  {
+   "part": "第6部 構造体とクラス",
+   "title": "第6部の復習",
+   "goal": "第6部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第6部の復習",
+     "lead": "カプセル化を使って、所持金のクラスを作ります。不正な操作を、クラスの内側で防ぎます。",
+     "code": {
+      "text": "class Wallet {\npublic:\n    bool pay(int amount) {\n        if (amount <= 0 || amount > gold_) return false;\n        gold_ -= amount;\n        return true;\n    }\n    void earn(int amount) { if (amount > 0) gold_ += amount; }\n    int gold() const { return gold_; }\nprivate:\n    int gold_ = 100;\n};\n\nWallet w;\nbool ok1 = w.pay(30);\nbool ok2 = w.pay(500);\nstd::cout << ok1 << ' ' << ok2 << ' ' << w.gold() << '\\n';\nw.earn(-50);\nstd::cout << w.gold() << '\\n';",
+      "caption": "Wallet クラス"
+     },
+     "points": [
+      "構造体、クラス、アクセス指定子、カプセル化",
+      "コンストラクタ、デストラクタ、初期化子リスト",
+      "this、const メンバ関数、static メンバ",
+      "三の法則、演算子オーバーロード、friend、ファイル分割",
+      "責務を分けて、小さく、意味のあるクラスを作る"
+     ],
+     "output": "1 0 70\n70",
+     "quiz": {
+      "q": "クラスの外から変更されたくないメンバ変数に付けるのは？",
+      "choices": [
+       "public",
+       "private",
+       "static"
+      ],
+      "answer": 1,
+      "explain": "private にすると、クラスの外から直接触れなくなります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "継承とは",
+   "goal": "継承とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "既存のクラスを土台にする",
+     "lead": "継承は、既存のクラスの機能を引き継いで、新しいクラスを作る仕組みです。共通部分を、1か所にまとめられます。",
+     "code": {
+      "text": "class Character {\npublic:\n    int hp = 100;\n    void rest() { hp = 100; }\n};\nclass Player : public Character {\npublic:\n    int level = 1;\n};\n\nPlayer p;\np.hp = 40;\np.rest();           // 基底クラスの関数\nstd::cout << p.hp << ' ' << p.level << '\\n';",
+      "caption": "Character を継承する Player"
+     },
+     "points": [
+      "class 派生 : public 基底 の形で書く",
+      "派生クラスは、基底クラスのメンバを、そのまま使える",
+      "Player、Enemy、NPC の共通部分を、Character にまとめられる"
+     ],
+     "output": "100 1"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "基底クラスと派生クラス",
+   "goal": "基底クラスと派生クラスを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "親と子の関係",
+     "lead": "引き継がれる側を基底クラス（親）、引き継ぐ側を派生クラス（子）と呼びます。子は、親の機能に、自分の機能を足します。",
+     "code": {
+      "text": "class Character {\npublic:\n    std::string name = \"???\";\n    void introduce() const { std::cout << \"I am \" << name << '\\n'; }\n};\nclass Enemy : public Character {\npublic:\n    int reward = 10;       // 敵だけが持つ\n};\n\nEnemy e;\ne.name = \"Slime\";\ne.introduce();\nstd::cout << e.reward << '\\n';",
+      "caption": "Enemy は Character の一種"
+     },
+     "points": [
+      "基底クラスは、共通の性質だけを持つ",
+      "派生クラスで、固有のデータや関数を追加する",
+      "継承は、public 継承が基本"
+     ],
+     "output": "I am Slime\n10"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "protected",
+   "goal": "protectedを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "派生クラスにだけ見せる",
+     "lead": "protected のメンバは、外からは見えず、派生クラスからは使えます。private は、派生クラスからも使えません。",
+     "code": {
+      "text": "class Character {\nprotected:\n    int hp_ = 100;\n};\nclass Player : public Character {\npublic:\n    void hit(int d) { hp_ -= d; }   // 派生クラスからは使える\n    int hp() const { return hp_; }\n};\n\nPlayer p;\np.hit(30);\n// p.hp_ = 0;   // エラー：外からは見えない\nstd::cout << p.hp() << '\\n';",
+      "caption": "3段階の公開範囲"
+     },
+     "points": [
+      "public：誰でも、protected：派生クラスまで、private：自分だけ",
+      "protected を多用すると、カプセル化が弱まる",
+      "迷ったら private にして、必要なら関数を公開する"
+     ],
+     "output": "70"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "コンストラクタの呼び出し順",
+   "goal": "コンストラクタの呼び出し順を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "親が先、破棄は逆順",
+     "lead": "派生クラスのオブジェクトを作ると、まず基底クラスのコンストラクタ、次に派生クラスのコンストラクタが呼ばれます。破棄はその逆順です。",
+     "code": {
+      "text": "class Base {\npublic:\n    Base()  { std::cout << \"Base生成\\n\"; }\n    ~Base() { std::cout << \"Base破棄\\n\"; }\n};\nclass Derived : public Base {\npublic:\n    Derived()  { std::cout << \"Derived生成\\n\"; }\n    ~Derived() { std::cout << \"Derived破棄\\n\"; }\n};\n\n{\n    Derived d;\n}",
+      "caption": "生成と破棄の順序"
+     },
+     "points": [
+      "基底クラスに引数が必要なら、Derived(int x) : Base(x) のように初期化子リストで渡す",
+      "土台が先にできてから、上物ができる、と考える",
+      "破棄は、積み上げた順の逆"
+     ],
+     "output": "Base生成\nDerived生成\nDerived破棄\nBase破棄"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "メンバ関数の上書き",
+   "goal": "メンバ関数の上書きを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ名前で書き直す",
+     "lead": "派生クラスで、基底クラスと同じ名前の関数を書くと、派生側の関数が、基底側を隠します。",
+     "code": {
+      "text": "class Character {\npublic:\n    void attack() const { std::cout << \"攻撃\\n\"; }\n};\nclass Player : public Character {\npublic:\n    void attack() const { std::cout << \"剣で攻撃\\n\"; }\n};\n\nPlayer p;\np.attack();\np.Character::attack();   // 基底の版を明示",
+      "caption": "隠す（ただし仮想ではない）"
+     },
+     "points": [
+      "基底::関数名 で、基底クラスの関数を、明示的に呼べる",
+      "仮想関数でない場合、基底のポインタ経由では、基底の版が呼ばれる",
+      "本当の「上書き」は、次の仮想関数で実現する"
+     ],
+     "output": "剣で攻撃\n攻撃"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "仮想関数",
+   "goal": "仮想関数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "実際の型に応じて動く",
+     "lead": "virtual を付けた関数は、基底の参照やポインタ経由でも、実際のオブジェクトの型に応じた関数が呼ばれます。",
+     "code": {
+      "text": "class Character {\npublic:\n    virtual void attack() const { std::cout << \"攻撃\\n\"; }\n};\nclass Player : public Character {\npublic:\n    void attack() const { std::cout << \"剣で攻撃\\n\"; }\n};\n\nPlayer p;\nconst Character& c = p;\nc.attack();          // 実際は Player の版",
+      "caption": "virtual の効果"
+     },
+     "points": [
+      "実行時に、呼ぶ関数が決まる（動的束縛）",
+      "virtual は、基底クラスに付ける。派生側では省略できる",
+      "少しの実行コストがあるが、通常は、気にならない"
+     ],
+     "output": "剣で攻撃"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "override",
+   "goal": "overrideを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "上書きを明示する override",
+     "lead": "派生クラスで、基底の仮想関数を上書きするときは、override を付けます。シグネチャを間違えると、コンパイルエラーになります。",
+     "code": {
+      "text": "class Character {\npublic:\n    virtual void attack(int power) const {\n        std::cout << \"攻撃 \" << power << '\\n';\n    }\n};\nclass Player : public Character {\npublic:\n    void attack(int power) const override {\n        std::cout << \"剣 \" << power * 2 << '\\n';\n    }\n    // void attack(double p) const override {}   // エラー：上書き対象がない\n};\n\nPlayer p;\nconst Character& c = p;\nc.attack(5);",
+      "caption": "override の安全性"
+     },
+     "points": [
+      "引数の型や const の付け忘れによる、上書きの失敗を検出できる",
+      "上書きするときは、必ず override を付ける習慣にする",
+      "これ以上の上書きを禁じるときは final"
+     ],
+     "output": "剣 10"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "純粋仮想関数と抽象クラス",
+   "goal": "純粋仮想関数と抽象クラスを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "実装を強制する",
+     "lead": "= 0 を付けた仮想関数を、純粋仮想関数と呼びます。それを持つクラスは、抽象クラスで、直接オブジェクトを作れません。",
+     "code": {
+      "text": "class Skill {\npublic:\n    virtual ~Skill() = default;\n    virtual int damage() const = 0;   // 派生クラスで必ず実装\n};\nclass Slash : public Skill {\npublic:\n    int damage() const override { return 30; }\n};\n\n// Skill s;       // エラー：抽象クラスは作れない\nSlash slash;\nconst Skill& s = slash;\nstd::cout << s.damage() << '\\n';",
+      "caption": "抽象クラス"
+     },
+     "points": [
+      "「何をするか」だけを決め、「どうやるか」は、派生クラスに任せる",
+      "全ての純粋仮想関数を実装した派生クラスだけが、オブジェクトを作れる",
+      "共通の窓口を決めるのに、とても便利"
+     ],
+     "output": "30"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "仮想デストラクタ",
+   "goal": "仮想デストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "基底のデストラクタは virtual",
+     "lead": "基底クラスのポインタ経由で delete するときは、デストラクタを virtual にしないと、派生クラスの後始末が実行されません。",
+     "code": {
+      "text": "class Base {\npublic:\n    virtual ~Base() { std::cout << \"Base破棄\\n\"; }\n};\nclass Derived : public Base {\npublic:\n    ~Derived() override { std::cout << \"Derived破棄\\n\"; }\n};\n\nBase* p = new Derived();\ndelete p;",
+      "caption": "正しい破棄"
+     },
+     "points": [
+      "virtual がないと、Base の分しか破棄されず、リークの原因になる",
+      "継承して使うクラスには、必ず virtual デストラクタを付ける",
+      "何もしないなら、virtual ~Base() = default; と書く"
+     ],
+     "output": "Derived破棄\nBase破棄",
+     "quiz": {
+      "q": "基底クラスのデストラクタを virtual にする理由は？",
+      "choices": [
+       "実行を速くするため",
+       "基底のポインタ経由で破棄しても、派生クラスの後始末が実行されるため",
+       "コピーできるようにするため"
+      ],
+      "answer": 1,
+      "explain": "virtual がないと、派生クラスのデストラクタが呼ばれず、資源の解放漏れになります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "多態性",
+   "goal": "多態性を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ呼び方で違う動き",
+     "lead": "多態性（ポリモーフィズム）は、同じ呼び出しで、オブジェクトの種類ごとに違う動きをさせる仕組みです。種類が増えても、呼ぶ側のコードを変えずに済みます。",
+     "code": {
+      "text": "class Enemy {\npublic:\n    virtual ~Enemy() = default;\n    virtual void act() const = 0;\n};\nclass Slime : public Enemy {\npublic:\n    void act() const override { std::cout << \"ぴょん\\n\"; }\n};\nclass Bat : public Enemy {\npublic:\n    void act() const override { std::cout << \"ばさばさ\\n\"; }\n};\n\nstd::vector<std::unique_ptr<Enemy>> v;\nv.push_back(std::make_unique<Slime>());\nv.push_back(std::make_unique<Bat>());\nfor (const auto& e : v) e->act();",
+      "caption": "敵ごとの行動"
+     },
+     "points": [
+      "敵の種類を増やしても、for のコードは変わらない",
+      "if や switch で種類を判定する処理を、クラスに任せられる",
+      "ゲームのキャラクターやアイテムの設計の、核となる考え方"
+     ],
+     "output": "ぴょん\nばさばさ",
+     "quiz": {
+      "q": "多態性の最大の利点は？",
+      "choices": [
+       "実行が速くなる",
+       "種類が増えても、呼び出し側のコードを変えずに済む",
+       "メモリ使用量が減る"
+      ],
+      "answer": 1,
+      "explain": "呼び出し側は、基底クラスの型だけを知っていれば、実際の種類ごとの動きが実行されます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "ポインタと参照による多態",
+   "goal": "ポインタと参照による多態を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "参照とポインタで受ける",
+     "lead": "多態性が働くのは、基底クラスの参照かポインタ経由のときです。関数の引数も、const 参照で受けます。",
+     "code": {
+      "text": "class Enemy {\npublic:\n    virtual ~Enemy() = default;\n    virtual void act() const = 0;\n};\nclass Slime : public Enemy {\npublic:\n    void act() const override { std::cout << \"ぴょん\\n\"; }\n};\nclass Bat : public Enemy {\npublic:\n    void act() const override { std::cout << \"ばさばさ\\n\"; }\n};\n\nvoid run(const Enemy& e) { e.act(); }\n\nSlime s;\nBat b;\nrun(s);\nrun(b);\nEnemy* p = &s;\np->act();",
+      "caption": "参照とポインタ"
+     },
+     "points": [
+      "run は、Enemy の種類を知らなくても、動かせる",
+      "値渡し（Enemy e）にすると、派生部分が切り落とされる（次のレッスン）",
+      "所有するなら、unique_ptr<基底> に入れる"
+     ],
+     "output": "ぴょん\nばさばさ\nぴょん"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "スライシング",
+   "goal": "スライシングを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "値渡しで派生部分が消える",
+     "lead": "基底クラスの型の変数に、派生クラスのオブジェクトを値で代入すると、派生の部分が切り落とされます。これをスライシングと呼びます。",
+     "code": {
+      "text": "class Base {\npublic:\n    virtual void who() const { std::cout << \"Base\\n\"; }\n};\nclass Derived : public Base {\npublic:\n    void who() const override { std::cout << \"Derived\\n\"; }\n    int extra = 1;\n};\n\nvoid byValue(Base b) { b.who(); }\nvoid byRef(const Base& b) { b.who(); }\n\nDerived d;\nbyValue(d);\nbyRef(d);",
+      "caption": "値と参照の違い"
+     },
+     "points": [
+      "値渡しでは、Base の部分だけがコピーされ、virtual も働かない",
+      "基底クラスは、参照かポインタで扱うのが鉄則",
+      "コピーを禁止して、スライシングを防ぐ手もある"
+     ],
+     "output": "Base\nDerived"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "多重継承",
+   "goal": "多重継承を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "複数のクラスを継承する",
+     "lead": "C++では、複数のクラスを同時に継承できます。ただし、複雑になりやすいので、慎重に使います。",
+     "code": {
+      "text": "class Flyer {\npublic:\n    void fly() const { std::cout << \"飛ぶ\\n\"; }\n};\nclass Swimmer {\npublic:\n    void swim() const { std::cout << \"泳ぐ\\n\"; }\n};\nclass Duck : public Flyer, public Swimmer {};\n\nDuck d;\nd.fly();\nd.swim();",
+      "caption": "2つの能力を持つ"
+     },
+     "points": [
+      "同じ名前のメンバが両方にあると、あいまいでエラーになる",
+      "共通の祖先を持つと、ダイヤモンド継承の問題が起きる（virtual 継承で対処）",
+      "使うなら、データを持たない、インターフェースだけに限るのが安全"
+     ],
+     "output": "飛ぶ\n泳ぐ"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "インターフェース",
+   "goal": "インターフェースを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "約束だけを定めるクラス",
+     "lead": "純粋仮想関数だけを持つ抽象クラスを、インターフェースとして使えます。「この関数を持っている」という約束だけを表します。",
+     "code": {
+      "text": "class IDamageable {\npublic:\n    virtual ~IDamageable() = default;\n    virtual void takeDamage(int d) = 0;\n};\nclass Wall : public IDamageable {\npublic:\n    void takeDamage(int d) override {\n        hp_ -= d;\n        std::cout << \"壁 残り \" << hp_ << '\\n';\n    }\nprivate:\n    int hp_ = 100;\n};\n\nvoid explode(IDamageable& target) { target.takeDamage(30); }\n\nWall w;\nexplode(w);",
+      "caption": "ダメージを受けられるもの"
+     },
+     "points": [
+      "名前の頭に I を付けるのが、よくある慣習",
+      "explode は、敵、壁、プレイヤーを区別せずに扱える",
+      "複数のインターフェースを継承するのは、安全な多重継承"
+     ],
+     "output": "壁 残り 70"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "継承と合成",
+   "goal": "継承と合成を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "継承か、持つか",
+     "lead": "武器を持つプレイヤーのように、「部品として持つ」関係は、継承ではなく、メンバとして持つ（合成）のが基本です。",
+     "code": {
+      "text": "class Weapon {\npublic:\n    int power() const { return 12; }\n};\nclass Player {\npublic:\n    int attack() const { return base_ + weapon_.power(); }\nprivate:\n    int base_ = 5;\n    Weapon weapon_;      // 継承せず、持つ\n};\n\nPlayer p;\nstd::cout << p.attack() << '\\n';",
+      "caption": "合成"
+     },
+     "points": [
+      "継承は、基底と派生の結び付きが強く、変更しにくい",
+      "合成は、部品を差し替えやすく、柔軟",
+      "迷ったら、合成を選ぶ"
+     ],
+     "output": "17",
+     "quiz": {
+      "q": "「プレイヤーが武器を持っている」関係は、どう表すのが適切？",
+      "choices": [
+       "Player が Weapon を継承する",
+       "Player が Weapon をメンバとして持つ",
+       "Weapon が Player を継承する"
+      ],
+      "answer": 1,
+      "explain": "持っている関係は、合成（メンバとして持つ）で表します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "is-aとhas-a",
+   "goal": "is-aとhas-aを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "関係を判断する問い",
+     "lead": "継承が適切かは、「AはBの一種か？」で判断します。一種なら is-a（継承）、持っているなら has-a（合成）です。",
+     "code": {
+      "text": "class Character {};\nclass Player : public Character {};   // Player は Character の一種（is-a）\n\nclass Inventory {};\nclass Hero : public Character {\n    Inventory bag_;                    // Hero は Inventory を持つ（has-a）\n};",
+      "caption": "is-a と has-a"
+     },
+     "points": [
+      "「Player は Character である」→ 継承",
+      "「Hero は Inventory を持つ」→ メンバ",
+      "派生クラスは、基底クラスの代わりとして、いつでも使えるべき（置換可能性）",
+      "コードの再利用だけが目的の継承は、避ける"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "Entity階層の設計",
+   "goal": "Entity階層の設計を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ゲームオブジェクトの共通の窓口",
+     "lead": "ゲームに登場するものの基底クラス Entity を作り、プレイヤーも敵も、同じ窓口で更新できるようにします。",
+     "code": {
+      "text": "class Entity {\npublic:\n    virtual ~Entity() = default;\n    virtual void update() = 0;\n    virtual std::string name() const = 0;\n};\nclass Player : public Entity {\npublic:\n    void update() override { std::cout << \"入力を処理\\n\"; }\n    std::string name() const override { return \"Player\"; }\n};\nclass Slime : public Entity {\npublic:\n    void update() override { std::cout << \"跳ねる\\n\"; }\n    std::string name() const override { return \"Slime\"; }\n};\n\nstd::vector<std::unique_ptr<Entity>> world;\nworld.push_back(std::make_unique<Player>());\nworld.push_back(std::make_unique<Slime>());\nfor (auto& e : world) {\n    std::cout << e->name() << \": \";\n    e->update();\n}",
+      "caption": "world の更新"
+     },
+     "points": [
+      "ゲームループは、world の全要素の update() を呼ぶだけで済む",
+      "新しい種類は、クラスを追加するだけで済む",
+      "階層を深くしすぎると、変更が難しくなる。2、3段までが目安"
+     ],
+     "output": "Player: 入力を処理\nSlime: 跳ねる"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "コンポーネント指向",
+   "goal": "コンポーネント指向を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "部品を組み合わせて作る",
+     "lead": "継承の階層が深くなると、柔軟さを失います。位置、体力などの機能を、部品（コンポーネント）にして、組み合わせる設計が、広く使われています。",
+     "code": {
+      "text": "struct Health   { int hp = 100; };\nstruct Position { float x = 0, y = 0; };\n\nstruct Entity {\n    Position pos;\n    Health health;\n};\n\nEntity e;\ne.pos.x += 2;\ne.health.hp -= 30;\nstd::cout << e.pos.x << ' ' << e.health.hp << '\\n';",
+      "caption": "部品の組み合わせ"
+     },
+     "points": [
+      "必要な部品だけを持たせて、機能を組み立てる",
+      "「飛ぶ敵」と「歩く敵」を、継承の分岐ではなく、部品の違いで表せる",
+      "Unity の GameObject や、ECS（Entity Component System）の考え方の元"
+     ],
+     "output": "2 70"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "ダウンキャスト",
+   "goal": "ダウンキャストを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "基底から派生へ戻す",
+     "lead": "基底クラスの参照やポインタから、派生クラスとして扱うことを、ダウンキャストと呼びます。dynamic_cast で、安全に確認できます。",
+     "code": {
+      "text": "class Entity { public: virtual ~Entity() = default; };\nclass Player : public Entity {\npublic:\n    void levelUp() { ++level_; std::cout << \"Lv\" << level_ << '\\n'; }\nprivate:\n    int level_ = 1;\n};\nclass Slime : public Entity {};\n\nstd::unique_ptr<Entity> a = std::make_unique<Player>();\nstd::unique_ptr<Entity> b = std::make_unique<Slime>();\n\nif (auto* p = dynamic_cast<Player*>(a.get())) p->levelUp();\nif (auto* p = dynamic_cast<Player*>(b.get())) p->levelUp();\nelse std::cout << \"Playerではない\\n\";",
+      "caption": "安全な型変換"
+     },
+     "points": [
+      "dynamic_cast は、失敗するとポインタなら nullptr を返す",
+      "基底クラスに、仮想関数が必要",
+      "頻繁に使うなら、設計を見直す合図。仮想関数に任せられないか考える"
+     ],
+     "output": "Lv2\nPlayerではない"
+    }
+   ]
+  },
+  {
+   "part": "第7部 継承と多態性",
+   "title": "第7部の復習",
+   "goal": "第7部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第7部の復習",
+     "lead": "抽象クラスと多態性を使って、スキルの一覧を、種類を意識せずに処理します。",
+     "code": {
+      "text": "class Skill {\npublic:\n    virtual ~Skill() = default;\n    virtual std::string name() const = 0;\n    virtual int damage() const = 0;\n};\nclass Slash : public Skill {\npublic:\n    std::string name() const override { return \"斬撃\"; }\n    int damage() const override { return 30; }\n};\nclass Fire : public Skill {\npublic:\n    std::string name() const override { return \"火球\"; }\n    int damage() const override { return 45; }\n};\n\nstd::vector<std::unique_ptr<Skill>> skills;\nskills.push_back(std::make_unique<Slash>());\nskills.push_back(std::make_unique<Fire>());\nint total = 0;\nfor (const auto& s : skills) {\n    std::cout << s->name() << ' ' << s->damage() << '\\n';\n    total += s->damage();\n}\nstd::cout << \"合計 \" << total << '\\n';",
+      "caption": "スキルの一覧"
+     },
+     "points": [
+      "継承、protected、コンストラクタとデストラクタの順序",
+      "仮想関数、override、純粋仮想関数、抽象クラス",
+      "仮想デストラクタ、スライシング、多重継承、インターフェース",
+      "継承より合成を優先し、is-a で判断する",
+      "基底クラスは参照かポインタで扱い、所有は unique_ptr に任せる"
+     ],
+     "output": "斬撃 30\n火球 45\n合計 75",
+     "quiz": {
+      "q": "= 0 を付けた仮想関数を持つクラスの性質は？",
+      "choices": [
+       "直接インスタンスを作れない",
+       "コピーできない",
+       "継承できない"
+      ],
+      "answer": 0,
+      "explain": "純粋仮想関数を持つクラスは抽象クラスで、直接オブジェクトを作れません。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "テンプレートとは",
+   "goal": "テンプレートとはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "型をパラメータにする",
+     "lead": "型だけが違う同じ処理を、型ごとに書くのは大変です。テンプレートは、型をパラメータにして、1つの定義から、必要な型の関数やクラスを作る仕組みです。",
+     "code": {
+      "text": "int maxInt(int a, int b) { return a > b ? a : b; }\ndouble maxDouble(double a, double b) { return a > b ? a : b; }\n// 型ごとに書くのは大変\n\ntemplate <typename T>\nT maxOf(T a, T b) { return a > b ? a : b; }\n\nstd::cout << maxOf(3, 8) << ' ' << maxOf(1.5, 0.5) << '\\n';",
+      "caption": "1つで全部の型"
+     },
+     "points": [
+      "template <typename T> の T は、型を表す名前",
+      "呼び出された型ごとに、コンパイラが関数を自動生成する",
+      "vector<int> も vector<string> も、テンプレートから作られている"
+     ],
+     "output": "8 1.5",
+     "quiz": {
+      "q": "template <typename T> の T は何を表す？",
+      "choices": [
+       "変数の値",
+       "型",
+       "関数の名前"
+      ],
+      "answer": 1,
+      "explain": "T は、型を表すパラメータです。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "関数テンプレート",
+   "goal": "関数テンプレートを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "汎用の関数を作る",
+     "lead": "関数テンプレートは、引数の型から、T が自動で決まります。複数の型で、同じ処理を使い回せます。",
+     "code": {
+      "text": "template <typename T>\nvoid swapValues(T& a, T& b) { T t = a; a = b; b = t; }\n\ntemplate <typename T>\nT clampValue(T v, T lo, T hi) { return v < lo ? lo : (v > hi ? hi : v); }\n\nint a = 1, b = 2;\nswapValues(a, b);\nstd::string s1 = \"x\", s2 = \"y\";\nswapValues(s1, s2);\nstd::cout << a << b << ' ' << s1 << s2 << ' ' << clampValue(150, 0, 100) << '\\n';",
+      "caption": "swap と clamp"
+     },
+     "points": [
+      "比較演算子など、使う操作を持つ型でないと、コンパイルエラーになる",
+      "テンプレートの定義は、ヘッダに書く",
+      "標準にも std::swap や std::clamp がある"
+     ],
+     "output": "21 yx 100"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "クラステンプレート",
+   "goal": "クラステンプレートを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "汎用のクラスを作る",
+     "lead": "クラスもテンプレートにできます。使うときに、Stack<int> のように、型を指定します。",
+     "code": {
+      "text": "template <typename T>\nclass Stack {\npublic:\n    void push(const T& v) { data_.push_back(v); }\n    T pop() { T v = data_.back(); data_.pop_back(); return v; }\n    bool empty() const { return data_.empty(); }\nprivate:\n    std::vector<T> data_;\n};\n\nStack<int> s;\ns.push(1);\ns.push(2);\nStack<std::string> t;\nt.push(\"a\");\nstd::cout << s.pop() << ' ' << t.pop() << ' ' << s.empty() << '\\n';",
+      "caption": "型を選べる Stack"
+     },
+     "points": [
+      "Stack<int> と Stack<std::string> は、別の型",
+      "メンバ関数も、使われたものだけが、生成される",
+      "空のときの pop は、未定義動作。使う前に empty で確認する"
+     ],
+     "output": "2 a 0"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "テンプレート引数の推論",
+   "goal": "テンプレート引数の推論を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "型を自動で決める",
+     "lead": "関数テンプレートの T は、引数から推論されます。推論できないときや、指定したいときは、<型> を明示します。",
+     "code": {
+      "text": "template <typename T>\nT twice(T x) { return x + x; }\n\nstd::cout << twice(21) << ' ' << twice(1.5) << ' ' << twice<double>(3) << '\\n';\n// twice(1, 2.5);   // 引数が合わず、エラー\n\nstd::vector v{1, 2, 3};   // C++17：vector<int> と推論",
+      "caption": "推論と明示"
+     },
+     "points": [
+      "twice<double>(3) は、3 を double として扱う",
+      "1 つの T に、int と double のような食い違う引数を渡すと、エラー",
+      "C++17 からは、クラスでも、コンストラクタの引数から推論される（CTAD）"
+     ],
+     "output": "42 3 6"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "非型テンプレート引数",
+   "goal": "非型テンプレート引数を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "値もパラメータにできる",
+     "lead": "テンプレートには、型だけでなく、整数などの定数も渡せます。配列の大きさなどを、型の一部にできます。",
+     "code": {
+      "text": "template <typename T, int N>\nclass FixedArray {\npublic:\n    T& operator[](int i) { return data_[i]; }\n    int size() const { return N; }\nprivate:\n    T data_[N]{};\n};\n\nFixedArray<int, 4> a;\na[2] = 7;\nstd::cout << a.size() << ' ' << a[2] << ' ' << a[0] << '\\n';",
+      "caption": "大きさを持つ配列"
+     },
+     "points": [
+      "N は、コンパイル時に決まる定数",
+      "FixedArray<int, 4> と FixedArray<int, 5> は、別の型",
+      "std::array<T, N> も、同じ仕組み"
+     ],
+     "output": "4 7 0"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "テンプレートの特殊化",
+   "goal": "テンプレートの特殊化を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "特定の型だけ別の実装にする",
+     "lead": "一般的な実装とは別に、特定の型にだけ、専用の実装を用意できます。これを特殊化と呼びます。",
+     "code": {
+      "text": "template <typename T>\nstd::string kind(T) { return \"その他\"; }\n\ntemplate <>\nstd::string kind<int>(int) { return \"整数\"; }\ntemplate <>\nstd::string kind<double>(double) { return \"小数\"; }\n\nstd::cout << kind(1) << ' ' << kind(2.5) << ' ' << kind(\"x\") << '\\n';",
+      "caption": "型ごとの分岐"
+     },
+     "points": [
+      "template <> で、特殊化を宣言する",
+      "kind(\"x\") は、T が const char* になり、一般版が使われる",
+      "関数では、特殊化よりオーバーロードが好まれることも多い"
+     ],
+     "output": "整数 小数 その他"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "コンセプト入門",
+   "goal": "コンセプト入門を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "型に条件を付ける（C++20）",
+     "lead": "コンセプトは、テンプレートの型に、「この条件を満たすもの」という制約を付ける仕組みです。誤った使い方が、分かりやすいエラーになります。",
+     "code": {
+      "text": "#include <concepts>\n\ntemplate <typename T>\nconcept Number = std::integral<T> || std::floating_point<T>;\n\ntemplate <Number T>\nT twice(T x) { return x * 2; }\n\nstd::cout << twice(4) << ' ' << twice(1.25) << '\\n';\n// twice(std::string(\"a\"));   // エラー：Number を満たさない",
+      "caption": "数値だけを許す"
+     },
+     "points": [
+      "ビルド時に、-std=c++20 以降が必要",
+      "従来は、長く難解なエラーになったが、条件違反として明確に示される",
+      "自分で concept を定義でき、標準のものも多数ある"
+     ],
+     "output": "8 2.5"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "STLの全体像",
+   "goal": "STLの全体像を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "3つの部品",
+     "lead": "STL（標準テンプレートライブラリ）は、コンテナ、イテレータ、アルゴリズムの3つの部品で成り立っています。互いに独立して、組み合わせて使います。",
+     "code": {
+      "text": "std::vector<int> v = {3, 1, 2};          // コンテナ：データを入れる箱\nstd::sort(v.begin(), v.end());           // アルゴリズム：処理\nauto it = v.begin();                     // イテレータ：位置\nstd::cout << *it << ' ' << v.size() << '\\n';",
+      "caption": "3つの部品"
+     },
+     "points": [
+      "コンテナ：vector、list、map、set など",
+      "アルゴリズム：sort、find、transform など。イテレータで、範囲を受け取る",
+      "目的に合うコンテナを選ぶのが、性能の鍵"
+     ],
+     "output": "1 3"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "イテレータの種類",
+   "goal": "イテレータの種類を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "できることが違う",
+     "lead": "イテレータには、種類があります。vector は自由に飛べますが、list は前後に進むだけです。",
+     "code": {
+      "text": "std::vector<int> v = {10, 20, 30, 40};\nauto it = v.begin();\nit += 2;                          // ランダムアクセス\nstd::cout << *it << '\\n';\n\nstd::list<int> l = {1, 2, 3};\nauto lt = l.begin();\n++lt;                             // 双方向：1つずつ進むだけ\nstd::cout << *lt << '\\n';\nstd::cout << std::distance(v.begin(), v.end()) << '\\n';",
+      "caption": "2種類のイテレータ"
+     },
+     "points": [
+      "ランダムアクセスは、it + n で、自由に移動できる（vector、deque）",
+      "双方向は、++ と -- だけ（list、map、set）",
+      "std::distance は、2つのイテレータの間の要素数を返す"
+     ],
+     "output": "30\n2\n4"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "listとdeque",
+   "goal": "listとdequeを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "両端と途中の操作",
+     "lead": "deque は、両端に高速に追加でき、list は、途中への挿入が速いコンテナです。",
+     "code": {
+      "text": "std::deque<int> d = {2, 3};\nd.push_front(1);\nd.push_back(4);\n\nstd::list<int> l = {1, 2, 4};\nauto it = l.begin();\n++it; ++it;\nl.insert(it, 3);          // 途中に挿入\n\nfor (int x : d) std::cout << x << ' ';\nstd::cout << '\\n';\nfor (int x : l) std::cout << x << ' ';",
+      "caption": "deque と list"
+     },
+     "points": [
+      "deque は、先頭と末尾の追加削除が高速",
+      "list は、添字アクセスができないが、挿入や削除で、他の要素が動かない",
+      "迷ったら vector。両端が必要なら deque"
+     ],
+     "output": "1 2 3 4\n1 2 3 4"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "stackとqueue",
+   "goal": "stackとqueueを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "後入れ先出しと先入れ先出し",
+     "lead": "stack は、最後に入れたものから出す（LIFO）、queue は、最初に入れたものから出す（FIFO）コンテナです。",
+     "code": {
+      "text": "std::stack<int> st;\nst.push(1); st.push(2); st.push(3);\nstd::queue<std::string> q;\nq.push(\"A\"); q.push(\"B\");\n\nstd::cout << st.top() << ' ' << q.front() << '\\n';\nst.pop(); q.pop();\nstd::cout << st.top() << ' ' << q.front() << ' ' << st.size() << '\\n';",
+      "caption": "LIFO と FIFO"
+     },
+     "points": [
+      "stack：元に戻す機能（アンドゥ）や、深さ優先探索に使う",
+      "queue：順番待ちの処理や、幅優先探索に使う",
+      "pop は、取り出さずに削除するだけ。値は top か front で先に得る"
+     ],
+     "output": "3 A\n2 B 2",
+     "quiz": {
+      "q": "stack に 1、2、3 の順に push したとき、最初に pop されるのは？",
+      "choices": [
+       "1",
+       "2",
+       "3"
+      ],
+      "answer": 2,
+      "explain": "stack は後入れ先出しなので、最後に入れた 3 が先に出ます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "priority_queue",
+   "goal": "priority_queueを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "優先度の高い順に取り出す",
+     "lead": "priority_queue は、常に、最も優先度の高い要素を、先頭に持つコンテナです。既定では、最大の値が先頭です。",
+     "code": {
+      "text": "std::priority_queue<int> pq;\npq.push(30); pq.push(50); pq.push(10);\nstd::cout << pq.top() << '\\n';\npq.pop();\nstd::cout << pq.top() << '\\n';\n\nstd::priority_queue<int, std::vector<int>, std::greater<int>> mn;\nmn.push(30); mn.push(50); mn.push(10);\nstd::cout << mn.top() << '\\n';",
+      "caption": "最大と最小"
+     },
+     "points": [
+      "行動順の管理や、経路探索（A*）に使われる",
+      "std::greater を指定すると、最小の値が先頭になる",
+      "自作の型は、比較の方法を渡す"
+     ],
+     "output": "50\n30\n10"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "アルゴリズムの活用",
+   "goal": "アルゴリズムの活用を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ループを書かずに済ませる",
+     "lead": "合計、最大値、条件判定、変換などは、標準アルゴリズムで書けます。意図が伝わり、バグも減ります。",
+     "code": {
+      "text": "std::vector<int> v = {4, 8, 15, 16, 23, 42};\nint sum = std::accumulate(v.begin(), v.end(), 0);\nint mx = *std::max_element(v.begin(), v.end());\nbool anyBig = std::any_of(v.begin(), v.end(), [](int x) { return x > 40; });\n\nstd::vector<int> w(v.size());\nstd::transform(v.begin(), v.end(), w.begin(), [](int x) { return x * 2; });\nstd::cout << sum << ' ' << mx << ' ' << anyBig << ' ' << w[1] << '\\n';",
+      "caption": "よく使う関数"
+     },
+     "points": [
+      "accumulate は <numeric>、他は <algorithm> にある",
+      "transform は、全要素を変換して、別の範囲に書き込む",
+      "やりたいことの名前の関数が、標準にないか、先に探す"
+     ],
+     "output": "108 42 1 16"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "ラムダのキャプチャ",
+   "goal": "ラムダのキャプチャを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "外の変数の取り込み方",
+     "lead": "ラムダ式は、[ ] の中で、外側の変数の取り込み方を指定します。コピーか、参照かで、動作が変わります。",
+     "code": {
+      "text": "int bonus = 5;\nauto byValue = [bonus](int x) { return x + bonus; };    // コピー\nauto byRef = [&bonus](int x) { return x + bonus; };     // 参照\nbonus = 100;\nstd::cout << byValue(1) << ' ' << byRef(1) << '\\n';\n\nint count = 0;\nauto inc = [&count]() { ++count; };\ninc(); inc();\nstd::cout << count << '\\n';",
+      "caption": "コピーと参照"
+     },
+     "points": [
+      "[x] はコピー、[&x] は参照、[=] は全部コピー、[&] は全部参照",
+      "コピーのキャプチャは、取り込んだ時点の値で固定される",
+      "参照のキャプチャは、元の変数が消えたあとに使うと、危険"
+     ],
+     "output": "6 101\n2",
+     "quiz": {
+      "q": "[bonus] で取り込んだあと、元の bonus を変更すると、ラムダ内の値は？",
+      "choices": [
+       "変わる",
+       "変わらない",
+       "エラーになる"
+      ],
+      "answer": 1,
+      "explain": "コピーで取り込むと、取り込んだ時点の値が、そのまま使われます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "std::function",
+   "goal": "std::functionを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "関数を入れる箱",
+     "lead": "std::function は、関数、ラムダ式、関数ポインタなどを、同じ型の変数に入れられます。後から、差し替えもできます。",
+     "code": {
+      "text": "std::function<int(int, int)> op = [](int a, int b) { return a + b; };\nstd::cout << op(2, 3) << '\\n';\nop = [](int a, int b) { return a * b; };\nstd::cout << op(2, 3) << '\\n';\n\nstd::vector<std::function<void()>> actions;\nactions.push_back([] { std::cout << \"A\\n\"; });\nactions.push_back([] { std::cout << \"B\\n\"; });\nfor (auto& a : actions) a();",
+      "caption": "処理を持ち運ぶ"
+     },
+     "points": [
+      "std::function<戻り値(引数...)> の形で書く",
+      "ボタンを押したときの処理や、イベントのコールバックに使う",
+      "毎回の呼び出しに、少しの実行コストがある"
+     ],
+     "output": "5\n6\nA\nB"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "rangesの入門",
+   "goal": "rangesの入門を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "パイプで処理をつなぐ（C++20）",
+     "lead": "ranges ライブラリでは、絞り込みや変換を、| でつなげて書けます。計算は、必要になるまで実行されません。",
+     "code": {
+      "text": "#include <ranges>\n\nstd::vector<int> v = {1, 2, 3, 4, 5, 6};\nauto evens = v | std::views::filter([](int x) { return x % 2 == 0; })\n               | std::views::transform([](int x) { return x * x; });\nfor (int x : evens) std::cout << x << ' ';\n\nstd::ranges::sort(v, std::greater<int>());\nstd::cout << '\\n' << v.front() << '\\n';",
+      "caption": "偶数の2乗"
+     },
+     "points": [
+      "views::filter、views::transform などを、| でつなぐ",
+      "begin と end を書かずに、std::ranges::sort(v) と書ける",
+      "ビルドには、-std=c++20 以降が必要"
+     ],
+     "output": "4 16 36\n6"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "optional",
+   "goal": "optionalを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "値があるかないか",
+     "lead": "std::optional は、「値がない」状態を、安全に表せる型です。見つからなかったときに、特別な値（-1 など）を使わずに済みます。",
+     "code": {
+      "text": "std::optional<int> findIndex(const std::vector<int>& v, int x) {\n    for (int i = 0; i < static_cast<int>(v.size()); ++i) {\n        if (v[i] == x) return i;\n    }\n    return std::nullopt;\n}\n\nstd::vector<int> v = {5, 7, 9};\nauto a = findIndex(v, 7);\nauto b = findIndex(v, 1);\nstd::cout << a.value_or(-1) << ' ' << b.value_or(-1) << ' ' << b.has_value() << '\\n';",
+      "caption": "検索結果"
+     },
+     "points": [
+      "has_value() で、値の有無を確認する",
+      "value_or(既定値) は、ないときの値を指定して取り出す",
+      "値がないのに value() を呼ぶと、例外が投げられる"
+     ],
+     "output": "1 -1 0"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "variant",
+   "goal": "variantを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "いくつかの型のどれか",
+     "lead": "std::variant は、あらかじめ決めた型のうち、どれか1つを持つ型です。安全な共用体として使えます。",
+     "code": {
+      "text": "std::variant<int, std::string> v = 42;\nstd::cout << std::get<int>(v) << ' ' << v.index() << '\\n';\n\nv = std::string(\"hello\");\nstd::cout << std::get<std::string>(v) << ' ' << v.index() << '\\n';\n\nstd::visit([](const auto& x) { std::cout << x << '\\n'; }, v);",
+      "caption": "型を切り替える"
+     },
+     "points": [
+      "index() は、今どの型を持つか（0 から数える）",
+      "間違った型で get すると、例外が投げられる",
+      "std::visit で、中身の型に応じた処理を実行できる"
+     ],
+     "output": "42 0\nhello 1\nhello"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "string_view",
+   "goal": "string_viewを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "文字列を借りて見る",
+     "lead": "std::string_view は、文字列を所有せず、コピーなしで読むだけの型です。引数に使うと、string にも文字列リテラルにも対応できます。",
+     "code": {
+      "text": "void show(std::string_view sv) {\n    std::cout << sv.size() << ':' << sv << '\\n';\n}\n\nstd::string s = \"hero_sword\";\nshow(s);\nshow(\"literal\");\nshow(std::string_view(s).substr(0, 4));",
+      "caption": "コピーしない文字列"
+     },
+     "points": [
+      "読むだけの文字列引数には、const string& より、string_view が柔軟",
+      "元の文字列が消えると、string_view は、無効になる",
+      "substr も、コピーせずに、一部を指すだけ"
+     ],
+     "output": "10:hero_sword\n7:literal\n4:hero"
+    }
+   ]
+  },
+  {
+   "part": "第8部 テンプレートとSTL",
+   "title": "第8部の復習",
+   "goal": "第8部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第8部の復習",
+     "lead": "priority_queue と、ラムダ式による比較を組み合わせて、素早い順に行動するキャラクターを取り出します。",
+     "code": {
+      "text": "struct Unit {\n    std::string name;\n    int speed;\n};\n\nauto cmp = [](const Unit& a, const Unit& b) { return a.speed < b.speed; };\nstd::priority_queue<Unit, std::vector<Unit>, decltype(cmp)> q(cmp);\nq.push({\"Slime\", 5});\nq.push({\"Ada\", 12});\nq.push({\"Bat\", 9});\n\nwhile (!q.empty()) {\n    std::cout << q.top().name << ' ';\n    q.pop();\n}",
+      "caption": "行動順"
+     },
+     "points": [
+      "テンプレート：関数、クラス、推論、特殊化、コンセプト",
+      "STL：コンテナ、イテレータ、アルゴリズム",
+      "ラムダ、std::function、ranges",
+      "optional、variant、string_view で、安全に表現する"
+     ],
+     "output": "Ada Bat Slime",
+     "quiz": {
+      "q": "priority_queue の既定では、top() が返すのは？",
+      "choices": [
+       "最小の要素",
+       "最大の要素",
+       "最後に追加した要素"
+      ],
+      "answer": 1,
+      "explain": "既定では、最大の要素が先頭です。最小にするには、std::greater を指定します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "例外とは",
+   "goal": "例外とはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "エラーを離れた場所へ伝える",
+     "lead": "例外は、エラーが起きた場所から、処理できる場所へ、エラーを伝える仕組みです。throw で投げ、try と catch で受け取ります。",
+     "code": {
+      "text": "int divide(int a, int b) {\n    if (b == 0) throw std::runtime_error(\"0で割れません\");\n    return a / b;\n}\n\ntry {\n    std::cout << divide(10, 2) << '\\n';\n    std::cout << divide(1, 0) << '\\n';\n} catch (const std::exception& e) {\n    std::cout << \"エラー: \" << e.what() << '\\n';\n}",
+      "caption": "0で割る"
+     },
+     "points": [
+      "throw した時点で、関数を抜けて、対応する catch まで戻る",
+      "エラーを戻り値で返すと、受け取り側が、確認し忘れる",
+      "例外は、「めったに起きない異常」のために使う"
+     ],
+     "output": "5\nエラー: 0で割れません",
+     "quiz": {
+      "q": "例外を投げるキーワードは？",
+      "choices": [
+       "raise",
+       "throw",
+       "catch"
+      ],
+      "answer": 1,
+      "explain": "throw で例外を投げ、try と catch で受け取ります。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "try、catch、throw",
+   "goal": "try、catch、throwを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "書き方と流れ",
+     "lead": "try の中で、throw されると、残りの処理は飛ばされ、型の合う catch が実行されます。",
+     "code": {
+      "text": "try {\n    throw 42;\n} catch (int n) {\n    std::cout << \"int \" << n << '\\n';\n}\n\ntry {\n    throw std::string(\"文字列\");\n} catch (const std::string& s) {\n    std::cout << s << '\\n';\n} catch (...) {\n    std::cout << \"その他\\n\";\n}\nstd::cout << \"続行\\n\";",
+      "caption": "型ごとの catch"
+     },
+     "points": [
+      "catch は、上から順に調べられ、最初に合ったものが実行される",
+      "catch (...) は、あらゆる例外を受ける",
+      "クラス型は、const 参照で受ける",
+      "どこでも catch されないと、プログラムが終了する"
+     ],
+     "output": "int 42\n文字列\n続行"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "標準例外クラス",
+   "goal": "標準例外クラスを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "標準の例外を使う",
+     "lead": "標準ライブラリは、状況に応じた例外クラスを用意しています。自分で投げる場合も、適切なものを選びます。",
+     "code": {
+      "text": "try {\n    std::vector<int> v = {1, 2, 3};\n    std::cout << v.at(5) << '\\n';\n} catch (const std::out_of_range& e) {\n    std::cout << \"範囲外\\n\";\n}\n\ntry {\n    std::stoi(\"abc\");\n} catch (const std::invalid_argument& e) {\n    std::cout << \"変換できない\\n\";\n}",
+      "caption": "2つの標準例外"
+     },
+     "points": [
+      "すべて std::exception から派生し、what() で説明文を得られる",
+      "runtime_error、invalid_argument、out_of_range などがある",
+      "自作の例外も、std::exception を継承すると、扱いやすい"
+     ],
+     "output": "範囲外\n変換できない"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "例外安全",
+   "goal": "例外安全を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "例外が起きても壊れない",
+     "lead": "例外が起きても、資源がリークせず、データも壊れないことを、例外安全と呼びます。new と delete の組み合わせは、危険です。",
+     "code": {
+      "text": "void risky() { throw std::runtime_error(\"失敗\"); }\n\nvoid leaky() {\n    int* p = new int(1);\n    risky();               // 例外で、下の delete が実行されない\n    delete p;\n}\nvoid safe() {\n    auto p = std::make_unique<int>(1);\n    risky();               // 例外でも、自動で解放される\n}\n\ntry {\n    safe();\n} catch (const std::exception& e) {\n    std::cout << e.what() << '\\n';\n}",
+      "caption": "スマートポインタで安全に"
+     },
+     "points": [
+      "保証の強さ：基本保証、強い保証（失敗なら元に戻る）、例外を投げない保証",
+      "デストラクタの中で、例外を投げてはいけない",
+      "解放処理は、RAII に任せるのが基本"
+     ],
+     "output": "失敗"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "RAIIの原則",
+   "goal": "RAIIの原則を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "資源の寿命をオブジェクトに任せる",
+     "lead": "資源の確保をコンストラクタで、解放をデストラクタで行うと、例外が起きても、確実に後始末されます。",
+     "code": {
+      "text": "class File {\npublic:\n    explicit File(const std::string& n) : name_(n) { std::cout << \"open \" << name_ << '\\n'; }\n    ~File() { std::cout << \"close \" << name_ << '\\n'; }\nprivate:\n    std::string name_;\n};\n\ntry {\n    File f(\"save.dat\");\n    throw std::runtime_error(\"途中で失敗\");\n} catch (const std::exception& e) {\n    std::cout << e.what() << '\\n';\n}",
+      "caption": "例外でも close される"
+     },
+     "points": [
+      "例外で関数を抜けるときも、ローカルオブジェクトのデストラクタは呼ばれる（スタックの巻き戻し）",
+      "ファイル、メモリ、ロックなど、あらゆる資源に使える",
+      "vector、string、fstream、unique_ptr は、すべて RAII"
+     ],
+     "output": "open save.dat\nclose save.dat\n途中で失敗",
+     "quiz": {
+      "q": "例外が発生したとき、RAII で資源が解放されるのは、なぜ？",
+      "choices": [
+       "catch が自動で解放するため",
+       "ローカルオブジェクトのデストラクタが呼ばれるため",
+       "OS が解放するため"
+      ],
+      "answer": 1,
+      "explain": "スコープを抜けるとき、例外の場合も、デストラクタが必ず呼ばれます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "スコープガード",
+   "goal": "スコープガードを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "後始末をその場で登録する",
+     "lead": "スコープを抜けるときに実行する処理を、ラムダ式で登録する仕組みです。RAII の応用で、簡単な後始末に便利です。",
+     "code": {
+      "text": "template <typename F>\nclass ScopeGuard {\npublic:\n    explicit ScopeGuard(F f) : f_(f) {}\n    ~ScopeGuard() { f_(); }\nprivate:\n    F f_;\n};\n\n{\n    ScopeGuard g([] { std::cout << \"後始末\\n\"; });\n    std::cout << \"処理中\\n\";\n}",
+      "caption": "スコープ終了時の処理"
+     },
+     "points": [
+      "途中で return や例外があっても、必ず実行される",
+      "クラスにするほどでもない後始末に向く",
+      "テンプレートと RAII とラムダ式の、組み合わせの例"
+     ],
+     "output": "処理中\n後始末"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "ムーブとは",
+   "goal": "ムーブとはを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "コピーせず中身を移す",
+     "lead": "ムーブは、大きなデータを、コピーせずに、持ち主だけを移す操作です。一時的なオブジェクトの、無駄なコピーを避けられます。",
+     "code": {
+      "text": "std::string a = \"long long text\";\nstd::string b = a;               // コピー：a は残る\nstd::string c = std::move(a);    // ムーブ：a の中身は移る\n\nstd::cout << b << '\\n' << c << '\\n';\nstd::cout << (b == c) << '\\n';",
+      "caption": "コピーとムーブ"
+     },
+     "points": [
+      "ムーブ後の a は、有効だが、中身は不定（空とは限らない）",
+      "ムーブ後の変数は、代入し直す以外には、使わない",
+      "ムーブは、ポインタの付け替えだけで済むので速い"
+     ],
+     "output": "long long text\nlong long text\n1"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "右辺値参照",
+   "goal": "右辺値参照を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "一時的な値を受ける参照",
+     "lead": "T&& は、右辺値（名前のない一時的な値）を受け取る参照です。左辺値と右辺値で、別の関数を呼び分けられます。",
+     "code": {
+      "text": "void show(int& x)  { std::cout << \"左辺値\\n\"; }\nvoid show(int&& x) { std::cout << \"右辺値\\n\"; }\n\nint a = 1;\nshow(a);              // 名前のある値\nshow(2);              // 一時的な値\nshow(std::move(a));   // 右辺値にキャスト",
+      "caption": "左辺値と右辺値"
+     },
+     "points": [
+      "左辺値：名前があり、アドレスを取れる値",
+      "右辺値：計算結果や、リテラルなどの一時的な値",
+      "右辺値なら、中身を奪っても、誰も困らない"
+     ],
+     "output": "左辺値\n右辺値\n右辺値"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "ムーブコンストラクタ",
+   "goal": "ムーブコンストラクタを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "中身を奪うコンストラクタ",
+     "lead": "ムーブコンストラクタは、右辺値参照を受け取り、相手の資源を、そのまま引き継ぎます。相手は、空の状態にします。",
+     "code": {
+      "text": "class Buffer {\npublic:\n    explicit Buffer(int n) : n_(n), p_(new int[n]()) {}\n    ~Buffer() { delete[] p_; }\n    Buffer(const Buffer&) = delete;\n    Buffer(Buffer&& o) noexcept : n_(o.n_), p_(o.p_) {\n        o.n_ = 0;\n        o.p_ = nullptr;\n        std::cout << \"ムーブ\\n\";\n    }\n    int size() const { return n_; }\nprivate:\n    int n_;\n    int* p_;\n};\n\nBuffer a(100);\nBuffer b = std::move(a);\nstd::cout << a.size() << ' ' << b.size() << '\\n';",
+      "caption": "資源の付け替え"
+     },
+     "points": [
+      "元のオブジェクトは、nullptr にして、二重解放を防ぐ",
+      "noexcept を付けると、vector の拡張時に、ムーブが優先される",
+      "コピーとムーブを両方持つのが、五の法則"
+     ],
+     "output": "ムーブ\n0 100"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "std::move",
+   "goal": "std::moveを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ムーブを許可する印",
+     "lead": "std::move は、実際には何も移動せず、値を右辺値にキャストするだけです。ムーブしてよいと、明示するために使います。",
+     "code": {
+      "text": "std::vector<std::string> v;\nstd::string s = \"item\";\nv.push_back(s);              // コピー\nv.push_back(std::move(s));   // ムーブ\n\nauto p = std::make_unique<int>(5);\nauto q = std::move(p);       // unique_ptr は、ムーブだけ\nstd::cout << v.size() << ' ' << *q << ' ' << (p == nullptr) << '\\n';",
+      "caption": "move の使いどころ"
+     },
+     "points": [
+      "unique_ptr のように、コピーできない型は、move で渡す",
+      "move した変数は、そのあと使わない",
+      "関数の戻り値に、std::move を付けるのは、逆効果になることが多い"
+     ],
+     "output": "2 5 1"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "完全転送",
+   "goal": "完全転送を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "引数の性質をそのまま渡す",
+     "lead": "テンプレートの引数 T&& と std::forward を使うと、左辺値か右辺値かの性質を保ったまま、別の関数へ渡せます。",
+     "code": {
+      "text": "void target(int& x)  { std::cout << \"左辺値\\n\"; }\nvoid target(int&& x) { std::cout << \"右辺値\\n\"; }\n\ntemplate <typename T>\nvoid wrapper(T&& x) {\n    target(std::forward<T>(x));\n}\n\nint a = 1;\nwrapper(a);\nwrapper(2);",
+      "caption": "性質を保って渡す"
+     },
+     "points": [
+      "T&& は、テンプレートでは、転送参照と呼ばれる",
+      "std::forward<T>(x) で、元の性質が復元される",
+      "emplace_back や make_unique が、この仕組みで引数を渡している"
+     ],
+     "output": "左辺値\n右辺値"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "ファイルの読み込み",
+   "goal": "ファイルの読み込みを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ifstream で読む",
+     "lead": "ifstream で、ファイルから読み込みます。開けたかの確認と、読み終わりの判定が必要です。",
+     "code": {
+      "text": "#include <fstream>\n\n{\n    std::ofstream out(\"demo.txt\");\n    out << \"Ada 80\\nBat 5\\n\";\n}\nstd::ifstream in(\"demo.txt\");\nif (!in) {\n    std::cout << \"開けない\\n\";\n}\nstd::string name;\nint hp;\nwhile (in >> name >> hp) {\n    std::cout << name << '=' << hp << '\\n';\n}",
+      "caption": "ファイルの読み取り"
+     },
+     "points": [
+      "if (!in) で、ファイルを開けたかを確認する",
+      "while (in >> ...) は、読めなくなるまで繰り返す",
+      "1行ずつは std::getline(in, line)",
+      "スコープを抜けると、自動で閉じられる（RAII）"
+     ],
+     "output": "Ada=80\nBat=5"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "ファイルの書き込み",
+   "goal": "ファイルの書き込みを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "ofstream で書く",
+     "lead": "ofstream で、ファイルに書き込みます。既定では上書き、std::ios::app で追記になります。",
+     "code": {
+      "text": "std::ofstream out(\"log.txt\");\nout << \"start\\n\";\nout << \"score=\" << 120 << '\\n';\nout.close();\n\nstd::ofstream add(\"log.txt\", std::ios::app);   // 追記\nadd << \"end\\n\";\nadd.close();\n\nstd::ifstream in(\"log.txt\");\nstd::string line;\nint n = 0;\nwhile (std::getline(in, line)) ++n;\nstd::cout << n << '\\n';",
+      "caption": "書き込みと追記"
+     },
+     "points": [
+      "cout と同じ << で書ける",
+      "既定は、既存の内容を消して書き直す",
+      "書いたあと、close するか、スコープを抜けて、確定させる"
+     ],
+     "output": "3"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "文字列ストリーム",
+   "goal": "文字列ストリームを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "文字列を入出力のように扱う",
+     "lead": "istringstream は文字列から読み取り、ostringstream は、文字列を組み立てます。解析と整形に便利です。",
+     "code": {
+      "text": "std::istringstream is(\"10 20 30\");\nint a, b, c;\nis >> a >> b >> c;\n\nstd::ostringstream os;\nos << \"HP:\" << a + b + c << '/' << 100;\nstd::cout << os.str() << '\\n';",
+      "caption": "解析と組み立て"
+     },
+     "points": [
+      "#include <sstream> が必要",
+      "cin や cout と同じ書き方で、文字列を処理できる",
+      "ログメッセージの組み立てにも、よく使う"
+     ],
+     "output": "HP:60/100"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "セーブデータの保存",
+   "goal": "セーブデータの保存を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "データをファイルに残す",
+     "lead": "構造体のデータを、ファイルに書き出し、あとで読み戻します。読み込みの成功判定を、必ず行います。",
+     "code": {
+      "text": "struct Save {\n    std::string name;\n    int level;\n    int gold;\n};\n\nvoid save(const Save& s, const std::string& path) {\n    std::ofstream o(path);\n    o << s.name << ' ' << s.level << ' ' << s.gold << '\\n';\n}\nbool load(Save& s, const std::string& path) {\n    std::ifstream i(path);\n    return static_cast<bool>(i >> s.name >> s.level >> s.gold);\n}\n\nsave({\"Ada\", 7, 350}, \"save.dat\");\nSave loaded{};\nif (load(loaded, \"save.dat\")) {\n    std::cout << loaded.name << ' ' << loaded.level << ' ' << loaded.gold << '\\n';\n}",
+      "caption": "保存と読み込み"
+     },
+     "points": [
+      "名前に空白があると、この形式では壊れる。1行ずつ読むか、区切り文字を決める",
+      "読み込み失敗（ファイルがない、壊れている）を、必ず想定する",
+      "本格的には、JSON などの形式やバージョン番号を使う"
+     ],
+     "output": "Ada 7 350"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "設定ファイルの読み込み",
+   "goal": "設定ファイルの読み込みを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "キー=値 の設定を読む",
+     "lead": "設定ファイルは、「キー=値」の行を、find と substr で分解して、map に入れる方法が、基本です。",
+     "code": {
+      "text": "std::istringstream cfg(\"width=800\\nheight=600\\ntitle=Quest\\n\");\nstd::map<std::string, std::string> conf;\nstd::string line;\nwhile (std::getline(cfg, line)) {\n    auto pos = line.find('=');\n    if (pos == std::string::npos) continue;\n    conf[line.substr(0, pos)] = line.substr(pos + 1);\n}\nint w = std::stoi(conf[\"width\"]);\nstd::cout << w << ' ' << conf[\"title\"] << ' ' << conf.size() << '\\n';",
+      "caption": "設定の解析"
+     },
+     "points": [
+      "= のない行は、飛ばす（コメントや空行）",
+      "数値は、必要になったときに、stoi などで変換する",
+      "存在しないキーを [] で読むと、空の要素が作られる。確認には count か find"
+     ],
+     "output": "800 Quest 3"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "assert",
+   "goal": "assertを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "開発中の間違いを検出する",
+     "lead": "assert は、「この条件は必ず成り立つ」という前提を、実行時に確認します。static_assert は、コンパイル時に確認します。",
+     "code": {
+      "text": "#include <cassert>\n\nint hp = 50;\nassert(hp >= 0 && \"HPは負にならない\");\nstatic_assert(sizeof(int) >= 4, \"int は4バイト以上が前提\");\nstd::cout << \"チェック通過\\n\";",
+      "caption": "2種類のアサート"
+     },
+     "points": [
+      "assert は、プログラムのバグを見つけるためで、リリース版（NDEBUG）では、無効になる",
+      "ユーザーの入力ミスや、ファイルの不備は、assert ではなく、例外やエラー処理で扱う",
+      "static_assert は、型のサイズなどの前提を、ビルド時に守る"
+     ],
+     "output": "チェック通過"
+    }
+   ]
+  },
+  {
+   "part": "第9部 例外・RAII・ファイル",
+   "title": "第9部の復習",
+   "goal": "第9部の復習を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "第9部の復習",
+     "lead": "例外と文字列ストリームを組み合わせて、不正な値を検出する読み込み処理を作ります。",
+     "code": {
+      "text": "int loadGold(const std::string& text) {\n    std::istringstream is(text);\n    int gold;\n    if (!(is >> gold)) throw std::invalid_argument(\"数値ではない\");\n    if (gold < 0) throw std::out_of_range(\"負の所持金\");\n    return gold;\n}\n\nfor (const char* t : {\"350\", \"abc\", \"-5\"}) {\n    try {\n        std::cout << loadGold(t) << '\\n';\n    } catch (const std::exception& e) {\n        std::cout << \"失敗: \" << e.what() << '\\n';\n    }\n}",
+      "caption": "入力の検証"
+     },
+     "points": [
+      "例外：throw、try、catch、標準例外、例外安全",
+      "RAII：デストラクタによる確実な後始末、スコープガード",
+      "ムーブ：右辺値参照、ムーブコンストラクタ、std::move、完全転送",
+      "ファイル：ifstream、ofstream、stringstream、セーブと設定の読み込み"
+     ],
+     "output": "350\n失敗: 数値ではない\n失敗: 負の所持金",
+     "quiz": {
+      "q": "ユーザーの入力ミスへの対処として、適切なのは？",
+      "choices": [
+       "assert",
+       "例外やエラー処理",
+       "static_assert"
+      ],
+      "answer": 1,
+      "explain": "assert は、開発中のバグ検出用です。入力ミスは、例外やエラー処理で扱います。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "ゲーム設計の全体像",
+   "goal": "ゲーム設計の全体像を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "部品をつなぐ Game クラス",
+     "lead": "ゲームは、入力、更新、描画を繰り返すループを中心に、プレイヤー、敵、マップなどの部品がつながって動きます。まず、全体を束ねる Game クラスの骨組みを作ります。",
+     "code": {
+      "text": "class Game {\npublic:\n    void run() {\n        while (running_) {\n            processInput();\n            update();\n            render();\n        }\n    }\nprivate:\n    void processInput() {}\n    void update() { ++frame_; if (frame_ >= 3) running_ = false; }\n    void render() { std::cout << \"frame \" << frame_ << '\\n'; }\n    bool running_ = true;\n    int frame_ = 0;\n};\n\nGame g;\ng.run();",
+      "caption": "Game クラスの骨組み"
+     },
+     "points": [
+      "main は、Game を作って、run() を呼ぶだけにする",
+      "入力、更新、描画を、別の関数に分けると、あとから機能を足しやすい",
+      "これまで学んだ、クラス、継承、コンテナ、ファイル入出力を、この骨組みに組み込んでいく"
+     ],
+     "output": "frame 1\nframe 2\nframe 3"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "ゲームループの実装",
+   "goal": "ゲームループの実装を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "更新してから描画する",
+     "lead": "ループの中で、状態を更新し、その結果を描画します。ここでは、描画の代わりに、コンソール出力で確認します。",
+     "code": {
+      "text": "struct Player {\n    int x = 0;\n    int vx = 2;\n};\n\nPlayer p;\nfor (int frame = 1; frame <= 4; ++frame) {\n    p.x += p.vx;                       // 更新\n    std::cout << \"frame \" << frame << \" x=\" << p.x << '\\n';   // 描画の代わり\n}",
+      "caption": "移動の更新"
+     },
+     "points": [
+      "更新の中で描画せず、描画の中で状態を変えない",
+      "1フレームごとに、位置が速度の分だけ進む",
+      "描画が重くても、更新の結果は変わらないように分けておく"
+     ],
+     "output": "frame 1 x=2\nframe 2 x=4\nframe 3 x=6\nframe 4 x=8",
+     "quiz": {
+      "q": "ゲームループの基本の3段階は？",
+      "choices": [
+       "入力、更新、描画",
+       "読み込み、保存、終了",
+       "確保、使用、解放"
+      ],
+      "answer": 0,
+      "explain": "入力を受け、状態を更新し、結果を描画する流れを、繰り返します。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "時間とdelta time",
+   "goal": "時間とdelta timeを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "速さをフレームに依存させない",
+     "lead": "フレームレートが変わると、「1フレームに2進む」では、速さが変わってしまいます。1フレームの経過時間（delta time）を掛けて、移動量を求めます。",
+     "code": {
+      "text": "float x = 0.0f;\nconst float speed = 100.0f;   // 1秒あたり 100 ピクセル\nfloat dts[] = {0.016f, 0.020f, 0.016f, 0.048f};   // 各フレームの経過秒\n\nfor (float dt : dts) {\n    x += speed * dt;\n}\nstd::cout << x << '\\n';",
+      "caption": "合計 0.1 秒で、10 進む"
+     },
+     "points": [
+      "移動量 = 速度 × 経過時間",
+      "実際の経過時間は、std::chrono::steady_clock で計測する",
+      "フレームが遅れても、1秒あたりの移動量が、変わらない",
+      "物理計算は、固定の時間刻みで更新すると、安定する"
+     ],
+     "output": "10",
+     "quiz": {
+      "q": "移動量を、速度 × 経過時間で求める理由は？",
+      "choices": [
+       "フレームレートが変わっても、同じ速さで動くため",
+       "計算が速くなるため",
+       "メモリを節約するため"
+      ],
+      "answer": 0,
+      "explain": "1フレームあたりの移動量を固定すると、処理が遅い環境では、ゲーム全体が遅く見えてしまいます。"
+     }
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "入力処理",
+   "goal": "入力処理を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "キーをコマンドに変換する",
+     "lead": "キー入力を、直接ゲームの処理に結び付けず、いったんコマンドに変換します。キー設定の変更や、操作の記録が、簡単になります。",
+     "code": {
+      "text": "enum class Cmd { Left, Right, Jump, None };\n\nCmd parse(char c) {\n    switch (c) {\n        case 'a': return Cmd::Left;\n        case 'd': return Cmd::Right;\n        case 'j': return Cmd::Jump;\n        default:  return Cmd::None;\n    }\n}\n\nint x = 5, jumps = 0;\nfor (char c : std::string(\"aaadj\")) {\n    switch (parse(c)) {\n        case Cmd::Left:  --x; break;\n        case Cmd::Right: ++x; break;\n        case Cmd::Jump:  ++jumps; break;\n        case Cmd::None:  break;\n    }\n}\nstd::cout << x << ' ' << jumps << '\\n';",
+      "caption": "キーからコマンドへ"
+     },
+     "points": [
+      "キーの割り当てを、parse だけで変更できる",
+      "コマンドの列を保存すれば、プレイの再生（リプレイ）もできる",
+      "ゲームパッドとキーボードも、同じコマンドに変換すれば、同じ処理を使える"
+     ],
+     "output": "3 1"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "状態管理（ステートマシン）",
+   "goal": "状態管理（ステートマシン）を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "状態と遷移を整理する",
+     "lead": "キャラクターの「待機、走る、ジャンプ」のような状態は、ステートマシンで整理します。「今の状態」と「入力」から、「次の状態」を決める関数にします。",
+     "code": {
+      "text": "enum class State { Idle, Run, Jump };\n\nState next(State s, char in) {\n    switch (s) {\n        case State::Idle: return in == 'r' ? State::Run : (in == 'j' ? State::Jump : State::Idle);\n        case State::Run:  return in == 's' ? State::Idle : (in == 'j' ? State::Jump : State::Run);\n        case State::Jump: return State::Idle;\n    }\n    return s;\n}\nconst char* name(State s) {\n    switch (s) {\n        case State::Idle: return \"Idle\";\n        case State::Run:  return \"Run\";\n        case State::Jump: return \"Jump\";\n    }\n    return \"\";\n}\n\nState s = State::Idle;\nfor (char in : std::string(\"rjxs\")) {\n    s = next(s, in);\n    std::cout << name(s) << ' ';\n}",
+      "caption": "状態の遷移"
+     },
+     "points": [
+      "if が入り乱れる処理を、状態ごとに整理できる",
+      "「その状態で、できない操作」を、自然に防げる",
+      "状態が増えたら、状態をクラスにして、継承で表す方法もある"
+     ],
+     "output": "Run Jump Idle Idle"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "マップとタイル",
+   "goal": "マップとタイルを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "文字のマップで動ける範囲を決める",
+     "lead": "マップは、タイル（マス）の2次元配列で表せます。壁かどうかを調べれば、移動できるかを判定できます。",
+     "code": {
+      "text": "std::vector<std::string> map = {\n    \"#####\",\n    \"#.@.#\",\n    \"#...#\",\n    \"#####\"\n};\nint px = 2, py = 1;\nauto canMove = [&](int x, int y) { return map[y][x] != '#'; };\nstd::cout << canMove(px + 1, py) << ' ' << canMove(px, py - 1) << '\\n';\n\nint floorCount = 0;\nfor (const auto& row : map) {\n    for (char c : row) {\n        if (c == '.') ++floorCount;\n    }\n}\nstd::cout << floorCount << '\\n';",
+      "caption": "壁判定と床の数"
+     },
+     "points": [
+      "map[y][x] の順で、行、列を指定する",
+      "範囲外の座標を調べると危険なので、実際には、範囲の確認も入れる",
+      "実際のゲームでは、文字ではなく、タイルの番号で管理し、画像を割り当てる",
+      "マップは、ファイルから読み込める形にしておくと、ステージを増やしやすい"
+     ],
+     "output": "1 0\n5"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "当たり判定の実装",
+   "goal": "当たり判定の実装を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "円どうしの当たり判定",
+     "lead": "円の当たり判定は、中心間の距離が、半径の和以下かどうかで決まります。平方根を避けて、2乗のまま比べると速くなります。",
+     "code": {
+      "text": "struct Circle { float x, y, r; };\n\nbool hit(const Circle& a, const Circle& b) {\n    float dx = a.x - b.x;\n    float dy = a.y - b.y;\n    float rr = a.r + b.r;\n    return dx * dx + dy * dy <= rr * rr;   // sqrt を使わない\n}\n\nCircle player{0, 0, 1};\nstd::vector<Circle> bullets = {{5, 0, 1}, {1.5f, 0, 0.5f}, {0, 3, 1}};\nint count = 0;\nfor (const auto& b : bullets) {\n    if (hit(player, b)) ++count;\n}\nstd::cout << count << '\\n';",
+      "caption": "弾との接触"
+     },
+     "points": [
+      "毎フレーム、多数の組み合わせを調べるので、軽い計算が重要",
+      "箱どうしは AABB、円どうしは距離の比較が基本",
+      "数が多いときは、グリッドなどで、近いものだけを調べる"
+     ],
+     "output": "1"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "敵AIの基礎",
+   "goal": "敵AIの基礎を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "状況で行動を決める",
+     "lead": "敵の行動は、「体力」と「プレイヤーとの距離」などの状況から、ルールで決められます。判定の順序が、優先順位になります。",
+     "code": {
+      "text": "struct Enemy { int x; int hp; };\n\nstd::string decide(const Enemy& e, int playerX) {\n    int dist = std::abs(e.x - playerX);\n    if (e.hp < 10) return \"逃げる\";\n    if (dist <= 1) return \"攻撃\";\n    if (dist <= 5) return \"追いかける\";\n    return \"うろうろ\";\n}\n\nEnemy e{10, 30};\nfor (int px : {2, 8, 11, 12}) {\n    std::cout << decide(e, px) << ' ';\n}\nstd::cout << decide({10, 5}, 10) << '\\n';",
+      "caption": "距離と体力で判断"
+     },
+     "points": [
+      "逃げる判定を先に書くと、体力が少ないときは、距離に関係なく逃げる",
+      "乱数を加えると、毎回同じ行動にならず、手応えが出る",
+      "複雑になったら、ステートマシンに分ける"
+     ],
+     "output": "うろうろ 追いかける 攻撃 追いかける 逃げる"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "アイテムとインベントリ",
+   "goal": "アイテムとインベントリを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "持ち物を安全に管理する",
+     "lead": "インベントリは、map で、アイテム名と個数を管理します。容量を超える追加や、持っていないアイテムの使用を、クラスの中で防ぎます。",
+     "code": {
+      "text": "class Inventory {\npublic:\n    bool add(const std::string& n, int c) {\n        int total = 0;\n        for (const auto& kv : items_) total += kv.second;\n        if (total + c > cap_) return false;\n        items_[n] += c;\n        return true;\n    }\n    bool use(const std::string& n) {\n        auto it = items_.find(n);\n        if (it == items_.end() || it->second == 0) return false;\n        --it->second;\n        return true;\n    }\n    int count(const std::string& n) const {\n        auto it = items_.find(n);\n        return it == items_.end() ? 0 : it->second;\n    }\nprivate:\n    std::map<std::string, int> items_;\n    int cap_ = 5;\n};\n\nInventory inv;\nbool a = inv.add(\"potion\", 3);\nbool b = inv.add(\"key\", 3);       // 容量オーバー\ninv.use(\"potion\");\nstd::cout << a << ' ' << b << ' ' << inv.count(\"potion\") << ' ' << inv.use(\"elixir\") << '\\n';",
+      "caption": "容量付きのインベントリ"
+     },
+     "points": [
+      "失敗を、bool で返して、呼び出し側が判断できるようにする",
+      "count で、存在しないアイテムを、読んでも、要素が作られないようにする",
+      "アイテムの種類ごとの効果は、Item クラスの継承で表せる"
+     ],
+     "output": "1 0 2 0"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "セーブとロード",
+   "goal": "セーブとロードを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "バージョン付きで保存する",
+     "lead": "セーブデータには、形式のバージョンを入れておきます。読み込み時に、バージョンや、読み取りの失敗を確認して、壊れたデータを弾きます。",
+     "code": {
+      "text": "struct Save {\n    int version = 1;\n    int level = 1;\n    int gold = 0;\n};\n\nstd::string serialize(const Save& s) {\n    std::ostringstream os;\n    os << s.version << ' ' << s.level << ' ' << s.gold;\n    return os.str();\n}\nbool deserialize(const std::string& text, Save& s) {\n    std::istringstream is(text);\n    if (!(is >> s.version >> s.level >> s.gold)) return false;\n    return s.version == 1;\n}\n\nSave a{1, 7, 350};\nstd::string text = serialize(a);\nSave b;\nbool ok = deserialize(text, b);\nSave c;\nbool bad = deserialize(\"2 1 0\", c);\nstd::cout << text << '\\n';\nstd::cout << ok << ' ' << b.level << ' ' << bad << '\\n';",
+      "caption": "保存形式と検証"
+     },
+     "points": [
+      "文字列に変換する処理と、ファイルに書く処理を、分けるとテストしやすい",
+      "バージョンが違うデータは、変換するか、拒否する",
+      "読み込みに失敗しても、ゲームが落ちないようにする"
+     ],
+     "output": "1 7 350\n1 7 0"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "シーン管理",
+   "goal": "シーン管理を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "画面の切り替えを整理する",
+     "lead": "タイトル、フィールド、戦闘のような画面（シーン）を、名前や型で管理して、切り替えます。各シーンが、次のシーン名を返す、簡単な仕組みです。",
+     "code": {
+      "text": "std::map<std::string, std::function<std::string()>> scenes;\nscenes[\"Title\"]  = [] { return std::string(\"Field\"); };\nscenes[\"Field\"]  = [] { return std::string(\"Battle\"); };\nscenes[\"Battle\"] = [] { return std::string(\"Done\"); };\n\nstd::string cur = \"Title\";\nwhile (cur != \"Done\") {\n    std::cout << cur << \" -> \";\n    cur = scenes[cur]();\n}\nstd::cout << \"終了\\n\";",
+      "caption": "シーンの遷移"
+     },
+     "points": [
+      "実際には、Scene 基底クラスに、update と render を持たせ、継承で作る",
+      "メニューを開くときのような、重ねる切り替えには、scene の stack を使う",
+      "シーンごとに、必要なアセットの読み込みと解放を行う"
+     ],
+     "output": "Title -> Field -> Battle -> 終了"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "アセット管理",
+   "goal": "アセット管理を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "同じ画像を二重に読み込まない",
+     "lead": "テクスチャなどのアセットは、読み込みコストが高いので、キャッシュして共有します。shared_ptr と weak_ptr を組み合わせると、使われなくなったものを、自動で解放できます。",
+     "code": {
+      "text": "struct Texture {\n    std::string path;\n    explicit Texture(const std::string& p) : path(p) {\n        std::cout << \"load \" << path << '\\n';\n    }\n};\n\nclass AssetCache {\npublic:\n    std::shared_ptr<Texture> get(const std::string& path) {\n        auto it = cache_.find(path);\n        if (it != cache_.end()) {\n            if (auto sp = it->second.lock()) return sp;\n        }\n        auto sp = std::make_shared<Texture>(path);\n        cache_[path] = sp;\n        return sp;\n    }\nprivate:\n    std::map<std::string, std::weak_ptr<Texture>> cache_;\n};\n\nAssetCache cache;\nauto a = cache.get(\"hero.png\");\nauto b = cache.get(\"hero.png\");\nstd::cout << (a == b) << ' ' << a.use_count() << '\\n';",
+      "caption": "キャッシュ"
+     },
+     "points": [
+      "2回目の get は、読み込まず、同じものを返す",
+      "キャッシュは weak_ptr で持つので、誰も使わなくなれば、自動で解放される",
+      "画像、音、フォントなど、すべてのアセットに同じ仕組みが使える"
+     ],
+     "output": "load hero.png\n1 2"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "デバッグとログ",
+   "goal": "デバッグとログを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "原因を見つける道具",
+     "lead": "バグを見つけるには、ログの出力、デバッガ、アドレスサニタイザなどを使い分けます。ログには、重要度（レベル）を付けます。",
+     "code": {
+      "text": "enum class Level { Info, Warn, Error };\n\nvoid log(Level lv, const std::string& msg) {\n    static const char* names[] = {\"INFO\", \"WARN\", \"ERROR\"};\n    std::cout << '[' << names[static_cast<int>(lv)] << \"] \" << msg << '\\n';\n}\n\nlog(Level::Info, \"start\");\nlog(Level::Warn, \"HP low\");\nlog(Level::Error, \"save failed\");",
+      "caption": "ログレベル"
+     },
+     "points": [
+      "g++ -g でビルドすると、gdb や IDE のデバッガで、1行ずつ追える",
+      "-fsanitize=address は、範囲外アクセスや、メモリリークを検出する",
+      "assert で、「あってはならない状態」を、開発中に捕まえる",
+      "原因が分からないときは、仮説を立てて、ログで確かめる"
+     ],
+     "output": "[INFO] start\n[WARN] HP low\n[ERROR] save failed"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "最適化の基本",
+   "goal": "最適化の基本を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "測ってから速くする",
+     "lead": "最適化は、まず測定して、遅い場所を特定してから行います。推測で書き換えると、読みにくくなるだけで、速くならないことが多いです。",
+     "code": {
+      "text": "std::vector<int> v;\nv.reserve(1000);                 // 再確保を避ける\nfor (int i = 0; i < 1000; ++i) {\n    v.push_back(i);\n}\nlong long sum = 0;\nfor (const int x : v) {\n    sum += x;\n}\nstd::cout << v.size() << ' ' << sum << '\\n';",
+      "caption": "reserve と範囲 for"
+     },
+     "points": [
+      "プロファイラで、時間のかかっている関数を見つける",
+      "不要なコピーを減らす（const 参照、ムーブ）",
+      "vector のように、連続したメモリのコンテナは、走査が速い",
+      "弾や敵を頻繁に作って消すときは、オブジェクトプールで、使い回す",
+      "ビルドは、-O2 を付けた最適化ビルドで、性能を測る"
+     ],
+     "output": "1000 499500"
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "SDL2やraylibへの接続",
+   "goal": "SDL2やraylibへの接続を理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "画面に表示するライブラリ",
+     "lead": "ここまでで作ったゲームのロジックは、描画ライブラリに、そのままつなげられます。raylib は、少ないコードで、ウィンドウに描画できる、入門向けのライブラリです。",
+     "code": {
+      "text": "// raylib の最小例（別途ライブラリのインストールが必要）\n#include \"raylib.h\"\n\nint main() {\n    InitWindow(640, 360, \"My Game\");\n    SetTargetFPS(60);\n    while (!WindowShouldClose()) {\n        BeginDrawing();\n        ClearBackground(RAYWHITE);\n        DrawText(\"Hello, game!\", 200, 160, 24, DARKGRAY);\n        EndDrawing();\n    }\n    CloseWindow();\n}",
+      "caption": "ウィンドウを開く"
+     },
+     "points": [
+      "while の中が、これまで書いてきた、入力、更新、描画のゲームループ",
+      "描画の部分だけを、コンソール出力から、ライブラリの描画関数に置き換える",
+      "SDL2 や SFML でも、基本の流れは同じ",
+      "Unreal Engine に進んでも、クラス、継承、スマートポインタの知識が、そのまま活きる",
+      "ビルド方法は、OS やライブラリで違うので、公式ドキュメントに従う"
+     ]
+    }
+   ]
+  },
+  {
+   "part": "第10部 ゲーム制作の総合演習",
+   "title": "最終課題：ミニRPGを作る",
+   "goal": "最終課題：ミニRPGを作るを理解し、ゲーム制作で使えるようになる。",
+   "slides": [
+    {
+     "title": "最終課題：戦闘の流れを作る",
+     "lead": "これまでの知識を使って、勝敗が決まるまで戦う、ターン制の戦闘を作ります。ここを土台に、自分のゲームへ広げていきましょう。",
+     "code": {
+      "text": "struct Unit {\n    std::string name;\n    int hp;\n    int atk;\n    bool alive() const { return hp > 0; }\n};\n\nvoid attack(const Unit& from, Unit& to) {\n    to.hp -= from.atk;\n    if (to.hp < 0) to.hp = 0;\n    std::cout << from.name << \" の攻撃！ \" << to.name << \" 残りHP \" << to.hp << '\\n';\n}\n\nUnit hero{\"Ada\", 50, 12};\nUnit slime{\"Slime\", 30, 5};\nint turn = 1;\nwhile (hero.alive() && slime.alive()) {\n    std::cout << \"-- ターン\" << turn++ << '\\n';\n    attack(hero, slime);\n    if (slime.alive()) attack(slime, hero);\n}\nstd::cout << (hero.alive() ? \"勝利！\" : \"敗北...\") << '\\n';",
+      "caption": "ミニRPGの戦闘"
+     },
+     "points": [
+      "拡張1：乱数で、ダメージのばらつきとクリティカルを入れる",
+      "拡張2：Skill クラスを継承で作り、技を選べるようにする",
+      "拡張3：Inventory を使い、アイテムで回復する",
+      "拡張4：セーブとロード、複数の敵、シーン切り替えを加える",
+      "拡張5：raylib や SDL2 に接続して、画面に表示する"
+     ],
+     "output": "-- ターン1\nAda の攻撃！ Slime 残りHP 18\nSlime の攻撃！ Ada 残りHP 45\n-- ターン2\nAda の攻撃！ Slime 残りHP 6\nSlime の攻撃！ Ada 残りHP 40\n-- ターン3\nAda の攻撃！ Slime 残りHP 0\n勝利！",
+     "quiz": {
+      "q": "この教材の最後に、次に取り組むのに最もふさわしいのは？",
+      "choices": [
+       "文法の暗記を、最初からやり直す",
+       "小さなゲームを、自分で作り、少しずつ広げる",
+       "学ぶのをやめる"
+      ],
+      "answer": 1,
+      "explain": "作りながら、必要なことを調べ、少しずつ機能を足していくのが、最も上達する方法です。"
+     }
+    }
+   ]
+  }
+ ]
+}
