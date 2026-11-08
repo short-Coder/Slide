@@ -114,12 +114,13 @@ a,button,label{font:inherit}
 #print{display:none}
 @media print{
   @page{size:A4;margin:8mm}
-  html,body{height:auto;background:#fff;color:#000}
+  html,body{height:auto;min-height:0;margin:0;padding:0;background:#fff;color:#000}
   body{display:block}
   #rail,#stage,#bar{display:none!important}
   #print{display:block}
-  .sheet{width:194mm;height:281mm;display:grid;grid-template-columns:repeat(var(--c),1fr);grid-template-rows:repeat(var(--r),1fr);gap:3mm;break-after:page}
-  .sheet:last-child{break-after:auto}
+  .sheet{width:190mm;height:272mm;overflow:hidden;display:grid;grid-template-columns:repeat(var(--c),1fr);grid-template-rows:repeat(var(--r),1fr);gap:3mm;break-inside:avoid}
+  .sheet+.sheet{break-before:page;page-break-before:always}
+  #print{margin:0;padding:0}
   .pg{border:.3mm solid #999;padding:3mm;overflow:hidden;font:7.4pt/1.45 var(--sans);color:#000;background:#fff}
   .n2 .pg{font-size:10pt}.n1 .pg{font-size:12pt}
   .pg .ph{color:#555;font-size:.85em}
